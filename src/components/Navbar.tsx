@@ -1,24 +1,29 @@
 // import React from 'react'
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import profileIcon from '../assets/user.webp';
 import moon from '../assets/moon.webp'
 import sun from '../assets/daylight.webp'
+import { ThemeContext } from "../context/ThemeContext";
 
 
 const Navbar = () => {
+    const themContext = useContext(ThemeContext);
+    if (!themContext) throw new Error("Error load the theme");
+    const { theme, toggleTheme } = themContext;
+    const isDark = theme === 'dark'
 
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <nav className="bg-white shadow-sm fixed z-10 w-full">
+        <nav className={`${isDark ? 'bg-[#241b30]' : 'bg-white'} textw theme shadow-sm fixed z-10 w-full`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Left section - Logo */}
 
                     <NavLink to={"/"} className=" text-2xl ">
-                        <div className="text-2xl md:text-3xl font-bold text-purple-800">
-                            My<span className="text-blue-600">Notes</span>
+                        <div className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--logo-my)' }}>
+                            My<span style={{ color: 'var(--logo-note)' }}>Notes</span>
                         </div>
                     </NavLink>
 
@@ -27,20 +32,20 @@ const Navbar = () => {
 
                         <NavLink
                             to="/"
-                            className="font-satoshi text-black hover:text-gray-600"
+                            className={`font-satoshi ${isDark ? 'text-white' : 'text-black'} hover:text-blue-600`}
                         >
                             Home
                         </NavLink>
                         <NavLink
                             to="/newarrivals"
-                            className="font-satoshi text-black hover:text-gray-600"
+                            className={`font-satoshi ${isDark ? 'text-white' : 'text-black'} hover:text-blue-600`}
                         >
                             Tags
                         </NavLink>
-                        <button className="cursor-pointer">
-                            {true ?
+                        <button className="cursor-pointer" onClick={toggleTheme}>
+                            {!isDark ?
                                 <img src={sun} alt="sun" className="w-6" title="convert to Dark mode"></img>
-                                : <img src={moon} alt="moon" title="convert to Light mode"></img>}
+                                : <img src={moon} alt="moon" className="w-5" title="convert to Light mode"></img>}
                         </button>
                     </div>
 
@@ -52,7 +57,7 @@ const Navbar = () => {
                                 type="search"
                                 name="search"
                                 placeholder="Search for Notes"
-                                className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
+                                className={`w-full pl-10 pr-4 py-2 rounded-md border  ${isDark ? 'text-white' : 'text-black'} border-gray-300 focus:ring-indigo-500 focus:border-indigo-500`}
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                                 <svg
@@ -84,7 +89,7 @@ const Navbar = () => {
                                 <span>User Name</span>
                             </NavLink>
                             : <NavLink to={'/login'}>
-                                <button className="light-gradient rounded-3xl py-2 px-1.5 w-32 text-white cursor-pointer">Get Started</button>
+                                <button className="button-gradient rounded-3xl py-2 px-1.5 w-32 text-white cursor-pointer">Get Started</button>
                             </NavLink>
                         }
 
@@ -116,39 +121,32 @@ const Navbar = () => {
 
             {/* Mobile Menu */}
             {menuOpen && (
-                <div className="md:hidden px-4 py-2 space-y-2 bg-gray-200 border-t shadow animate-slideDown">
+                <div className={`flex flex-col md:hidden px-4 py-2 space-y-2 ${isDark ? 'bg-purple-950' : 'bg-gray-200'} border-t shadow animate-slideDown`}>
                     <NavLink
                         to="/"
-                        className="block font-satoshi text-black hover:text-gray-600"
+                        className={`font-satoshi ${isDark ? 'text-white' : 'text-black'} hover:text-blue-600`}
                     >
-                        Shop
+                        Home
                     </NavLink>
                     <NavLink
-                        to="/"
-                        className="block font-satoshi text-black hover:text-gray-600"
+                        to="/newarrivals"
+                        className={`font-satoshi ${isDark ? 'text-white' : 'text-black'} hover:text-blue-600`}
                     >
-                        On Sale
+                        Tags
                     </NavLink>
-                    <NavLink
-                        to="/"
-                        className="block font-satoshi text-black hover:text-gray-600"
-                    >
-                        New Arrivals
-                    </NavLink>
-                    <NavLink
-                        to="/"
-                        className="block font-satoshi text-black hover:text-gray-600"
-                    >
-                        Brands
-                    </NavLink>
+                    <button className="cursor-pointer" onClick={toggleTheme}>
+                        {!isDark ?
+                            <img src={sun} alt="sun" className="w-6" title="convert to Dark mode"></img>
+                            : <img src={moon} alt="moon" className="w-5" title="convert to Light mode"></img>}
+                    </button>
 
                     <div className="flex-1 max-w-md md:block">
                         <div className="relative">
                             <input
                                 type="search"
                                 name="search"
-                                placeholder="Search for products..."
-                                className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Search for Notes"
+                                className={`w-full pl-10 pr-4 py-2 rounded-md border  ${isDark ? 'text-white' : 'text-black'} border-gray-300 focus:ring-indigo-500 focus:border-indigo-500`}
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                                 <svg

@@ -1,52 +1,6 @@
 @import "tailwindcss";
 
-button {
-    cursor: pointer;
-}
 
-/* Fonts */
-@font-face {
-    font-family: 'Integral CF';
-    src: url('./fonts/Fontspring-DEMO-integralcf-bold.otf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-.font-integral {
-    font-family: 'Integral CF', sans-serif;
-}
-
-@font-face {
-    font-family: 'Satoshi';
-    src: url('./fonts/Satoshi-Medium.otf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-.font-satoshi {
-    font-family: 'Satoshi', sans-serif;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('./fonts/Poppins-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-.font-poppins {
-    font-family: 'Poppins';
-}
-
-.light-gradient {
-    background-image: radial-gradient(circle farthest-corner at -5.6% -6.8%, #673191 37.3%, #5e2dac 73.5%);
-}
-
-
-/* ------------------------------------------------------------------ */
-
-
-/* styles/404-themes.css */
 :root {
     /* Light Theme */
     --logo-note: #1b5dfc;
@@ -105,6 +59,54 @@ button {
     --color-shape-2: #5f2fb9;
     --color-shape-3: #5b21b6;
 }
+
+
+button {
+    cursor: pointer;
+}
+
+/* Fonts */
+@font-face {
+    font-family: 'Integral CF';
+    src: url('./fonts/Fontspring-DEMO-integralcf-bold.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-integral {
+    font-family: 'Integral CF', sans-serif;
+}
+
+@font-face {
+    font-family: 'Satoshi';
+    src: url('./fonts/Satoshi-Medium.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-satoshi {
+    font-family: 'Satoshi', sans-serif;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-poppins {
+    font-family: 'Poppins';
+}
+
+.button-gradient {
+    background-image: radial-gradient(circle farthest-corner at -5.6% -6.8%, #673191 37.3%, #5e2dac 73.5%);
+}
+
+
+/* ------------------------------------------------------------------ */
+
+
 
 
 

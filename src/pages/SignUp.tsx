@@ -6,9 +6,10 @@ import LoadingSpinner from '../components/LoadingSpinner';
 interface FormData {
     email: string;
     password: string;
+    confirmPassword: string
 }
 
-const LogIn = () => {
+const SignUp = () => {
 
     const themContext = useContext(ThemeContext);
     if (!themContext) throw new Error("Error loading the theme");
@@ -22,6 +23,7 @@ const LogIn = () => {
     const [formData, setFormData] = useState<FormData>({
         email: '',
         password: '',
+        confirmPassword: ''
     });
 
     const passwordRef = useRef<HTMLInputElement>(null)
@@ -49,15 +51,16 @@ const LogIn = () => {
 
     const togglePasswordVisibility = () => {
         const input = passwordRef.current;
-        const button = togglePasswordRef.current;
-        if (!input || !button) return
+        const btnText = togglePasswordRef.current;
+        
+        if (!input || !btnText) return;
 
-        if (input.type === 'password') {
-            input.type = 'text'
-            button.textContent = 'Hide'
+        if (input.type === "password") {
+            input.type = "text";
+            btnText.textContent = "Hide";
         } else {
-            input.type = 'password'
-            button.textContent = 'Show'
+            input.type = "password";
+            btnText.textContent = "Show";
         }
     }
 
@@ -66,12 +69,12 @@ const LogIn = () => {
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className={`mt-6 text-center text-3xl font-extrabold`} style={{ color: 'var(--color-text)' }}>
-                    Sign in to your account
+                    Creat New Account
                 </h2>
                 <p className={`mt-2 text-center text-sm`} style={{ color: 'var(--color-text-light)' }}>
-                    Or{' '}
-                    <Link to="/signup" className={`font-medium ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}>
-                        create a new account
+                    Already have an account?{' '}
+                    <Link to="/login" className={`font-medium ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}>
+                        Log In now
                     </Link>
                 </p>
             </div>
@@ -121,12 +124,31 @@ const LogIn = () => {
                                 >show</button>
                             </div>
                         </div>
+
+                        <div>
+                            <label htmlFor="password" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                                Confirm Password
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type="password"
+                                    autoComplete="confirm-password"
+                                    required
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
+                                />
+                            </div>
+                        </div>
+
                         <div>
                             <button
                                 type="submit"
                                 className="button-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white  hover:!bg-green-700  focus:outline-none transition-all duration-300"
                             >
-                                {isLoading ? <LoadingSpinner /> : "Log In"}
+                                {isLoading ? <LoadingSpinner /> : "Sign Up"}
                             </button>
                         </div>
                     </form>
@@ -136,4 +158,4 @@ const LogIn = () => {
     );
 };
 
-export default LogIn;
+export default SignUp;
