@@ -1,8 +1,10 @@
+import Navbar from "../components/Navbar"
 
 const RootLayout = () => {
   return (
     <div>
-        <h1>RootLayout</h1>
+        <Navbar/>
+        <h1 className="font-poppins">RootLayout</h1>
     </div>
   )
 }
