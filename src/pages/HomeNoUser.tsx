@@ -84,7 +84,7 @@ const HomeNoUser = () => {
                         Join thousands of users who have transformed their note-taking experience.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <button className="bg-white text-purple-700 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all">
+                        <button onClick={()=>navigate('signup')} className="bg-white text-purple-700 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all">
                             Sign Up Free
                         </button>
                     </div>

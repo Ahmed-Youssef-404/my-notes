@@ -86,10 +86,10 @@ const Navbar = () => {
 
                             <NavLink to={'/user'} className="flex gap-2" title="Your Profile">
                                 <img src={profileIcon} alt="usre avatar" className="w-6" />
-                                <span>User Name</span>
+                                <span style={{ color: ('var(--color-text)') }}>User Name</span>
                             </NavLink>
                             : <NavLink to={'/login'}>
-                                <button className="button-gradient rounded-3xl py-2 px-1.5 w-32 text-white cursor-pointer">Get Started</button>
+                                <button className={`button-gradient rounded-3xl py-2 px-1.5 w-32 cursor-pointer`}>Get Started</button>
                             </NavLink>
                         }
 

@@ -11,10 +11,19 @@ export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
-    const [theme, setTheme] = useState<theme>('light')
+    let theTheme: theme = 'light'
+    if (localStorage.getItem('theme') === 'dark') {
+        theTheme = 'dark'
+    }
+    //  else (
+    //     theTheme = 'light'
+    // )
+    const [theme, setTheme] = useState<theme>(theTheme)
     const toggleTheme = (() => {
         setTheme(theme === 'light' ? 'dark' : 'light')
     })
+
+    localStorage.setItem('theme', theme)
 
     useEffect(() => {
         const bodyClassList = document.body.classList
@@ -22,7 +31,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         bodyClassList.add(theme)
     }, [theme])
 
-    return(
+    return (
         <ThemeContext.Provider value={{ theme, toggleTheme }} >
             {children}
         </ThemeContext.Provider >
