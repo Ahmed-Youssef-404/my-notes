@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-
+button {
+    cursor: pointer;
+}
 
 /* Fonts */
 @font-face {
@@ -32,6 +34,175 @@
     font-style: normal;
 }
 
-.font-poppins{
+.font-poppins {
     font-family: 'Poppins';
+}
+
+.light-gradient {
+    background-image: radial-gradient(circle farthest-corner at -5.6% -6.8%, #673191 37.3%, #5e2dac 73.5%);
+}
+
+
+/* ------------------------------------------------------------------ */
+
+
+/* styles/404-themes.css */
+:root {
+    /* Light Theme */
+    --logo-note: #1b5dfc;
+    --logo-my: #6e11b0;
+    --color-primary: #5e2dac;
+    --color-primary-light: #673191;
+    --color-primary-dark: #5b21b6;
+    --color-secondary: #2563eb;
+    --color-secondary-light: #3b82f6;
+    --color-bg: linear-gradient(to bottom right, #faf5ff, #f0f9ff);
+    --color-card-bg: #ffffffe6;
+    --color-text: #1f2937;
+    --color-text-light: #6b7280;
+    --cta-background: linear-gradient(109.6deg, #dbbef2 21.2%, #a1baf5 74.4%);
+    --color-error: #dc2626;
+    --color-border: #ffffff33;
+    --color-button-primary: linear-gradient(to right, #7c3aed, #5b21b6);
+    --color-button-secondary: linear-gradient(to right, #3b82f6, #2563eb);
+    --color-button-text: white;
+    --color-link: #5e2dac;
+    --color-link-hover: #4c1d95;
+    --card-color-1: #f3e8ff;
+    --card-color-2: #dbeafe;
+    --card-color-3: #ffe4e6;
+    --color-shape-1: #ecdefb;
+    --color-shape-2: #e1c4fd;
+    --color-shape-3: #ddd6fe;
+}
+
+/* Dark Theme */
+.dark {
+    /* --logo-note: #c4dfff; */
+    --logo-note: #5fa4f9;
+    --logo-my: #ffa6f8;
+    --color-primary: #8b5cf6;
+    --color-primary-light: #7c3aed;
+    --color-primary-dark: #6d28d9;
+    --color-secondary: #60a5fa;
+    --color-secondary-light: #93c5fd;
+    --color-bg: linear-gradient(to bottom right, #050511, #070c1c);
+    --color-card-bg: rgba(30, 30, 46, 0.9);
+    --color-text: #e5e7eb;
+    --color-text-light: #9ca3af;
+    --cta-background: linear-gradient(to right, rgb(32 32 86) 15.3%, rgb(14 28 78) 91.3%);
+    --color-error: #f87171;
+    --color-border: rgba(0, 0, 0, 0.2);
+    --color-button-primary: linear-gradient(to right, #7c3aed, #6d28d9);
+    --color-button-secondary: linear-gradient(to right, #3b82f6, #1d4ed8);
+    --color-button-text: white;
+    --color-link: #a78bfa;
+    --color-link-hover: #8b5cf6;
+    --card-color-1: #190a30;
+    --card-color-2: #011b3d;
+    --card-color-3: #250824;
+    --color-shape-1: #4c1d95;
+    --color-shape-2: #5f2fb9;
+    --color-shape-3: #5b21b6;
+}
+
+
+
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes float-delay {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(15px);
+    }
+}
+
+@keyframes float-delay-2 {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px) translateX(10px);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes bounce-delay {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes bounce-delay-2 {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px) translateX(5px);
+    }
+}
+
+.animate-float {
+    animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-delay {
+    animation: float-delay 10s ease-in-out infinite;
+}
+
+.animate-float-delay-2 {
+    animation: float-delay-2 7s ease-in-out infinite;
+}
+
+.animate-bounce {
+    animation: bounce 3s ease-in-out infinite;
+}
+
+.animate-bounce-delay {
+    animation: bounce-delay 4s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.animate-bounce-delay-2 {
+    animation: bounce-delay-2 5s ease-in-out infinite;
+    animation-delay: 1s;
 }

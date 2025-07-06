@@ -1,6 +1,9 @@
 // import React from 'react'
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import profileIcon from '../assets/user.webp';
+import moon from '../assets/moon.webp'
+import sun from '../assets/daylight.webp'
 
 
 const Navbar = () => {
@@ -8,71 +11,39 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <nav className="bg-white border-b shadow-sm">
+        <nav className="bg-white shadow-sm fixed z-10 w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Left section - Logo */}
-                    <div className="flex items-center gap-4">
-                        <NavLink to={"/"} className="font-integral text-2xl ">SHOP.CO</NavLink>
 
-                        {/* Desktop Nav Links */}
-                        <div className="hidden md:flex items-center gap-6 mx-15">
-                            <div className="relative group">
-                                <button
-                                    aria-label="Shop Dropdown"
-                                    className="flex items-center gap-1 font-satoshi text-black hover:text-gray-600"
-                                >
-                                    Shop
-                                    <svg
-                                        className="w-4 h-4 text-gray-800"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="m19 9-7 7-7-7"
-                                        />
-                                    </svg>
-                                </button>
-                                <div className="absolute hidden group-hover:block bg-white w-40 border shadow-md rounded-md z-10 transition-all duration-200 ">
-                                    <NavLink
-                                        to="/option1"
-                                        className="font-satoshi block px-4 py-2 hover:bg-gray-200"
-                                    >
-                                        Option 1
-                                    </NavLink>
-                                    <NavLink
-                                        to="/option2"
-                                        className="font-satoshi block px-4 py-2 hover:bg-gray-200"
-                                    >
-                                        Option 2
-                                    </NavLink>
-                                </div>
-                            </div>
-                            <NavLink
-                                to="/onsale"
-                                className="font-satoshi text-black hover:text-gray-600"
-                            >
-                                On Sale
-                            </NavLink>
-                            <NavLink
-                                to="/newarrivals"
-                                className="font-satoshi text-black hover:text-gray-600"
-                            >
-                                New Arrivals
-                            </NavLink>
-                            <NavLink
-                                to="/brands"
-                                className="font-satoshi text-black hover:text-gray-600"
-                            >
-                                Brands
-                            </NavLink>
+                    <NavLink to={"/"} className=" text-2xl ">
+                        <div className="text-2xl md:text-3xl font-bold text-purple-800">
+                            My<span className="text-blue-600">Notes</span>
                         </div>
+                    </NavLink>
+
+                    {/* Nav links */}
+                    <div className="hidden md:flex items-center gap-6 mx-15">
+
+                        <NavLink
+                            to="/"
+                            className="font-satoshi text-black hover:text-gray-600"
+                        >
+                            Home
+                        </NavLink>
+                        <NavLink
+                            to="/newarrivals"
+                            className="font-satoshi text-black hover:text-gray-600"
+                        >
+                            Tags
+                        </NavLink>
+                        <button className="cursor-pointer">
+                            {true ?
+                                <img src={sun} alt="sun" className="w-6" title="convert to Dark mode"></img>
+                                : <img src={moon} alt="moon" title="convert to Light mode"></img>}
+                        </button>
                     </div>
+
 
                     {/* Middle section - Search */}
                     <div className="flex-1 px-4 max-w-md hidden md:block">
@@ -80,7 +51,7 @@ const Navbar = () => {
                             <input
                                 type="search"
                                 name="search"
-                                placeholder="Search for products..."
+                                placeholder="Search for Notes"
                                 className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
@@ -104,41 +75,18 @@ const Navbar = () => {
 
                     {/* Right section - Icons */}
                     <div className="flex items-center justify-center gap-4">
-                        {/* Cart */}
-                        <NavLink to="/cart" className="text-gray-500 hover:text-gray-600" title="Your Cart">
-                            <svg
-                                className="w-6 h-6 text-gray-800"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
-                                />
-                            </svg>
-                        </NavLink>
 
                         {/* User Avatar */}
-                        <NavLink to="/login" className="focus:outline-none" title="Your Profile">
-                            <svg
-                                className="w-6 h-6 text-gray-800"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                />
-                            </svg>
-                        </NavLink>
+                        {false ?
+
+                            <NavLink to={'/user'} className="flex gap-2" title="Your Profile">
+                                <img src={profileIcon} alt="usre avatar" className="w-6" />
+                                <span>User Name</span>
+                            </NavLink>
+                            : <NavLink to={'/login'}>
+                                <button className="light-gradient rounded-3xl py-2 px-1.5 w-32 text-white cursor-pointer">Get Started</button>
+                            </NavLink>
+                        }
 
                         {/* Hamburger for Mobile */}
                         <button
