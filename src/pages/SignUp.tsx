@@ -4,6 +4,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 interface FormData {
+    userName: string;
     email: string;
     password: string;
     confirmPassword: string
@@ -19,6 +20,7 @@ const SignUp = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [formData, setFormData] = useState<FormData>({
+        userName: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -50,7 +52,7 @@ const SignUp = () => {
     const togglePasswordVisibility = () => {
         const input = passwordRef.current;
         const btnText = togglePasswordRef.current;
-        
+
         if (!input || !btnText) return;
 
         if (input.type === "password") {
@@ -77,12 +79,29 @@ const SignUp = () => {
                 </p>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
                 <div className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'}  py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}>
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 User name
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="userName"
+                                    name="userName"
+                                    type="text"
+                                    autoComplete="userName"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                                E-Mail
                             </label>
                             <div className="mt-1">
                                 <input
@@ -118,7 +137,7 @@ const SignUp = () => {
                                     type="button"
                                     ref={togglePasswordRef}
                                     onClick={togglePasswordVisibility}
-                                    className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark?'text-blue-200':'text-purple-500'} hover:underline`}
+                                    className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark ? 'text-blue-200' : 'text-purple-500'} hover:underline`}
                                 >show</button>
                             </div>
                         </div>

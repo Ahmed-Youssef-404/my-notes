@@ -16,15 +16,16 @@ const Navbar = () => {
 
     const [isLogedIN, setIsLogedIn] = useState(false);
     const { user } = useAuth()
-    const userName = user?.email;
-    console.log(user?.email)
+    const userName = user?.username;
 
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         if (user) {
             setIsLogedIn(true)
-        }
+        }else(
+            setIsLogedIn(false)
+        )
     }, [user])
 
 
@@ -50,7 +51,7 @@ const Navbar = () => {
                             Home
                         </NavLink>
                         <NavLink
-                            to="/newarrivals"
+                            to="tags"
                             className={`font-satoshi ${isDark ? 'text-white' : 'text-black'} hover:text-blue-600`}
                         >
                             Tags
@@ -64,7 +65,8 @@ const Navbar = () => {
 
 
                     {/* Middle section - Search */}
-                    <div className="flex-1 px-4 max-w-md hidden md:block">
+                    {/* px-4 max-w-md hidden md:block */}
+                    <div className={`flex-1 px-4 max-w-md hidden ${isLogedIN ? 'md:block' : ''} `}>
                         <div className="relative">
                             <input
                                 type="search"
@@ -142,7 +144,7 @@ const Navbar = () => {
                         Home
                     </NavLink>
                     <NavLink
-                        to="/newarrivals"
+                        to="/tags"
                         className={`font-satoshi ${isDark ? 'text-white' : 'text-black'} hover:text-blue-600`}
                     >
                         Tags
@@ -153,7 +155,7 @@ const Navbar = () => {
                             : <img src={moon} alt="moon" className="w-5" title="convert to Light mode"></img>}
                     </button>
 
-                    <div className="flex-1 max-w-md md:block">
+                    <div className={`flex-1 max-w-md ${isLogedIN ? 'block' : 'hidden'}`}>
                         <div className="relative">
                             <input
                                 type="search"

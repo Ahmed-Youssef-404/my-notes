@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext"
 export const useAuth = () => {
     const context = useContext(AuthContext)
     if (!context) throw new Error("useAuth must be used within an AuthProvider")
-    console.log(context)
+    console.log(context.user)
+    // localStorage.setItem("user", JSON.stringify(context.user))   
     return context
 }

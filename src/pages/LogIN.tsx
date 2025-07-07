@@ -1,36 +1,25 @@
-import { useState, type FormEvent, type ChangeEvent, useContext, useRef } from 'react';
+import { useState, type FormEvent, useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
-// import LoadingSpinner from '../components/LoadingSpinner';
-import { AuthContext } from '../context/AuthContext';
+import LoadingSpinner from '../components/LoadingSpinner';
+// import { AuthContext } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 
-// interface loginFormData {
-//     email: string;
-//     password: string;
-// }
 
 const LogIn = () => {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const themeContext = useContext(ThemeContext);
     if (!themeContext) throw new Error("Error loading the theme");
     const { isDark } = themeContext;
 
     const { setUser } = useAuth()
-    
+
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const USERS_URL = 'http://localhost:3001/users'
 
-    const AuthData = useContext(AuthContext);
-    if (!AuthData) throw new Error("Error loading the auth data");
-    // const { setUser } = AuthData;
 
-    // const [isLoading, setIsLoading] = useState<boolean>(false)
-    // const [formData, setFormData] = useState<loginFormData>({
-    //     email: '',
-    //     password: '',
-    // });
 
 
 
@@ -41,45 +30,28 @@ const LogIn = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // console.log("Form submited")
         try {
+            setIsLoading(true)
             const email = emilRef.current?.value
             const password = passwordRef.current?.value
-
-            // console.log("Email from the from: " + email)
-            // console.log("Passwrod from the from: " + password)
 
             const res = await fetch(`${USERS_URL}?email=${email}&password=${password}`)
             const data = await res.json()
             if (data.length > 0) {
                 setUser(data[0])
+                console.log(data[0])
+                localStorage.setItem("user", JSON.stringify(data[0]))
+                navigate('/')
             } else {
+                setIsLoading(false)
                 alert('Invalid credentials')
             }
-
-
+            setIsLoading(false)
         } catch (error) {
-
+            console.log("error in login " + error)
         }
 
 
-        // const res = await fetch(`${USERS_URL}?username=${authData.username}&password=${authData.password}`)
-        //     const data = await res.json()
-        //     if (data.length > 0) {
-        //         setUser(data[0])
-        //     } else {
-        //         alert('Invalid credentials')
-        //     }
-
-
-
-        // Handle sign in logic here
-        // setIsLoading(true);
-        // setTimeout(() => {
-        //     console.log('Form submitted:', formData);
-        //     setIsLoading(false);
-        //     navigate('/')
-        // }, 2500);
     };
 
     // const handleChange = ()=>{
@@ -102,6 +74,7 @@ const LogIn = () => {
     }
 
     return (
+
         <div className={`min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300`} style={{ background: 'var(--color-bg)' }}>
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -116,7 +89,7 @@ const LogIn = () => {
                 </p>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
                 <div className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'}  py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}>
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
@@ -167,8 +140,7 @@ const LogIn = () => {
                                 type="submit"
                                 className="button-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white  hover:!bg-green-700  focus:outline-none transition-all duration-300"
                             >
-                                {/* {isLoading ? <LoadingSpinner /> : "Log In"} */}
-                                Log In
+                                {isLoading ? <LoadingSpinner /> : "Log In"}
                             </button>
                         </div>
                     </form>

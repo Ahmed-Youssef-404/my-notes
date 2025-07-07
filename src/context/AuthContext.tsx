@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState, type ReactNode } from "react"
 import { type userTypes } from "../types/Types"
-// import { type authDataTypes } from "../types/Types"
 
 export type AuthContextType = {
     user: userTypes | null
@@ -10,22 +9,21 @@ export type AuthContextType = {
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-
     const [user, setUser] = useState<userTypes | null>(null)
-    let currentUser: string | null = null
 
     useEffect(() => {
-        if (user) {
-            console.log("user " + user.email + " is loged in")
-            currentUser = user.email
-            console.log("currnet user is " + currentUser)
+        const storedUser = localStorage.getItem('user')
+        if (!(storedUser === null)) {
+            console.log(storedUser)
+            setUser(JSON.parse(storedUser))
         }
+    }, [])
 
-    }, [user])
     return (
-        <AuthContext.Provider value={{ user, setUser }} >
+        <AuthContext.Provider value={{ user, setUser }}>
             {children}
-        </AuthContext.Provider >
+        </AuthContext.Provider>
     )
 }
+
 export default AuthProvider
