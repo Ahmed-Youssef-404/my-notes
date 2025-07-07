@@ -1,19 +1,32 @@
 // import React from 'react'
 import { NavLink } from "react-router-dom";
-import { useContext, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import profileIcon from '../assets/user.webp';
 import moon from '../assets/moon.webp'
 import sun from '../assets/daylight.webp'
 import { ThemeContext } from "../context/ThemeContext";
+import { useAuth } from "../hooks/useAuth";
 
 
 const Navbar = () => {
-    const themContext = useContext(ThemeContext);
-    if (!themContext) throw new Error("Error load the theme");
-    const { theme, toggleTheme } = themContext;
-    const isDark = theme === 'dark'
+    const themeContext = useContext(ThemeContext);
+    if (!themeContext) throw new Error("Error load the theme");
+    const { isDark: isDark, toggleTheme } = themeContext;
+
+
+    const [isLogedIN, setIsLogedIn] = useState(false);
+    const { user } = useAuth()
+    const userName = user?.email;
+    console.log(user?.email)
 
     const [menuOpen, setMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            setIsLogedIn(true)
+        }
+    }, [user])
+
 
     return (
         <nav className={`${isDark ? 'bg-[#241b30]' : 'bg-white'} textw theme shadow-sm fixed z-10 w-full`}>
@@ -82,14 +95,14 @@ const Navbar = () => {
                     <div className="flex items-center justify-center gap-4">
 
                         {/* User Avatar */}
-                        {false ?
+                        {isLogedIN ?
 
                             <NavLink to={'/user'} className="flex gap-2" title="Your Profile">
                                 <img src={profileIcon} alt="usre avatar" className="w-6" />
-                                <span style={{ color: ('var(--color-text)') }}>User Name</span>
+                                <span style={{ color: ('var(--color-text)') }}>{userName}</span>
                             </NavLink>
                             : <NavLink to={'/login'}>
-                                <button className={`button-gradient rounded-3xl py-2 px-1.5 w-32 cursor-pointer`}>Get Started</button>
+                                <button className={`button-gradient rounded-3xl text-white py-2 px-1.5 w-32 cursor-pointer`}>Get Started</button>
                             </NavLink>
                         }
 

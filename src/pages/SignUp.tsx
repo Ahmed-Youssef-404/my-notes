@@ -11,11 +11,9 @@ interface FormData {
 
 const SignUp = () => {
 
-    const themContext = useContext(ThemeContext);
-    if (!themContext) throw new Error("Error loading the theme");
-
-    const { theme } = themContext;
-    const isDark = theme === "dark";
+    const themeContext = useContext(ThemeContext);
+    if (!themeContext) throw new Error("Error loading the theme");
+    const { isDark } = themeContext;
 
     const navigate = useNavigate()
 

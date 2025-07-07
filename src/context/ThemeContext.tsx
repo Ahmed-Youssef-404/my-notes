@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import { type ReactNode } from "react"
 
-type theme = "light" | "dark";
+type isDark = boolean | null;
 type ThemeContextType = {
-    theme: theme,
+    isDark: isDark,
     toggleTheme: () => void
 }
 
@@ -11,28 +11,31 @@ export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
-    let theTheme: theme = 'light'
-    if (localStorage.getItem('theme') === 'dark') {
-        theTheme = 'dark'
-    }
-    //  else (
-    //     theTheme = 'light'
-    // )
-    const [theme, setTheme] = useState<theme>(theTheme)
+    // let theTheme: isDark = null
+
+    const locatStoragTheme = localStorage.getItem('isDark') === 'false'
+    const theTheme = locatStoragTheme ? false : true
+
+    // if () {
+    // }else{
+    //     theTheme = true
+
+    // }
+    const [isDark, setIsDark] = useState<isDark>(theTheme)
     const toggleTheme = (() => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
+        setIsDark(!isDark)
     })
 
-    localStorage.setItem('theme', theme)
+    localStorage.setItem('isDark', isDark + '')
 
     useEffect(() => {
         const bodyClassList = document.body.classList
-        bodyClassList.remove(theme === "light" ? "dark" : "light")
-        bodyClassList.add(theme)
-    }, [theme])
+        bodyClassList.remove(isDark ? "light" : "dark")
+        bodyClassList.add(isDark ? "dark" : "light")
+    }, [isDark])
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }} >
+        <ThemeContext.Provider value={{ isDark: isDark, toggleTheme }} >
             {children}
         </ThemeContext.Provider >
     )

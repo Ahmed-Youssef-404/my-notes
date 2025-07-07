@@ -6,11 +6,16 @@ const HomeNoUser = () => {
 
     const navigate = useNavigate()
 
-    const themContext = useContext(ThemeContext);
-    if (!themContext) throw new Error("Error loading the theme");
+    // const themContext = useContext(ThemeContext);
+    // if (!themContext) throw new Error("Error loading the theme");
+    
+    
+    const themeContext = useContext(ThemeContext);
+    if (!themeContext) throw new Error("Error loading the theme");
+    const { isDark } = themeContext;
 
-    const { theme } = themContext;
-    const isDark = theme === "dark";
+    // const  = themContext;
+    // const isDark = theme === "dark";
 
     // console.log("Theme from context:", theme);
     // console.log("isDark computed:", isDark);

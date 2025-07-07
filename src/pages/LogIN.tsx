@@ -1,51 +1,91 @@
 import { useState, type FormEvent, type ChangeEvent, useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
-import LoadingSpinner from '../components/LoadingSpinner';
+// import LoadingSpinner from '../components/LoadingSpinner';
+import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
-interface FormData {
-    email: string;
-    password: string;
-}
+// interface loginFormData {
+//     email: string;
+//     password: string;
+// }
 
 const LogIn = () => {
+    // const navigate = useNavigate()
 
-    const themContext = useContext(ThemeContext);
-    if (!themContext) throw new Error("Error loading the theme");
+    const themeContext = useContext(ThemeContext);
+    if (!themeContext) throw new Error("Error loading the theme");
+    const { isDark } = themeContext;
 
-    const { theme } = themContext;
-    const isDark = theme === "dark";
+    const { setUser } = useAuth()
+    
 
-    const navigate = useNavigate()
+    const USERS_URL = 'http://localhost:3001/users'
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [formData, setFormData] = useState<FormData>({
-        email: '',
-        password: '',
-    });
+    const AuthData = useContext(AuthContext);
+    if (!AuthData) throw new Error("Error loading the auth data");
+    // const { setUser } = AuthData;
 
+    // const [isLoading, setIsLoading] = useState<boolean>(false)
+    // const [formData, setFormData] = useState<loginFormData>({
+    //     email: '',
+    //     password: '',
+    // });
+
+
+
+
+    const emilRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null)
     const togglePasswordRef = useRef<HTMLButtonElement>(null)
 
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        // console.log("Form submited")
+        try {
+            const email = emilRef.current?.value
+            const password = passwordRef.current?.value
+
+            // console.log("Email from the from: " + email)
+            // console.log("Passwrod from the from: " + password)
+
+            const res = await fetch(`${USERS_URL}?email=${email}&password=${password}`)
+            const data = await res.json()
+            if (data.length > 0) {
+                setUser(data[0])
+            } else {
+                alert('Invalid credentials')
+            }
+
+
+        } catch (error) {
+
+        }
+
+
+        // const res = await fetch(`${USERS_URL}?username=${authData.username}&password=${authData.password}`)
+        //     const data = await res.json()
+        //     if (data.length > 0) {
+        //         setUser(data[0])
+        //     } else {
+        //         alert('Invalid credentials')
+        //     }
+
+
+
         // Handle sign in logic here
-        setIsLoading(true);
-        setTimeout(() => {
-            console.log('Form submitted:', formData);
-            setIsLoading(false);
-            navigate('/')
-        }, 2500);
+        // setIsLoading(true);
+        // setTimeout(() => {
+        //     console.log('Form submitted:', formData);
+        //     setIsLoading(false);
+        //     navigate('/')
+        // }, 2500);
     };
+
+    // const handleChange = ()=>{
+
+    // }
+
 
     const togglePasswordVisibility = () => {
         const input = passwordRef.current;
@@ -81,17 +121,18 @@ const LogIn = () => {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                User name
+                                Email
                             </label>
                             <div className="mt-1">
                                 <input
                                     id="email"
                                     name="email"
                                     type="text"
+                                    ref={emilRef}
                                     autoComplete="email"
                                     required
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    // value={formData.email}
+                                    // onChange={handleChange}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -109,15 +150,15 @@ const LogIn = () => {
                                     ref={passwordRef}
                                     autoComplete="current-password"
                                     required
-                                    value={formData.password}
-                                    onChange={handleChange}
+                                    // value={formData.password}
+                                    // onChange={handleChange}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                                 <button
                                     type="button"
                                     ref={togglePasswordRef}
                                     onClick={togglePasswordVisibility}
-                                    className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark?'text-blue-200':'text-purple-500'} hover:underline`}
+                                    className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark ? 'text-blue-200' : 'text-purple-500'} hover:underline`}
                                 >show</button>
                             </div>
                         </div>
@@ -126,7 +167,8 @@ const LogIn = () => {
                                 type="submit"
                                 className="button-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white  hover:!bg-green-700  focus:outline-none transition-all duration-300"
                             >
-                                {isLoading ? <LoadingSpinner /> : "Log In"}
+                                {/* {isLoading ? <LoadingSpinner /> : "Log In"} */}
+                                Log In
                             </button>
                         </div>
                     </form>

@@ -1,12 +1,15 @@
 import { type ReactNode } from 'react'
 import { ThemeProvider } from './ThemeContext'
+import AuthProvider from './AuthContext'
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
     return (
         <>
-            <ThemeProvider>
-                {children}
-            </ThemeProvider>
+            <AuthProvider>
+                <ThemeProvider>
+                    {children}
+                </ThemeProvider>
+            </AuthProvider>
         </>
     )
 }
