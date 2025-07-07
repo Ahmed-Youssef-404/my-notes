@@ -1,24 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../context/ThemeContext";
 import { useNavigate } from "react-router";
+import useTheme from "../hooks/useTheme";
 
 const HomeNoUser = () => {
 
     const navigate = useNavigate()
 
-    // const themContext = useContext(ThemeContext);
-    // if (!themContext) throw new Error("Error loading the theme");
-    
-    
-    const themeContext = useContext(ThemeContext);
-    if (!themeContext) throw new Error("Error loading the theme");
-    const { isDark } = themeContext;
-
-    // const  = themContext;
-    // const isDark = theme === "dark";
-
-    // console.log("Theme from context:", theme);
-    // console.log("isDark computed:", isDark);
+    const {isDark} = useTheme()
 
     return (
         <div className="add min-h-screen" style={{ background: 'var(--color-bg)' }}>

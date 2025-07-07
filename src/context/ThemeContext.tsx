@@ -11,17 +11,10 @@ export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
-    // let theTheme: isDark = null
+    const locatStoragTheme = localStorage.getItem('isDark') === 'true'
+    const IsTheThemeDark = locatStoragTheme ? true : false
 
-    const locatStoragTheme = localStorage.getItem('isDark') === 'false'
-    const theTheme = locatStoragTheme ? false : true
-
-    // if () {
-    // }else{
-    //     theTheme = true
-
-    // }
-    const [isDark, setIsDark] = useState<isDark>(theTheme)
+    const [isDark, setIsDark] = useState<isDark>(IsTheThemeDark)
     const toggleTheme = (() => {
         setIsDark(!isDark)
     })

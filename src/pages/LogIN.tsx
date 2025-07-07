@@ -1,32 +1,30 @@
-import { useState, type FormEvent, useContext, useRef } from 'react';
+import { useState, type FormEvent, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 // import { AuthContext } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
+import useTheme from '../hooks/useTheme';
 
 
 const LogIn = () => {
     const navigate = useNavigate()
+    const {user, setUser } = useAuth()
+    if (user) {
+        navigate('/user')
+        return
+    }
 
-    const themeContext = useContext(ThemeContext);
-    if (!themeContext) throw new Error("Error loading the theme");
-    const { isDark } = themeContext;
+    const {isDark} = useTheme()
 
-    const { setUser } = useAuth()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const USERS_URL = 'http://localhost:3001/users'
-
-
-
-
-
-
+    
     const emilRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null)
     const togglePasswordRef = useRef<HTMLButtonElement>(null)
+    
+    const USERS_URL = 'http://localhost:3001/users'
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -38,9 +36,11 @@ const LogIn = () => {
             const res = await fetch(`${USERS_URL}?email=${email}&password=${password}`)
             const data = await res.json()
             if (data.length > 0) {
-                setUser(data[0])
-                console.log(data[0])
-                localStorage.setItem("user", JSON.stringify(data[0]))
+                const userData = data[0]
+                const { password, ...dataToStore } = userData
+                setUser(dataToStore)
+                console.log(dataToStore)
+                localStorage.setItem("user", JSON.stringify(dataToStore))
                 navigate('/')
             } else {
                 setIsLoading(false)
@@ -50,8 +50,6 @@ const LogIn = () => {
         } catch (error) {
             console.log("error in login " + error)
         }
-
-
     };
 
     // const handleChange = ()=>{

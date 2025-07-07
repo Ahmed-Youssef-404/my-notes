@@ -1,18 +1,16 @@
 // import React from 'react'
 import { NavLink } from "react-router-dom";
-import { use, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import profileIcon from '../assets/user.webp';
 import moon from '../assets/moon.webp'
 import sun from '../assets/daylight.webp'
-import { ThemeContext } from "../context/ThemeContext";
 import { useAuth } from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
 
 
 const Navbar = () => {
-    const themeContext = useContext(ThemeContext);
-    if (!themeContext) throw new Error("Error load the theme");
-    const { isDark: isDark, toggleTheme } = themeContext;
 
+    const {isDark, toggleTheme} = useTheme()
 
     const [isLogedIN, setIsLogedIn] = useState(false);
     const { user } = useAuth()

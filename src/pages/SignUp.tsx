@@ -1,52 +1,76 @@
-import { useState, type FormEvent, type ChangeEvent, useContext, useRef } from 'react';
+import { useState, type FormEvent, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useAuth } from '../hooks/useAuth';
+import useTheme from '../hooks/useTheme';
 
-interface FormData {
-    userName: string;
-    email: string;
-    password: string;
-    confirmPassword: string
-}
+
 
 const SignUp = () => {
 
-    const themeContext = useContext(ThemeContext);
-    if (!themeContext) throw new Error("Error loading the theme");
-    const { isDark } = themeContext;
+    const {isDark} = useTheme()
+    const { user, setUser } = useAuth()
 
     const navigate = useNavigate()
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [formData, setFormData] = useState<FormData>({
-        userName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
+    if (user) {
+        navigate('/user')
+        return
+    }
 
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+
+    const userNameRef = useRef<HTMLInputElement>(null)
+    const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
+    const confirmPasswordRef = useRef<HTMLInputElement>(null)
     const togglePasswordRef = useRef<HTMLButtonElement>(null)
 
+    const USERS_API_URL = 'http://localhost:3001/users'
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Handle sign in logic here
-        setIsLoading(true);
-        setTimeout(() => {
-            console.log('Form submitted:', formData);
-            setIsLoading(false);
-            navigate('/')
-        }, 2500);
+        // Handle sign up logic here
+        const username = userNameRef.current?.value
+        const email = emailRef.current?.value
+        const password = passwordRef.current?.value
+        const confirmPassword = confirmPasswordRef.current?.value
+
+        console.log(username, email, password, confirmPassword)
+
+        const authData = {
+            "username": username,
+            "password": password,
+            "email": email
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords don't match")
+            return
+        } else {
+            setIsLoading(true)
+            const check = await fetch(`${USERS_API_URL}?email=${email}`)
+            const exists = await check.json()
+            if (exists.length > 0) {
+                setIsLoading(false)
+                alert('E-Mail already exists')
+                return
+            } else {
+                const res = await fetch(USERS_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(authData)
+                })
+                const newUser = await res.json()
+                setUser(newUser)
+                const { password, confirmPassword, ...dataToStore } = newUser
+                localStorage.setItem("user", JSON.stringify(dataToStore))
+                navigate('/')
+                setIsLoading(false)
+            }
+        }
+
     };
 
     const togglePasswordVisibility = () => {
@@ -91,10 +115,11 @@ const SignUp = () => {
                                     id="userName"
                                     name="userName"
                                     type="text"
+                                    ref={userNameRef}
                                     autoComplete="userName"
                                     required
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    // value={formData.email}
+                                    // onChange={handleChange}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -108,10 +133,11 @@ const SignUp = () => {
                                     id="email"
                                     name="email"
                                     type="text"
+                                    ref={emailRef}
                                     autoComplete="email"
                                     required
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    // value={formData.email}
+                                    // onChange={handleChange}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -129,8 +155,8 @@ const SignUp = () => {
                                     ref={passwordRef}
                                     autoComplete="current-password"
                                     required
-                                    value={formData.password}
-                                    onChange={handleChange}
+                                    // value={formData.password}
+                                    // onChange={handleChange}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                                 <button
@@ -151,10 +177,11 @@ const SignUp = () => {
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
+                                    ref={confirmPasswordRef}
                                     autoComplete="confirm-password"
                                     required
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
+                                    // value={formData.confirmPassword}
+                                    // onChange={handleChange}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
