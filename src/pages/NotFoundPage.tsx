@@ -5,7 +5,7 @@ const NotFoundPage: React.FC = () => {
 
     return (
         <div
-            className="min-h-screen flex flex-col items-center justify-center p-4"
+            className="min-h-screen flex flex-col items-center justify-center p-4 md:p-16 mt-8"
             style={{ background: 'var(--color-bg)' }}
         >
             <div className="relative w-full max-w-4xl">
@@ -38,7 +38,7 @@ const NotFoundPage: React.FC = () => {
                         }}
                     ></div>
 
-                    <div className="p-8 sm:p-12 flex flex-col md:flex-row items-center">
+                    <div className="p-8 flex flex-col md:flex-row items-center">
                         <div className="flex-1 text-center md:text-left">
                             <h1
                                 className="text-8xl font-bold mb-4"

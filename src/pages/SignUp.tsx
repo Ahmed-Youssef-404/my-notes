@@ -8,15 +8,10 @@ import useTheme from '../hooks/useTheme';
 
 const SignUp = () => {
 
-    const {isDark} = useTheme()
-    const { user, setUser } = useAuth()
+    const { isDark } = useTheme()
+    const {user, setUser } = useAuth()
 
     const navigate = useNavigate()
-
-    if (user) {
-        navigate('/user')
-        return
-    }
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -86,6 +81,23 @@ const SignUp = () => {
             input.type = "password";
             btnText.textContent = "Show";
         }
+    }
+    if (user) {
+        return (
+            <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
+            <section className="py-20 px-4 text-center">
+                <div className="max-w-4xl mx-auto">
+                    <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
+                        <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
+                    </h3>
+                    {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
+                    <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                        Show your Tags
+                    </button>
+                </div>
+            </section>
+        </div>
+        )
     }
 
     return (
