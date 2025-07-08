@@ -31,6 +31,7 @@ const LogIn = () => {
             const email = emilRef.current?.value
             const password = passwordRef.current?.value
 
+            
             const res = await fetch(`${USERS_URL}?email=${email}&password=${password}`)
             const data = await res.json()
             if (data.length > 0) {

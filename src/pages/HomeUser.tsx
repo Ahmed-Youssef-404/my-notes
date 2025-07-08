@@ -17,7 +17,7 @@ const HomeUser = () => {
                         Start capturing your thoughts, organizing your ideas, and tagging your notes!                        
                     </p>
                     {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
-                    <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                    <button onClick={() => navigate('/tags')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
                         Show all Tags
                     </button>
                 </div>

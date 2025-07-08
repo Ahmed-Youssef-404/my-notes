@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromChildren, Navigate, Route, useLocation } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromChildren, Route } from "react-router-dom";
 import RootLayout from "../layout/RootLayout";
 import HomeNoUser from "../pages/HomeNoUser";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -6,8 +6,10 @@ import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import { useAuth } from "../hooks/useAuth";
 import HomeUser from "../pages/HomeUser";
-import type { ReactNode } from "react";
 import User from "../pages/User";
+import TagsLayout from "../layout/TagsLayout";
+import Tags from "../pages/Tags";
+import SingleTag from "../pages/SingleTag";
 
 // Wrapper component for conditional home rendering
 function HomePage() {
@@ -20,29 +22,17 @@ function HomePage() {
     return user ? <HomeUser /> : <HomeNoUser />;
 }
 
-// function GuestOnlyRoute({ children }: { children: ReactNode }) {
-//     const { user } = useAuth();
-//     const location = useLocation();
-
-//     if (user) {
-//         // Redirect logged-in users away from auth pages to "/user"
-//         return <Navigate to="/user" replace />;
-//     }
-//     return children;
-// }
-
-
 export const Router = createBrowserRouter(
     createRoutesFromChildren(
         <Route path="/" element={<RootLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="/login" element={
-                <LogIn />
-            } />
-            <Route path="/signup" element={
-                <SignUp />
-            } />
-            <Route path="/user" element={<User />} /> {/* Renamed for clarity */}
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/tags" element={<TagsLayout />}>
+                <Route index element={<Tags />}/>
+                <Route path=":tagId" element={<SingleTag />} />
+            </Route>
             <Route path="*" element={<NotFoundPage />} />
         </Route>
     )

@@ -11,3 +11,10 @@ export type authDataTypes = {
     password: string
 }
 
+export interface Tag {
+    id: number
+    tagName: string
+    tagDescripion: string
+    userId: number
+    backgrounColor: string
+}
