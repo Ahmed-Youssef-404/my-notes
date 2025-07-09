@@ -1,0 +1,87 @@
+{
+  "users": [
+    {
+      "username": "Ahmed",
+      "password": "a",
+      "email": "ahmed@email.com",
+      "id": 1
+    },
+    {
+      "username": "Omar",
+      "password": "a",
+      "email": "a",
+      "id": 2
+    },
+    {
+      "username": "Omar",
+      "password": "a",
+      "email": "aa",
+      "id": 3
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "tagname": "Front",
+      "tagdescription": "Will store all front-end notes",
+      "userid": 1,
+      "backgrouncolor": "#5D36A1"
+    },
+    {
+      "id": 2,
+      "tagname": "Back",
+      "tagdescription": "All back notes",
+      "userid": 1,
+      "backgrouncolor": "#DDCF73"
+    },
+    {
+      "id": 3,
+      "tagname": "DevOps",
+      "tagdescription": "For clouds",
+      "userid": 1,
+      "backgrouncolor": "#B678AD"
+    },
+    {
+      "id": 4,
+      "tagname": "Mobile",
+      "tagdescription": "Flutter and React Native",
+      "userid": 1,
+      "backgrouncolor": "#580909"
+    },
+    {
+      "id": 5,
+      "tagname": "PC",
+      "tagdescription": "What is Hardwares",
+      "userid": 1,
+      "backgrouncolor": "#7EABB7"
+    },
+    {
+      "id": 6,
+      "tagname": "Cars",
+      "tagdescription": "Toyota vs GMC",
+      "userid": 1,
+      "backgrouncolor": "#5EA5EF"
+    },
+    {
+      "id": 7,
+      "tagname": "GPUs",
+      "tagdescription": "what is VRAM",
+      "userid": 1,
+      "backgrouncolor": "#9B6A4A"
+    },{
+      "id": 6,
+      "tagname": "PC",
+      "tagdescription": "Pc of omar",
+      "userid": 2,
+      "backgrouncolor": "#3EA5FF"
+    },
+    {
+      "id": 7,
+      "tagname": "hahaha",
+      "tagdescription": "jokes",
+      "userid": 2,
+      "backgrouncolor": "#2BBA6A"
+    }
+  ],
+  "notes": []
+}
