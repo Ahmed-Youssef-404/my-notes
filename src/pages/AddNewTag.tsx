@@ -3,13 +3,9 @@ import { Link } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
+import { type Tag as tagType } from '../types/Types';
 
-interface Tag {
-    tagName: string;
-    tagDescripion: string;
-    backgrounColor: string;
-    userId: number
-}
+
 
 const colorOptions = [
     '#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3',
@@ -19,20 +15,19 @@ const colorOptions = [
 export default function AddNewTag() {
     const { isDark } = useTheme()
     const { user } = useAuth()
-    const userId = Number(user?.id)
-    const [tag, setTag] = useState<Tag>({
-        tagName: '',
-        tagDescripion: '',
-        backgrounColor: '#FF5733', // default color
-        userId: userId
-    });
+    const userid = Number(user?.id)
+    // const [tag, setTag] = useState<Tag>({
+    //     tagname: '',
+    //     tagdescription: '',
+    //     backgrouncolor: '#FF5733', // default color
+    //     userid: userid,
+    // });
     const [backgroundColor, setBackgroundColor] = useState<string>('#FF5733');
 
 
 
 
     const [isLoading, setIsLoading] = useState(false);
-    const TAGS_API_URL = "http://localhost:3001/tags"
 
     const handleColorSelect = (color: string) => {
         setBackgroundColor(color);
@@ -57,23 +52,47 @@ export default function AddNewTag() {
             setDeslength(50);
         }
     };
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const TAGS_URL = "http://localhost:3001/tags"
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true);
+        try {
+            setIsLoading(true);
 
-        const name = nameRef.current!.value || '';
-        const description = descriptionRef.current!.value || '';
+            const name = nameRef.current!.value || '';
+            const description = descriptionRef.current!.value || '';
 
-        const newTag = {
-            tagName: name,
-            tagDescripion: description,
-            userId,
-            backgrounColor: backgroundColor,
-        };
+            const newTag: tagType = {
+                tagname: name,
+                tagdescription: description,
+                userid: userid,
+                backgrouncolor: backgroundColor,
+            };
 
-        setTag(newTag);
-        console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
+            console.log(newTag)
+            // setTag(newTag);
+            // console.log(tag)
+            // console.log('Tag submitted:', newTag);
+
+            console.log(userid)
+            const res = await fetch(`${TAGS_URL}?userid=${userid}`)
+            const data: tagType[] = await res.json()
+            if (data.length > 0) {
+                console.log(data)
+                // console.log(data)
+                data.forEach(tag => {
+                    if (tag.tagname) {
+                        // console.log(tag.tagname)
+                        return
+                    }
+                });
+                console.log("tag to send: ", newTag)
+
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+        } finally {
+            setIsLoading(false)
+        }
     };
 
 

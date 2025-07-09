@@ -81,12 +81,12 @@ const Tags = () => {
             <hr className=' text-[#ffa6f8] ' />
             <div className="grid md:grid-cols-3 gap-8 my-16">
                 {tags && tags.map((tag) => (
-                    <Link to={tag.id + ''} key={tag.id} className="p-6 rounded-xl hover:shadow-md transition-all" style={{ background: `${tag.backgrounColor}` }}>
-                        <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgrounColor) }}>
-                            {tag.tagName}
+                    <Link to={tag.id + ''} key={tag.id} className="p-6 rounded-xl hover:shadow-md transition-all" style={{ background: `${tag.backgrouncolor}` }}>
+                        <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgrouncolor) }}>
+                            {tag.tagname}
                         </h3>
-                        <p style={{ color: getTextColor(tag.backgrounColor) }}>
-                            {tag.tagDescripion}
+                        <p style={{ color: getTextColor(tag.backgrouncolor) }}>
+                            {tag.tagdescription}
                         </p>
                     </Link>
                 ))}

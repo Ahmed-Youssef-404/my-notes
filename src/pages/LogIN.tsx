@@ -11,11 +11,6 @@ const LogIn = () => {
 
     const { isDark } = useTheme()
 
-    
-
-
-
-
     const emilRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null)
     const togglePasswordRef = useRef<HTMLButtonElement>(null)
@@ -77,7 +72,7 @@ const LogIn = () => {
                         <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
                     </h3>
                     {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
-                    <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                    <button onClick={() => navigate('/tags')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
                         Show your Tags
                     </button>
                 </div>

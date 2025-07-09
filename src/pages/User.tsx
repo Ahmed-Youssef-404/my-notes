@@ -10,7 +10,7 @@ const User = () => {
     useEffect(() => {
         if (isLoading) return 
         if (!user) {
-            navigate("/")
+            navigate("/login")
         }
     }, [user, isLoading])
 

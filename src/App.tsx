@@ -45,7 +45,7 @@
 
 //     const fetchTags = async (userId: number) => {
 //         try {
-//             const res = await fetch(`${TAGS_API_URL}?userId=${userId}`)
+//             const res = await fetch(`${TAGS_API_URL}?userid=${userId}`)
 //             const data = await res.json()
 //             setTags(data)
 //         } catch (err) {

@@ -27,8 +27,8 @@ const SingleTag = () => {
                 <div className="max-w-6xl mx-auto">
                     <div className="mx-auto text-center">
                         <p className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
-                            <span>{tag.tagName}</span><br />
-                            <span>{tag.tagDescripion}</span>
+                            <span>{tag.tagname}</span><br />
+                            <span>{tag.tagdescription}</span>
                         </p>
                         <button className="mt-16 button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
                             Add new Tags

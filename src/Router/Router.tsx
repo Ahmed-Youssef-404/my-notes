@@ -2,8 +2,8 @@ import { createBrowserRouter, createRoutesFromChildren, Route } from "react-rout
 import RootLayout from "../layout/RootLayout";
 import HomeNoUser from "../pages/HomeNoUser";
 import NotFoundPage from "../pages/NotFoundPage";
-import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
+import LogIn from "../pages/LogIn";
 import { useAuth } from "../hooks/useAuth";
 import HomeUser from "../pages/HomeUser";
 import User from "../pages/User";

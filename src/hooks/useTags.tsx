@@ -16,7 +16,7 @@ const useTags = () => {
         const fetchTags = async () => {
             try {
                 setIsLoading(true)
-                const res = await fetch(`${TAGS_URL}?userId=${user?.id}`)
+                const res = await fetch(`${TAGS_URL}?userid=${user?.id}`)
                 if (!res.ok) throw new Error("Failed to get tags")
                 const data = await res.json()
                 setTags(data)
