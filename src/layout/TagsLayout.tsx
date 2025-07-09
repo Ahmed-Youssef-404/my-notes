@@ -1,7 +1,6 @@
 // import { useAuth } from '../hooks/useAuth'
 // import useTheme from '../hooks/useTheme'
 import { Outlet } from 'react-router-dom'
-import Tags from '../pages/Tags'
 
 const TagsLayout = () => {
     // const { user } = useAuth()

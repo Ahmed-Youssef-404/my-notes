@@ -1,13 +1,14 @@
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
+import useTheme from '../hooks/useTheme'
 
 const SingleTag = () => {
     const { tag, error, loading } = useTagDetails()
-
+    const {isDark} = useTheme()
     if (loading) {
         return (
             <div className="flex justify-center mt-16 h-screen">
-                <LoadingSpinner height={40} color="white" />
+                <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
             </div>
         )
     }

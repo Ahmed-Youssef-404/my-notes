@@ -26,6 +26,7 @@ const useTagDetails = () => {
                 if (!data || !data.id) throw new Error("Invalid data")
                 setTag(data)
                 setError(false)
+                
             } catch (err) {
                 // console.error("Error fetching the Tag", err)
                 setError(true)

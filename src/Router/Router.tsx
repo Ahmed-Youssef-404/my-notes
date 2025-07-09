@@ -10,6 +10,7 @@ import User from "../pages/User";
 import TagsLayout from "../layout/TagsLayout";
 import Tags from "../pages/Tags";
 import SingleTag from "../pages/SingleTag";
+import AddNewTag from "../pages/AddNewTag";
 
 // Wrapper component for conditional home rendering
 function HomePage() {
@@ -33,6 +34,7 @@ export const Router = createBrowserRouter(
                 <Route index element={<Tags />}/>
                 <Route path=":tagId" element={<SingleTag />} />
             </Route>
+            <Route path="/newtag" element={<AddNewTag />} />
             <Route path="*" element={<NotFoundPage />} />
         </Route>
     )

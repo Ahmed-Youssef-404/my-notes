@@ -1,7 +1,6 @@
-import { useState, type FormEvent, useRef } from 'react';
+import { type FormEvent, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-// import { AuthContext } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
 
@@ -11,7 +10,6 @@ const LogIn = () => {
     const { isLoading, setIsLoading, user, setUser } = useAuth()
 
     const { isDark } = useTheme()
-    // const [isLoading, setIsLoading] = useState<boolean>(false)
 
     
 
