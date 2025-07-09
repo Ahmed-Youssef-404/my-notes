@@ -34,45 +34,47 @@ export default function AddNewTag() {
     const [isLoading, setIsLoading] = useState(false);
     const TAGS_API_URL = "http://localhost:3001/tags"
 
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    //     const { name, value } = e.target;
-
-    //     if (name === 'description' && value.length > 50) {
-    //         return; // Limit description to 20 characters
-    //     }
-
-    //     setTag(prev => ({
-    //         ...prev,
-    //         [name]: value
-    //     }));
-    // };
-
-    // let backgroundColor = ""
     const handleColorSelect = (color: string) => {
-    setBackgroundColor(color);
-};
+        setBackgroundColor(color);
+    };
 
     const nameRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
 
+    const [deslength, setDeslength] = useState<number>(0);
+    const [description, setDescription] = useState<string>(''); // محتوى الـ textarea
 
-const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+    const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
 
-    const name = nameRef.current!.value;
-    const description = descriptionRef.current!.value;
-
-    const newTag = {
-        tagName: name,
-        tagDescripion: description,
-        backgrounColor: backgroundColor,
-        userId
+        if (value.length <= 50) {
+            setDescription(value);
+            setDeslength(value.length);
+        } else {
+            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
+            const trimmed = value.slice(0, 50);
+            setDescription(trimmed);
+            setDeslength(50);
+        }
     };
 
-    setTag(newTag);
-    console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
-};
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        const name = nameRef.current!.value || '';
+        const description = descriptionRef.current!.value || '';
+
+        const newTag = {
+            tagName: name,
+            tagDescripion: description,
+            userId,
+            backgrounColor: backgroundColor,
+        };
+
+        setTag(newTag);
+        console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
+    };
 
 
 
@@ -121,7 +123,7 @@ const handleSubmit = (e: React.FormEvent) => {
                             <label htmlFor="description" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 Description (max 50 chars)
                                 <span className="ml-1 text-xs text-gray-500">
-                                    {tag.tagDescripion.length}/50
+                                    {deslength}/50
                                 </span>
                             </label>
                             <div className="mt-1">
@@ -130,7 +132,9 @@ const handleSubmit = (e: React.FormEvent) => {
                                     name="description"
                                     rows={2}
                                     ref={descriptionRef}
-                                    maxLength={50}
+                                    onChange={handleDescription}
+                                    value={description}
+                                    // maxLength={50}
                                     required
                                     className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
@@ -147,7 +151,7 @@ const handleSubmit = (e: React.FormEvent) => {
                                         key={color}
                                         type="button"
                                         onClick={() => handleColorSelect(color)}
-                                        className={`w-8 h-8 rounded-full border-2 ${tag.backgrounColor === color ? (isDark ? 'border-white' : 'border-black') : 'border-transparent'}`}
+                                        className={`w-8 h-8 rounded-full border-2 ${backgroundColor === color ? (isDark ? 'border-white' : 'border-black') : 'border-transparent'}`}
                                         style={{ backgroundColor: color }}
                                         aria-label={`Select color ${color}`}
                                     />
@@ -158,7 +162,7 @@ const handleSubmit = (e: React.FormEvent) => {
                                     Selected:
                                 </span>
                                 <div
-                                    className="ml-2 w-6 h-6 rounded border"
+                                    className="ml-2 w-6 h-6 rounded"
                                     style={{
                                         backgroundColor: backgroundColor,
                                         borderColor: isDark ? '#4B5563' : '#D1D5DB'
