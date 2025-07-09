@@ -1,4 +1,4 @@
-import { useState, type FormEvent, useRef } from 'react';
+import { useState, type FormEvent, useRef, type ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
@@ -9,13 +9,15 @@ import useTheme from '../hooks/useTheme';
 const SignUp = () => {
 
     const { isDark } = useTheme()
-    const {user, setUser } = useAuth()
+    const { user, setUser } = useAuth()
 
     const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-
+    // const userAvatar = useRef<File>(null)
     const userNameRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
@@ -31,13 +33,21 @@ const SignUp = () => {
         const email = emailRef.current?.value
         const password = passwordRef.current?.value
         const confirmPassword = confirmPasswordRef.current?.value
+        const userAvatar = selectedImage;
 
-        console.log(username, email, password, confirmPassword)
+        // console.log(username, email, password, confirmPassword)
+
+        const handleImageSubmit = ()=>{
+            console.log(userAvatar)
+        }
 
         const authData = {
             "username": username,
             "password": password,
             "email": email
+            // "image":{
+
+            // }
         }
 
         if (password !== confirmPassword) {
@@ -52,6 +62,7 @@ const SignUp = () => {
                 alert('E-Mail already exists')
                 return
             } else {
+                handleImageSubmit()
                 const res = await fetch(USERS_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -82,21 +93,33 @@ const SignUp = () => {
             btnText.textContent = "Show";
         }
     }
+
+
+
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            const preview = URL.createObjectURL(file);
+            setPreviewUrl(preview);
+        }
+    };
     if (user) {
         return (
             <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
-            <section className="py-20 px-4 text-center">
-                <div className="max-w-4xl mx-auto">
-                    <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
-                        <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
-                    </h3>
-                    {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
-                    <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                        Show your Tags
-                    </button>
-                </div>
-            </section>
-        </div>
+                <section className="py-20 px-4 text-center">
+                    <div className="max-w-4xl mx-auto">
+                        <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
+                            <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
+                        </h3>
+                        {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
+                        <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            Show your Tags
+                        </button>
+                    </div>
+                </section>
+            </div>
         )
     }
 
@@ -118,6 +141,32 @@ const SignUp = () => {
             <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
                 <div className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'}  py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}>
                     <form className="space-y-6" onSubmit={handleSubmit}>
+                        <div className='flex items-center justify-between flex-col sm:flex-row gap-8 sm:gap-16'>
+                            <div className="w-full">
+                                <label htmlFor="userAvatar" className={`mb-1 block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                                    User Image
+                                </label>
+                                <input
+                                    id="userAvatar"
+                                    name="userAvatar"
+                                    type="file"
+                                    accept="image/*"
+                                    // ref={userAvatar}
+                                    required
+                                    onChange={handleImageChange}
+                                    className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
+                                />
+                            </div>
+                            {previewUrl && (
+                                <div className="">
+                                    <img
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        className="max-w-[200px] rounded-md border border-gray-300 shadow"
+                                    />
+                                </div>
+                            )}
+                        </div>
                         <div>
                             <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 User name

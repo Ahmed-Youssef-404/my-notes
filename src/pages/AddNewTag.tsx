@@ -46,7 +46,6 @@ export default function AddNewTag() {
             setDescription(value);
             setDeslength(value.length);
         } else {
-            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
             const trimmed = value.slice(0, 50);
             setDescription(trimmed);
             setDeslength(50);
@@ -68,25 +67,21 @@ export default function AddNewTag() {
                 backgrouncolor: backgroundColor,
             };
 
-            console.log(newTag)
-            // setTag(newTag);
-            // console.log(tag)
-            // console.log('Tag submitted:', newTag);
+            console.log("New tag is: ", newTag)
 
-            console.log(userid)
             const res = await fetch(`${TAGS_URL}?userid=${userid}`)
             const data: tagType[] = await res.json()
+
+            // data.forEach(tag => {
+            //     if (tag.tagname) {
+            //         console.log("tag al" tag.tagname)
+            //         return
+            //     }
+            // });
             if (data.length > 0) {
                 console.log(data)
-                // console.log(data)
-                data.forEach(tag => {
-                    if (tag.tagname) {
-                        // console.log(tag.tagname)
-                        return
-                    }
-                });
-                console.log("tag to send: ", newTag)
 
+                console.log("tag to send: ", newTag)
             }
         } catch (error) {
             console.error("Error: ", error);
