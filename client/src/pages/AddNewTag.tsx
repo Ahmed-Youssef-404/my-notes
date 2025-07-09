@@ -69,19 +69,18 @@ export default function AddNewTag() {
 
             console.log("New tag is: ", newTag)
 
+            const upload = async () => {
+                const newTag = await res.json()
+            }
             const res = await fetch(`${TAGS_URL}?userid=${userid}`)
             const data: tagType[] = await res.json()
-
-            // data.forEach(tag => {
-            //     if (tag.tagname) {
-            //         console.log("tag al" tag.tagname)
-            //         return
-            //     }
-            // });
             if (data.length > 0) {
-                console.log(data)
-
-                console.log("tag to send: ", newTag)
+                data.forEach(tag => {
+                    if (tag.tagname == newTag.tagname) {
+                        console.log("tag alleady excist", tag.tagname)
+                        return
+                    }
+                });
             }
         } catch (error) {
             console.error("Error: ", error);
