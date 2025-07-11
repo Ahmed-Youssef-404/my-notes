@@ -1,49 +1,33 @@
 import { type FormEvent, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useAuth } from '../hooks/useAuth';
+// import LoadingSpinner from '../components/LoadingSpinner';
+// import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
+import { useLogIn } from '../hooks/useLogIn';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 const LogIn = () => {
-    const navigate = useNavigate()
-    const { isLoading, setIsLoading, user, setUser } = useAuth()
+    // const navigate = useNavigate()
+    // const { isLoading, setIsLoading, user, setUser } = useAuth()
 
     const { isDark } = useTheme()
 
-    
-
-
-
+    const { isLoading, handleLogIn, isLoged, error} = useLogIn()
 
     const emilRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null)
     const togglePasswordRef = useRef<HTMLButtonElement>(null)
 
-    const USERS_URL = 'http://localhost:3001/users'
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            setIsLoading(true)
-            const email = emilRef.current?.value
-            const password = passwordRef.current?.value
+            const email = emilRef.current!.value
+            const password = passwordRef.current!.value
 
-            
-            const res = await fetch(`${USERS_URL}?email=${email}&password=${password}`)
-            const data = await res.json()
-            if (data.length > 0) {
-                const userData = data[0]
-                const { password, ...dataToStore } = userData
-                setUser(dataToStore)
-                console.log(dataToStore)
-                localStorage.setItem("user", JSON.stringify(dataToStore))
-                navigate('/')
-            } else {
-                setIsLoading(false)
-                alert('Invalid credentials')
-            }
-            setIsLoading(false)
+            await handleLogIn({email:email, password:password})
+            console.log(email,password)
         } catch (error) {
             console.log("error in login " + error)
         }
@@ -68,23 +52,23 @@ const LogIn = () => {
         }
     }
 
-    if (user) {
-        return (
-            <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
-            <section className="py-20 px-4 text-center">
-                <div className="max-w-4xl mx-auto">
-                    <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
-                        <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
-                    </h3>
-                    {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
-                    <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                        Show your Tags
-                    </button>
-                </div>
-            </section>
-        </div>
-        )
-    }
+    // if (user) {
+    //     return (
+    //         <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
+    //         <section className="py-20 px-4 text-center">
+    //             <div className="max-w-4xl mx-auto">
+    //                 <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
+    //                     <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
+    //                 </h3>
+    //                 {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
+    //                 <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+    //                     Show your Tags
+    //                 </button>
+    //             </div>
+    //         </section>
+    //     </div>
+    //     )
+    // }
 
     return (
 

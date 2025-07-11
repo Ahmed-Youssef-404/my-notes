@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { NewUser } from "../types/Types";
-import { insertUser } from "../services/users";
+import { insertUser } from "../services/signUpService";
 
 export const useSignUp = () => {
     const [loading, setLoading] = useState(false);
@@ -23,4 +23,4 @@ export const useSignUp = () => {
         loading, handleSignUp, isError
 
     }
-}
+}   
