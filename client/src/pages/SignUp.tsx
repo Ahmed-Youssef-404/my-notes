@@ -40,23 +40,12 @@ const SignUp = () => {
         confirmPassword: ""
     })
 
-
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Handle sign up logic here
         const { confirmPassword, ...authData } = inputData
 
-        // if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-        //     alert("Passwords don't match")
-        //     return
-        // }
-        // if (inputError) {
-        //     alert('Please make sure of all fields')
-        //     console.log(inputError)
-        //     return
-        // }
-
-        console.log(isValidInput)
+        // console.log(isValidInput)
         if (!Object.values(isValidInput).every(Boolean)) {
             alert('Please make sure all fields are valid');
             console.log(isValidInput);
@@ -97,7 +86,6 @@ const SignUp = () => {
 
 
     const handlePasswordChange = (text: string) => {
-        // handleConfirmPasswordChange(inputData.confirmPassword, text)
         try {
             passwordSchema.validateSync(text)
             // console.log("is valid password?", true)
@@ -112,13 +100,8 @@ const SignUp = () => {
 
 
 
+    // Check for passwords matching
     useEffect(() => {
-
-
-        // const handleConfirmPasswordChange = (
-        //     confirmPassword: string,
-        //     password: string = inputData.password
-        // ) => {
 
         const password = inputData.password
         const confirmPassword = inputData.confirmPassword
@@ -131,7 +114,6 @@ const SignUp = () => {
             setInputErrorText((prev) => ({ ...prev, confirmPassword: "" }))
             setIsValidInput((prev) => ({ ...prev, confirmPassword: true }))
         }
-        // }
 
     }, [inputData.password, inputData.confirmPassword])
 
@@ -222,7 +204,6 @@ const SignUp = () => {
                                         (e) => {
                                             setInputData({ ...inputData, password: e.target.value });
                                             handlePasswordChange(e.target.value);
-                                            // handleConfirmPasswordChange()
                                         }
                                     }
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
@@ -253,7 +234,6 @@ const SignUp = () => {
                                     onChange={(e) => {
                                         const value = e.target.value
                                         setInputData((prev) => ({ ...prev, confirmPassword: value }));
-                                        // handleConfirmPasswordChange(value)
                                     }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
