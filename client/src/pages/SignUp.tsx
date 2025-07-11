@@ -26,7 +26,7 @@ const SignUp = () => {
         confirmPassword: ""
     })
 
-    const [inputError, setInputError] = useState({
+    const [isValidInput, setIsValidInput] = useState({
         username: false,
         email: false,
         password: false,
@@ -50,11 +50,19 @@ const SignUp = () => {
         //     alert("Passwords don't match")
         //     return
         // }
-        if (!inputError) {
-            alert('Please make sure of all fields')
-            console.log(inputError)
-            return
+        // if (inputError) {
+        //     alert('Please make sure of all fields')
+        //     console.log(inputError)
+        //     return
+        // }
+
+        console.log(isValidInput)
+        if (!Object.values(isValidInput).every(Boolean)) {
+            alert('Please make sure all fields are valid');
+            console.log(isValidInput);
+            return;
         }
+
         handleSignUp(authData)
     };
 
@@ -64,11 +72,11 @@ const SignUp = () => {
             usernameSchema.validateSync(text)
             // console.log("is valid username?", true)
             setInputErrorText({ ...inputErrorText, username: "" })
-            setInputError({ ...inputError, username: false })
+            setIsValidInput({ ...isValidInput, username: true })
         } catch (error: any) {
             // console.log("is valid username?", false)
             setInputErrorText({ ...inputErrorText, username: error.message })
-            setInputError({ ...inputError, username: true })
+            setIsValidInput({ ...isValidInput, username: false })
         }
     }
     const handleEmailChange = (text: string) => {
@@ -76,10 +84,10 @@ const SignUp = () => {
             emailSchema.validateSync(text)
             // console.log("is valid email ", true)
             setInputErrorText((prev) => ({ ...prev, email: "" }))
-            setInputError((prev) => ({ ...prev, email: false }))
+            setIsValidInput((prev) => ({ ...prev, email: true }))
         } catch (error: any) {
             setInputErrorText((prev) => ({ ...prev, email: error.message }))
-            setInputError((prev) => ({ ...prev, email: true }))
+            setIsValidInput((prev) => ({ ...prev, email: false }))
             // console.log("is valid email ", false)
             // console.log(error)
             // console.log("inuptError value: ", inputError.email)
@@ -94,11 +102,11 @@ const SignUp = () => {
             passwordSchema.validateSync(text)
             // console.log("is valid password?", true)
             setInputErrorText({ ...inputErrorText, password: "" })
-            setInputError({ ...inputError, password: false })
+            setIsValidInput({ ...isValidInput, password: true })
         } catch (error: any) {
             // console.log("is valid password?", false)
             setInputErrorText({ ...inputErrorText, password: error.message })
-            setInputError({ ...inputError, password: true })
+            setIsValidInput({ ...isValidInput, password: false })
         }
     }
 
@@ -118,10 +126,10 @@ const SignUp = () => {
         // console.log("confirm password: ", confirmPassword)
         if (confirmPassword !== password) {
             setInputErrorText((prev) => ({ ...prev, confirmPassword: "Passwords do not match" }))
-            setInputError((prev) => ({ ...prev, confirmPassword: true }))
+            setIsValidInput((prev) => ({ ...prev, confirmPassword: false }))
         } else {
             setInputErrorText((prev) => ({ ...prev, confirmPassword: "" }))
-            setInputError((prev) => ({ ...prev, confirmPassword: false }))
+            setIsValidInput((prev) => ({ ...prev, confirmPassword: true }))
         }
         // }
 
@@ -170,7 +178,7 @@ const SignUp = () => {
 
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
-                                {inputError.username && <span className='text-red-500'>{inputErrorText.username}</span>}
+                                {!isValidInput.username && <span className='text-red-500'>{inputErrorText.username}</span>}
                             </div>
                         </div>
                         <div>
@@ -194,7 +202,7 @@ const SignUp = () => {
                                     }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
-                                {inputError.email && <span className='text-red-500'>{inputErrorText.email}</span>}
+                                {!isValidInput.email && <span className='text-red-500'>{inputErrorText.email}</span>}
                             </div>
                         </div>
 
@@ -227,7 +235,7 @@ const SignUp = () => {
                                     className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark ? 'text-blue-200' : 'text-purple-500'} hover:underline`}
                                 >{shown ? "hide" : "show"}</button>
                             </div>
-                            {inputError.password && <span className='text-red-500'>{inputErrorText.password}</span>}
+                            {!isValidInput.password && <span className='text-red-500'>{inputErrorText.password}</span>}
                         </div>
 
                         <div>
@@ -249,7 +257,7 @@ const SignUp = () => {
                                     }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
-                                {inputError.confirmPassword && <span className='text-red-500'>{inputErrorText.confirmPassword}</span>}
+                                {!isValidInput.confirmPassword && <span className='text-red-500'>{inputErrorText.confirmPassword}</span>}
                             </div>
                         </div>
 
