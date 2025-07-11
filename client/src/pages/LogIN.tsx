@@ -1,10 +1,12 @@
-import { type FormEvent, useRef } from 'react';
+import { type FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
 import { useLogIn } from '../hooks/useLogIn';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { type authDataTypes } from '../types/Types';
+import { emailSchema, passwordSchema } from '../validators/auth';
 
 
 const LogIn = () => {
@@ -13,44 +15,78 @@ const LogIn = () => {
 
     const { isDark } = useTheme()
 
-    const { isLoading, handleLogIn, isLoged, error} = useLogIn()
+    const { isLoading, handleLogIn, isLoged, error } = useLogIn()
 
-    const emilRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null)
-    const togglePasswordRef = useRef<HTMLButtonElement>(null)
+    const [data, setData] = useState<authDataTypes>({
+        email: "",
+        password: ""
+    })
+    const [isValidInput, setIsValidInput] = useState({
+        email: false,
+        password: false
+    })
+    const [inputErrorText, setInputErrorText] = useState({
+        email: "",
+        password: ""
+    })
+
+    const [shown, setShown] = useState(false)
+
+
 
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const email = emilRef.current!.value
-            const password = passwordRef.current!.value
 
-            await handleLogIn({email:email, password:password})
-            console.log(email,password)
+        try {
+            if (!Object.values(isValidInput).every(Boolean)) {
+                alert('Please make sure all fields are valid');
+                console.log(isValidInput);
+                return;
+            }
+            await handleLogIn(data)
+            // console.log(data)
         } catch (error) {
             console.log("error in login " + error)
         }
     };
 
-    // const handleChange = ()=>{
-
-    // }
-
-
-    const togglePasswordVisibility = () => {
-        const input = passwordRef.current;
-        const button = togglePasswordRef.current;
-        if (!input || !button) return
-
-        if (input.type === 'password') {
-            input.type = 'text'
-            button.textContent = 'Hide'
-        } else {
-            input.type = 'password'
-            button.textContent = 'Show'
+    const handleEmailChange = (text: string) => {
+        try {
+            emailSchema.validateSync(text)
+            setInputErrorText({ ...inputErrorText, email: "" })
+            setIsValidInput({ ...isValidInput, email: true })
+        } catch (error: any) {
+            setInputErrorText({ ...inputErrorText, email: error.message })
+            setIsValidInput({ ...isValidInput, email: false })
         }
     }
+
+    const handlePasswordChange = (text: string) => {
+        try {
+            passwordSchema.validateSync(text)
+            setInputErrorText({ ...inputErrorText, password: "" })
+            setIsValidInput({ ...isValidInput, password: true })
+        } catch (error: any) {
+            setInputErrorText({ ...inputErrorText, password: error.message })
+            console.log("sd")
+            setIsValidInput({ ...isValidInput, password: false })
+        }
+    }
+
+    // const togglePasswordVisibility = () => {
+    //     const input = passwordRef.current;
+    //     const button = togglePasswordRef.current;
+    //     if (!input || !button) return
+
+    //     if (input.type === 'password') {
+    //         input.type = 'text'
+    //         button.textContent = 'Hide'
+    //     } else {
+    //         input.type = 'password'
+    //         button.textContent = 'Show'
+    //     }
+    // }
 
     // if (user) {
     //     return (
@@ -98,14 +134,18 @@ const LogIn = () => {
                                     id="email"
                                     name="email"
                                     type="text"
-                                    ref={emilRef}
                                     autoComplete="email"
                                     required
-                                    // value={formData.email}
-                                    // onChange={handleChange}
+                                    value={data.email}
+                                    onChange={(e) => {
+                                        const value = e.target.value
+                                        setData({ ...data, email: value });
+                                        handleEmailChange(value)
+                                    }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
+                            {!isValidInput.email && <span className='text-red-500'>{inputErrorText.email}</span>}
                         </div>
 
                         <div>
@@ -116,21 +156,25 @@ const LogIn = () => {
                                 <input
                                     id="password"
                                     name="password"
-                                    type="password"
-                                    ref={passwordRef}
+                                    type={shown ? "text" : "password"}
                                     autoComplete="current-password"
                                     required
-                                    // value={formData.password}
-                                    // onChange={handleChange}
+                                    value={data.password}
+                                    onChange={(e) => {
+                                        const value = e.target.value
+                                        setData({ ...data, password: value });
+                                        handlePasswordChange(value)
+                                    }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                                 <button
                                     type="button"
-                                    ref={togglePasswordRef}
-                                    onClick={togglePasswordVisibility}
+                                    // ref={togglePasswordRef}
+                                    onClick={() => { setShown((prev) => !prev) }}
                                     className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark ? 'text-blue-200' : 'text-purple-500'} hover:underline`}
-                                >show</button>
+                                >{shown ? "Hide" : "Show"}</button>
                             </div>
+                            {!isValidInput.password && <span className='text-red-500'>{inputErrorText.password}</span>}
                         </div>
                         <div>
                             <button
@@ -142,8 +186,8 @@ const LogIn = () => {
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

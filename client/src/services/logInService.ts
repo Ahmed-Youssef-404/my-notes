@@ -7,7 +7,7 @@ export const getUser = async (useData: authDataTypes) => {
 
     if (error || !user) {
         alert("is valid email");
-        console.log(error)
+        // console.log(error)
         return null
     }
     
