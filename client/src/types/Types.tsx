@@ -1,5 +1,5 @@
 
-export type userTypes = {
+export interface userTypes  {
     id?: string,
     username: string,
     email: string,
@@ -18,3 +18,11 @@ export interface Tag {
     userId: number
     backgrounColor: string
 }
+
+
+export interface NewUser{
+    username:string;
+    email:string;
+    password:string;
+}
+

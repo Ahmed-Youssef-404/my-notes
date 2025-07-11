@@ -1,104 +1,121 @@
-import { useState, type FormEvent, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { type FormEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { useAuth } from '../hooks/useAuth';
+// import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
-
+import { useSignUp } from '../hooks/useSignUp';
+import { usernameSchema } from '../validators/auth';
+import { emailSchema } from '../validators/auth';
+import { passwordSchema } from '../validators/auth';
 
 
 const SignUp = () => {
+    // const { user, setUser } = useAuth() 
+    // const navigate = useNavigate()
 
     const { isDark } = useTheme()
-    const {user, setUser } = useAuth()
-
-    const navigate = useNavigate()
-
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { handleSignUp, loading } = useSignUp();
 
 
-    const userNameRef = useRef<HTMLInputElement>(null)
-    const emailRef = useRef<HTMLInputElement>(null)
-    const passwordRef = useRef<HTMLInputElement>(null)
-    const confirmPasswordRef = useRef<HTMLInputElement>(null)
-    const togglePasswordRef = useRef<HTMLButtonElement>(null)
+    const [shown, setShown] = useState(false)
 
-    const USERS_API_URL = 'http://localhost:3001/users'
+    const [inputData, setInputData] = useState({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    })
+
+    const [inputError, setInputError] = useState({
+        username: false,
+        email: false,
+        password: false,
+        confirmPassword: false
+    })
+
+    const [inputErrorText, setInputErrorText] = useState({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    })
+
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Handle sign up logic here
-        const username = userNameRef.current?.value
-        const email = emailRef.current?.value
-        const password = passwordRef.current?.value
-        const confirmPassword = confirmPasswordRef.current?.value
+        const { confirmPassword, ...authData } = inputData
 
-        console.log(username, email, password, confirmPassword)
-
-        const authData = {
-            "username": username,
-            "password": password,
-            "email": email
-        }
-
-        if (password !== confirmPassword) {
-            alert("Passwords don't match")
+        // if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
+        //     alert("Passwords don't match")
+        //     return
+        // }
+        if (!inputError) {
+            alert('Please make sure of all fields')
+            console.log(inputError)
             return
-        } else {
-            setIsLoading(true)
-            const check = await fetch(`${USERS_API_URL}?email=${email}`)
-            const exists = await check.json()
-            if (exists.length > 0) {
-                setIsLoading(false)
-                alert('E-Mail already exists')
-                return
-            } else {
-                const res = await fetch(USERS_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(authData)
-                })
-                const newUser = await res.json()
-                setUser(newUser)
-                const { password, confirmPassword, ...dataToStore } = newUser
-                localStorage.setItem("user", JSON.stringify(dataToStore))
-                navigate('/')
-                setIsLoading(false)
-            }
         }
-
+        handleSignUp(authData)
     };
 
-    const togglePasswordVisibility = () => {
-        const input = passwordRef.current;
-        const btnText = togglePasswordRef.current;
 
-        if (!input || !btnText) return;
-
-        if (input.type === "password") {
-            input.type = "text";
-            btnText.textContent = "Hide";
-        } else {
-            input.type = "password";
-            btnText.textContent = "Show";
+    const handleUsernameChange = (text: string) => {
+        try {
+            usernameSchema.validateSync(text)
+            // console.log("is valid username?", true)
+            setInputErrorText({ ...inputErrorText, username: "" })
+            setInputError({ ...inputError, username: false })
+        } catch (error: any) {
+            // console.log("is valid username?", false)
+            setInputErrorText({ ...inputErrorText, username: error.message })
+            setInputError({ ...inputError, username: true })
         }
     }
-    if (user) {
-        return (
-            <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
-            <section className="py-20 px-4 text-center">
-                <div className="max-w-4xl mx-auto">
-                    <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
-                        <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
-                    </h3>
-                    {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
-                    <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                        Show your Tags
-                    </button>
-                </div>
-            </section>
-        </div>
-        )
+    const handleEmailChange = (text: string) => {
+        try {
+            emailSchema.validateSync(text)
+            // console.log("is valid email ", true)
+            setInputErrorText((prev) => ({ ...prev, email: "" }))
+            setInputError((prev) => ({ ...prev, email: false }))
+        } catch (error: any) {
+            setInputErrorText((prev) => ({ ...prev, email: error.message }))
+            setInputError((prev) => ({ ...prev, email: true }))
+            // console.log("is valid email ", false)
+            // console.log(error)
+            // console.log("inuptError value: ", inputError.email)
+        }
     }
+
+    const handlePasswordChange = (text: string) => {
+        try {
+            passwordSchema.validateSync(text)
+            // console.log("is valid password?", true)
+            setInputErrorText({ ...inputErrorText, password: "" })
+            setInputError({ ...inputError, password: false })
+        } catch (error: any) {
+            // console.log("is valid password?", false)
+            setInputErrorText({ ...inputErrorText, password: error.message })
+            setInputError({ ...inputError, password: true })
+        }
+    }
+
+
+
+    
+    const handleConfirmPasswordChange = () => {
+        console.log("password: ", inputData.password)
+        console.log("confirm password: ", inputData.confirmPassword)
+        if (inputData.confirmPassword !== inputData.password) {
+            setInputErrorText((prev) => ({ ...prev, confirmPassword: "Passwords do not match" }))
+            setInputError((prev) => ({ ...prev, confirmPassword: true }))
+        } else {
+            setInputErrorText((prev) => ({ ...prev, confirmPassword: "" }))
+            setInputError((prev) => ({ ...prev, confirmPassword: false }))
+        }
+    }
+
+
+
 
     return (
         <div className={`min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300`} style={{ background: 'var(--color-bg)' }}>
@@ -127,13 +144,21 @@ const SignUp = () => {
                                     id="userName"
                                     name="userName"
                                     type="text"
-                                    ref={userNameRef}
                                     autoComplete="userName"
                                     required
-                                    // value={formData.email}
-                                    // onChange={handleChange}
+                                    value={inputData.username}
+                                    onChange={(e) => {
+                                        setInputData((prev) => ({
+                                            ...prev,
+                                            username: e.target.value,
+                                        }));
+                                        handleUsernameChange(e.target.value)
+                                    }}
+
+
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
+                                {inputError.username && <span className='text-red-500'>{inputErrorText.username}</span>}
                             </div>
                         </div>
                         <div>
@@ -145,13 +170,19 @@ const SignUp = () => {
                                     id="email"
                                     name="email"
                                     type="text"
-                                    ref={emailRef}
                                     autoComplete="email"
                                     required
-                                    // value={formData.email}
-                                    // onChange={handleChange}
+                                    value={inputData.email}
+                                    onChange={(e) => {
+                                        setInputData((prev) => ({
+                                            ...prev,
+                                            email: e.target.value,
+                                        }));
+                                        handleEmailChange(e.target.value)
+                                    }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
+                                {inputError.email && <span className='text-red-500'>{inputErrorText.email}</span>}
                             </div>
                         </div>
 
@@ -163,21 +194,28 @@ const SignUp = () => {
                                 <input
                                     id="password"
                                     name="password"
-                                    type="password"
-                                    ref={passwordRef}
+                                    type={shown ? "text" : "password"}
                                     autoComplete="current-password"
                                     required
-                                    // value={formData.password}
-                                    // onChange={handleChange}
+                                    value={inputData.password}
+                                    onChange={
+                                        (e) => {
+                                            setInputData({ ...inputData, password: e.target.value });
+                                            handlePasswordChange(e.target.value);
+                                            // handleConfirmPasswordChange()
+                                        }
+                                    }
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                                 <button
                                     type="button"
-                                    ref={togglePasswordRef}
-                                    onClick={togglePasswordVisibility}
+                                    onClick={() => {
+                                        setShown((prev) => !prev)
+                                    }}
                                     className={`absolute inset-y-0 right-0 px-3 flex items-center text-sm ${isDark ? 'text-blue-200' : 'text-purple-500'} hover:underline`}
-                                >show</button>
+                                >{shown ? "hide" : "show"}</button>
                             </div>
+                            {inputError.password && <span className='text-red-500'>{inputErrorText.password}</span>}
                         </div>
 
                         <div>
@@ -189,13 +227,16 @@ const SignUp = () => {
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
-                                    ref={confirmPasswordRef}
                                     autoComplete="confirm-password"
                                     required
-                                    // value={formData.confirmPassword}
-                                    // onChange={handleChange}
+                                    value={inputData.confirmPassword}
+                                    onChange={(e) => {
+                                        setInputData((prev) => ({ ...prev, confirmPassword: e.target.value }));
+                                        handleConfirmPasswordChange()
+                                    }}
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
+                                {inputError.confirmPassword && <span className='text-red-500'>{inputErrorText.confirmPassword}</span>}
                             </div>
                         </div>
 
@@ -204,7 +245,7 @@ const SignUp = () => {
                                 type="submit"
                                 className="button-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white  hover:!bg-green-700  focus:outline-none transition-all duration-300"
                             >
-                                {isLoading ? <LoadingSpinner /> : "Sign Up"}
+                                {loading ? <LoadingSpinner /> : "Sign Up"}
                             </button>
                         </div>
                     </form>
