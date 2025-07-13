@@ -1,4 +1,4 @@
-import { type FormEvent, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
@@ -6,7 +6,8 @@ import useTheme from '../hooks/useTheme';
 import { useLogIn } from '../hooks/useLogIn';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { type authDataTypes } from '../types/Types';
-import { emailSchema, passwordSchema } from '../validators/auth';
+import { emailSchema, passwordSchema } from '../validators/validationSchemas';
+import supabase from '../lib/supabaseClient';
 
 
 const LogIn = () => {
@@ -16,6 +17,8 @@ const LogIn = () => {
     const { isDark } = useTheme()
 
     const { isLoading, handleLogIn, isLoged, error } = useLogIn()
+
+
 
     const [data, setData] = useState<authDataTypes>({
         email: "",
@@ -69,24 +72,10 @@ const LogIn = () => {
             setIsValidInput({ ...isValidInput, password: true })
         } catch (error: any) {
             setInputErrorText({ ...inputErrorText, password: error.message })
-            console.log("sd")
             setIsValidInput({ ...isValidInput, password: false })
         }
     }
 
-    // const togglePasswordVisibility = () => {
-    //     const input = passwordRef.current;
-    //     const button = togglePasswordRef.current;
-    //     if (!input || !button) return
-
-    //     if (input.type === 'password') {
-    //         input.type = 'text'
-    //         button.textContent = 'Hide'
-    //     } else {
-    //         input.type = 'password'
-    //         button.textContent = 'Show'
-    //     }
-    // }
 
     // if (user) {
     //     return (

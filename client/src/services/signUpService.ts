@@ -15,7 +15,7 @@ export const insertUser = async (newUser: NewUser) => {
         .insert([
             newUser
         ])
-
+        console.log(data)
     if (error) {
         console.error('Insert error:', error)
     } else {

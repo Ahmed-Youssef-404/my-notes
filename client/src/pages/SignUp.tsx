@@ -4,9 +4,9 @@ import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
 import { useSignUp } from '../hooks/useSignUp';
-import { usernameSchema } from '../validators/auth';
-import { emailSchema } from '../validators/auth';
-import { passwordSchema } from '../validators/auth';
+import { usernameSchema } from '../validators/validationSchemas';
+import { emailSchema } from '../validators/validationSchemas';
+import { passwordSchema } from '../validators/validationSchemas';
 
 
 const SignUp = () => {
