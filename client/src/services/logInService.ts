@@ -1,8 +1,35 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import supabase from "../lib/supabaseClient"
 import type { authDataTypes } from "../types/Types"
 
-export const getUser = async (useData: authDataTypes) => {
+
+
+
+
+const getUser = async (useData: authDataTypes) => {
+    //      login code
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: useData.email,
+            password: useData.password,
+        });
+
+        if (error || !data.user) {
+            console.log("Login failed:", error?.message);
+            alert(error?.message)
+            return;
+        }
+
+        const userId = data.user.id;
+        console.log("✅ Login successful, userId:", userId);
+
+    } catch (error) {
+        console.log("❌ Unexpected error:", error);
+    }
+
+}
+export default getUser
+
     // const {data: user, error} = await supabase
     // .from("users").select("*").eq("email",useData.email).single();
     // if (error || !user) {
@@ -17,60 +44,6 @@ export const getUser = async (useData: authDataTypes) => {
     // }
     // console.log("Loged In as: ", user)
     // return user
-
-
-    try {
-        const { data, error } = await supabase.auth.signUp({
-            // email: useData.email,
-            // password: useData.password,
-            email: "testmail3@gmail.com",
-            password: "pass1111",
-        })
-        console.log(data)
-        console.log(error) // هيبقى ب null بس عشان اتأكد
-        if (error || !data.user) {
-            console.log("Signup failed:", error?.message);
-            return;
-        }
-        const userId = data.user.id;
-
-        const { error: insertError } = await supabase.from("profiles").insert({
-            id: userId, // ده نفس id بتاع auth.users
-            username: "ahmed",
-            email: data.user.email,
-            numOfTags: 0,
-            numOfNotes: 0
-        });
-
-        if (insertError) {
-            console.log("Failed to insert profile:", insertError.message);
-        } else {
-            console.log("Profile inserted successfully");
-        }
-    } catch (error) {
-        console.log(error)
-        return error
-    }
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

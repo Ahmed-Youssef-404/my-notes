@@ -1,5 +1,5 @@
 
-export interface userTypes  {
+export interface userTypes {
     id?: string,
     username: string,
     email: string,
@@ -20,9 +20,18 @@ export interface Tag {
 }
 
 
-export interface NewUser{
-    username:string;
-    email:string;
-    password:string;
+export interface NewUser {
+    username: string;
+    email: string;
+    password: string;
+}
+export interface userProfile {
+    username: string;
+    email: string;
+    password: string;
+    created_at: string;
+    id: string;
+    numOfNotes: number;
+    numOfTags: number;
 }
 

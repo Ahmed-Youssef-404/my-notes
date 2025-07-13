@@ -4,14 +4,14 @@ import { insertUser } from "../services/signUpService";
 
 export const useSignUp = () => {
     const [loading, setLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleSignUp = async (data: NewUser) => {
         try {
             setLoading(true);
             await insertUser(data)
         } catch (error) {
-            setIsError(true)
+            setError(true)
             throw error
         } finally {
             setLoading(false)
@@ -20,7 +20,7 @@ export const useSignUp = () => {
     }
 
     return {
-        loading, handleSignUp, isError
+        loading, handleSignUp, isError: error
 
     }
 }   

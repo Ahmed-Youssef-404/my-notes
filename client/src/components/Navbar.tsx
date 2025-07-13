@@ -13,18 +13,18 @@ const Navbar = () => {
     const {isDark, toggleTheme} = useTheme()
 
     const [isLogedIN, setIsLogedIn] = useState(false);
-    const { user } = useAuth()
-    const userName = user?.username;
+    // const { user } = useAuth()
+    // const userName = user?.username;
 
     const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        if (user) {
-            setIsLogedIn(true)
-        }else(
-            setIsLogedIn(false)
-        )
-    }, [user])
+    // useEffect(() => {
+    //     if (user) {
+    //         setIsLogedIn(true)
+    //     }else(
+    //         setIsLogedIn(false)
+    //     )
+    // }, [user])
 
 
     return (
@@ -105,7 +105,7 @@ const Navbar = () => {
 
                             <NavLink to={'/user'} className="flex gap-2" title="Your Profile">
                                 <img src={profileIcon} alt="usre avatar" className="w-6" />
-                                <span style={{ color: ('var(--color-text)') }}>{userName}</span>
+                                {/* <span style={{ color: ('var(--color-text)') }}>{userName}</span> */}
                             </NavLink>
                             : <NavLink to={'/login'}>
                                 <button className={`button-gradient rounded-3xl text-white py-2 px-1.5 w-32 cursor-pointer`}>Get Started</button>

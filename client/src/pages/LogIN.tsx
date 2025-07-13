@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useRef, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
@@ -7,7 +7,7 @@ import { useLogIn } from '../hooks/useLogIn';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { type authDataTypes } from '../types/Types';
 import { emailSchema, passwordSchema } from '../validators/validationSchemas';
-import supabase from '../lib/supabaseClient';
+// import supabase from '../lib/supabaseClient';
 
 
 const LogIn = () => {
