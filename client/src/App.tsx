@@ -289,54 +289,43 @@
 
 // export default App
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // -----------------------------------------------------------------------------------------------------------
 
-
-
-
-
-import { RouterProvider } from "react-router-dom"
-import { Router } from "./Router/Router"
-import AppProvider from "./context/AppProvider"
+import { Route, Routes } from "react-router-dom";
+import AppProvider from "./context/AppProvider";
+import RootLayout from "./layout/RootLayout";
+import TagsLayout from "./layout/TagsLayout";
+import AddNewTag from "./pages/AddNewTag";
+import LogIn from "./pages/LogIN";
+import NotFoundPage from "./pages/NotFoundPage";
+import SignUp from "./pages/SignUp";
+import SingleTag from "./pages/SingleTag";
+import Tags from "./pages/Tags";
+import User from "./pages/User";
+import { useAuth } from "./hooks/useAuth";
+import HomeUser from "./pages/HomeUser";
+import HomeNoUser from "./pages/HomeNoUser";
 
 const App = () => {
-    return (
-        <AppProvider>
-            <RouterProvider router={Router} />
-        </AppProvider>
-    )
-}
+  const { user } = useAuth();
+  return (
+    <AppProvider>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={user ? <HomeUser /> : <HomeNoUser />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/tags" element={<TagsLayout />}>
+            <Route index element={<Tags />} />
+            <Route path=":tagId" element={<SingleTag />} />
+          </Route>
+          <Route path="/newtag" element={<AddNewTag />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </AppProvider>
+  );
+};
 
-export default App
+export default App;
