@@ -89,7 +89,7 @@ export default function AddNewTag() {
                 <h2 className={`mt-6 text-center text-3xl font-extrabold`} style={{ color: 'var(--color-text)' }}>
                     Create a New Tag
                 </h2>
-                <p className={`mt-2 text-center text-sm`} style={{ color: isDark ? 'var(--color-text-light-dark)' : 'var(--color-text-light)' }}>
+                <p className={`mt-2 text-center text-sm`} style={{ color: isDark ? 'var(--color-text-light)' : 'var(--color-text-light)' }}>
                     Or{' '}
                     <Link
                         to="/tags"

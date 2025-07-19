@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, type ReactNode } from "react";
 import { AuthContext } from "../context/AuthContext";
 import getUserService from "../services/getUserService";
 import type { User } from "@supabase/supabase-js";
-import { saveDataInLocalStorage } from "../utils";
+import { getDataFromLocalStorage, saveDataInLocalStorage } from "../utils";
 import { useNavigate } from "react-router-dom";
 
 interface AuthProviderProps {
@@ -15,7 +15,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const fetchUser = useCallback(async () => {
         try {
-            console.log("Fetching logged-in user...     AuthProvider");
+            // console.log("Fetching logged-in user...     AuthProvider");
             const loggedUser = await getUserService();
             if (loggedUser) {
                 saveDataInLocalStorage(loggedUser);
@@ -27,10 +27,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }, []);
 
     useEffect(() => {
-        console.log("firing useEffect fetchUser");
-        
+        // console.log("firing useEffect fetchUser");
         fetchUser();
     }, [navigate]);
+
+
+    // useEffect(()=>{
+    //     getDataFromLocalStorage()
+    // },[navigate])
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>

@@ -8,7 +8,7 @@ export const useLogIn = () => {
   const { setUser } = useAuth();
   // const { email, password } = data;
   const [loading, setIsloading] = useState(false);
-  const [isLoged, setIsLoged] = useState(false);
+//   const [isLoged, setIsLoged] = useState(false);
   const [error, setError] = useState(false);
 
   const handleLogIn = async (data: authDataTypes) => {
@@ -20,7 +20,7 @@ export const useLogIn = () => {
         setUser(incomingData);
         saveDataInLocalStorage(incomingData);
       }
-      setIsLoged(true);
+    //   setIsLoged(true);
     } catch (error) {
       setError(false);
       throw error;
@@ -31,7 +31,7 @@ export const useLogIn = () => {
   return {
     isLoading: loading,
     handleLogIn,
-    isLoged,
+    // isLoged,
     error,
   };
 };

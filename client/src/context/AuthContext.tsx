@@ -5,9 +5,13 @@ import type { User } from "@supabase/supabase-js";
 export interface AuthContextType {
     user: User | null;
     setUser: (id: User | null) => void;
+    // isLoged: boolean
+    // setIsLoged: (value: boolean) => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
     user: null,
     setUser: () => { },
+    // isLoged: false,
+    // setIsLoged: () => { }
 });

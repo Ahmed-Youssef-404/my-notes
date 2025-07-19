@@ -1,5 +1,5 @@
 import { type FormEvent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
@@ -11,7 +11,7 @@ import { passwordSchema } from '../validators/validationSchemas';
 
 const SignUp = () => {
     // const { user, setUser } = useAuth() 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const { isDark } = useTheme()
     const { handleSignUp, loading } = useSignUp();
@@ -53,6 +53,7 @@ const SignUp = () => {
         }
 
         handleSignUp(authData)
+        navigate('/')
     };
 
 

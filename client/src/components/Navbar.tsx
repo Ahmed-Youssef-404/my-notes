@@ -16,7 +16,7 @@ const Navbar = () => {
   
   const userName = profile?.username;
 
-  console.log(user)
+//   console.log(user)
 
   return (
     <nav

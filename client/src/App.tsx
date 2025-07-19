@@ -303,29 +303,29 @@ import SingleTag from "./pages/SingleTag";
 import Tags from "./pages/Tags";
 import User from "./pages/User";
 import { useAuth } from "./hooks/useAuth";
-import HomeUser from "./pages/HomeUser";
-import HomeNoUser from "./pages/HomeNoUser";
+import Home from "./pages/Home";
 
-const App = () => {
-  const { user } = useAuth();
-  return (
-    <AppProvider>
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={user ? <HomeUser /> : <HomeNoUser />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/tags" element={<TagsLayout />}>
-            <Route index element={<Tags />} />
-            <Route path=":tagId" element={<SingleTag />} />
-          </Route>
-          <Route path="/newtag" element={<AddNewTag />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </AppProvider>
-  );
+const App = () => {    
+
+
+    return (
+        <AppProvider>
+            <Routes>
+                <Route path="/" element={<RootLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path="/login" element={<LogIn />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/user" element={<User />} />
+                    <Route path="/tags" element={<TagsLayout />}>
+                        <Route index element={<Tags />} />
+                        <Route path=":tagId" element={<SingleTag />} />
+                    </Route>
+                    <Route path="/newtag" element={<AddNewTag />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Route>
+            </Routes>
+        </AppProvider>
+    );
 };
 
 export default App;
