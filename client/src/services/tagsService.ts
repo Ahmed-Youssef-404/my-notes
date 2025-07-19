@@ -1,5 +1,6 @@
 import supabase from "../lib/supabaseClient";
 import type { Tag } from "../types/Types";
+import { getDataFromLocalStorage } from "../utils";
 
 
 export const insertTag = async (tag: Tag) => {
@@ -19,19 +20,23 @@ export const insertTag = async (tag: Tag) => {
 }
 
 
-// import supabase from "../lib/supabaseClient";
-// import type { Tag } from "../types/Types";
+export const getTags = async (user_id: string) => {
+    try {
+        const userData = getDataFromLocalStorage()
+        console.log(userData?.id)
 
-// export const insertTag = async (tag: Tag) => {
-//     try {
-//         const { error } = await supabase
-//             .from("tags")
-//             .insert([tag]);
+        const { data: tags, error } = await supabase
+            .from("tags")
+            .select("*")
+            .eq("user_id", userData?.id);
+        if (error) {
+            console.log("Failed to get tags", error.message)
+            return []
+        }
+        return tags
+    } catch (error) {
+        console.log("Failed to get tags", error)
+        return []
+    }
 
-//         if (error) throw error;
-
-//         console.log("Successfully added the tag");
-//     } catch (error) {
-//         console.error("Error submitting tag data:", error);
-//     }
-// };
+}

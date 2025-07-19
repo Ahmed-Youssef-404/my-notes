@@ -1,45 +1,31 @@
 import { useEffect, useState } from 'react'
 import { type Tag } from '../types/Types'
 import { useAuth } from './useAuth'
-
+import { getTags } from '../services/tagsService'
 
 
 const useGetTags = () => {
-    // const TAGS_URL = 'http://localhost:3001/tags'
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+    const { user } = useAuth()
+    const userId = (user?.id + "")
 
-    // const { user } = useAuth()
-    // const [tags, setTags] = useState<Tag[] | null>([])
-    // const [loading, setIsLoading] = useState(false)
-    // const [error, setError] = useState(false)
-    // useEffect(() => {
+    const getAllTags = async () => {
+        try {
+            setLoading(true)
+            const allTags = await getTags(userId)
+            console.log(allTags)
+            return allTags
+        } catch (error) {
+            setError(true)
+            console.log("error in useGetTags", error)
+        } finally {
+            setLoading(false)
+        }
+        
+    }
 
-    //     const fetchTags = async () => {
-    //         try {
-    //             setIsLoading(true)
-    //             const res = await fetch(`${TAGS_URL}?userId=${user?.id}`)
-    //             if (!res.ok) throw new Error("Failed to get tags")
-    //             const data = await res.json()
-    //             setTags(data)
-    //             setError(false)
-    //         } catch (error) {
-    //             setError(true)
-    //             setTags(null)
-    //             console.error("Error fetching the Tags", error)
-    //         } finally {
-    //             setIsLoading(false)
-    //         }
-    //     }
-    //     if (user) {
-    //         fetchTags()
-    //     }
-    // }, [user])
-    // return (
-    //     {
-    //         error,
-    //         tags,
-    //         loading
-    //     }
-    // )
+    return { error, loading,  getAllTags }
 }
 
 export default useGetTags
