@@ -4,7 +4,7 @@ import type { userProfile } from "../types/Types";
 import { useAuth } from "./useAuth";
 
 export const useProfile = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [profile, setProfile] = useState<userProfile | null>(null); // هنا هنخزن الداتا
   const { user } = useAuth();

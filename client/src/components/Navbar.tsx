@@ -1,28 +1,22 @@
 // import React from 'react'
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import profileIcon from "../assets/user.webp";
 import moon from "../assets/moon.webp";
 import sun from "../assets/daylight.webp";
 import { useAuth } from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
+import { useProfile } from "../hooks/useProfile";
 
 const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { userId } = useAuth();
-  const [isLogedIN, setIsLogedIn] = useState(false);
-  // const { user } = useAuth()
-  // const userName = user?.username;
-
+  const { user } = useAuth();
+  const { profile } = useProfile();
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  const userName = profile?.username;
 
-  // useEffect(() => {
-  //     if (user) {
-  //         setIsLogedIn(true)
-  //     }else(
-  //         setIsLogedIn(false)
-  //     )
-  // }, [user])
+  console.log(user)
 
   return (
     <nav
@@ -89,10 +83,9 @@ const Navbar = () => {
           </div>
 
           {/* Middle section - Search */}
-          {/* px-4 max-w-md hidden md:block */}
           <div
             className={`flex-1 px-4 max-w-md hidden ${
-              isLogedIN ? "md:block" : ""
+              user && user.id ? "md:block" : ""
             } `}
           >
             <div className="relative">
@@ -126,10 +119,10 @@ const Navbar = () => {
           {/* Right section - Icons */}
           <div className="flex items-center justify-center gap-4">
             {/* User Avatar */}
-            {isLogedIN ? (
+            {user && user.id ? (
               <NavLink to={"/user"} className="flex gap-2" title="Your Profile">
                 <img src={profileIcon} alt="usre avatar" className="w-6" />
-                {/* <span style={{ color: ('var(--color-text)') }}>{userName}</span> */}
+                <span style={{ color: ('var(--color-text)') }}>{userName}</span>
               </NavLink>
             ) : (
               <NavLink to={"/login"}>
@@ -211,7 +204,7 @@ const Navbar = () => {
             )}
           </button>
 
-          <div className={`flex-1 max-w-md ${isLogedIN ? "block" : "hidden"}`}>
+          <div className={`flex-1 max-w-md ${user && user.id ? "block" : "hidden"}`}>
             <div className="relative">
               <input
                 type="search"

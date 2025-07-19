@@ -2,10 +2,6 @@
 import supabase from "../lib/supabaseClient"
 import type { authDataTypes } from "../types/Types"
 
-
-
-
-
 const getUser = async (useData: authDataTypes) => {
     //      login code
     try {

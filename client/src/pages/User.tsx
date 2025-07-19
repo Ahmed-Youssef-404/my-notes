@@ -9,6 +9,7 @@ const User = () => {
   const navigate = useNavigate();
   const { isDark } = useTheme();
   const { loading, error, profile, handleProfile } = useProfile();
+  
 
   useEffect(() => {
     if (!loading) {
@@ -96,7 +97,7 @@ const User = () => {
               </span>
             </p>
 
-            <p className="font-bold">
+            {/* <p className="font-bold">
               Number of tags:{" "}
               <span
                 className="font-medium"
@@ -113,7 +114,7 @@ const User = () => {
               >
                 {profile?.numOfNotes}
               </span>
-            </p>
+            </p> */}
           </div>
           {/* <button onClick={handleLogOut} className="mt-16 bg-red-400 cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
                         Log out

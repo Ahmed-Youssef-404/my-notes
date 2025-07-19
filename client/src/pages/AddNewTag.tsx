@@ -47,14 +47,14 @@ export default function AddNewTag() {
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = e.target.value;
 
-        if (value.length <= 50) {
+        if (value.length <= 75) {
             setDescription(value);
             setDeslength(value.length);
         } else {
             // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
-            const trimmed = value.slice(0, 50);
+            const trimmed = value.slice(0, 75);
             setDescription(trimmed);
-            setDeslength(50);
+            setDeslength(75);
         }
     };
 
@@ -74,6 +74,8 @@ export default function AddNewTag() {
 
         setTag(newTag);
         console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
+        setIsLoading(false);
+
     };
 
 
@@ -121,9 +123,9 @@ export default function AddNewTag() {
 
                         <div>
                             <label htmlFor="description" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                Description (max 50 chars)
+                                Description (max 75 chars)
                                 <span className="ml-1 text-xs text-gray-500">
-                                    {deslength}/50
+                                    {deslength}/75
                                 </span>
                             </label>
                             <div className="mt-1">
@@ -134,7 +136,6 @@ export default function AddNewTag() {
                                     ref={descriptionRef}
                                     onChange={handleDescription}
                                     value={description}
-                                    // maxLength={50}
                                     required
                                     className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
