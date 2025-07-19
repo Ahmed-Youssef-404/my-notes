@@ -5,7 +5,7 @@ import { getDataFromLocalStorage } from "../utils";
 
 const userData = getDataFromLocalStorage()
 const userId = userData?.id
-console.log(userData?.id)
+// console.log(userData?.id)
 
 export const insertTag = async (tag: Tag) => {
     try {
@@ -29,7 +29,7 @@ export const getTags = async (user_id: string) => {
         const { data: tags, error } = await supabase
             .from("tags")
             .select("*")
-            .eq("user_id", userId);
+            .eq("user_id", user_id);
         if (error) {
             console.log("Failed to get tags", error.message)
             return []

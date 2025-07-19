@@ -186,6 +186,14 @@ const Navbar = () => {
           >
             Tags
           </NavLink>
+          <NavLink
+              to="newtag"
+              className={`font-satoshi ${
+                isDark ? "text-white" : "text-black"
+              } hover:text-blue-600`}
+            >
+              Add new tag
+            </NavLink>
           <button className="cursor-pointer" onClick={toggleTheme}>
             {!isDark ? (
               <img
