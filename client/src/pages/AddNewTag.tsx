@@ -1,39 +1,30 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
+// import { insertTag } from '../services/tagsService';
+// import { type Tag } from '../types/Types';
+import useAddTag from '../hooks/useAddTag';
 
-interface Tag {
-    tagName: string;
-    tagDescripion: string;
-    backgrounColor: string;
-    userId: number
-}
-
-const colorOptions = [
-    '#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3',
-    '#33FFF3', '#8A2BE2', '#FF7F50', '#6495ED', '#DC143C'
-];
 
 export default function AddNewTag() {
     const { isDark } = useTheme()
     const { user } = useAuth()
-    const userId = Number(user?.id)
-    const [tag, setTag] = useState<Tag>({
-        tagName: '',
-        tagDescripion: '',
-        backgrounColor: '#FF5733', // default color
-        userId: userId
-    });
+    const { loading, handleAddTag } = useAddTag()
+    const navigate = useNavigate()
+
+    console.log(user?.id)
+    const userId = (user?.id + "")
+
+
+
+
+    const colorOptions = [
+        '#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3',
+        '#33FFF3', '#8A2BE2', '#FF7F50', '#6495ED', '#DC143C'
+    ];
     const [backgroundColor, setBackgroundColor] = useState<string>('#FF5733');
-
-
-
-
-    const [isLoading, setIsLoading] = useState(false);
-    const TAGS_API_URL = "http://localhost:3001/tags"
-
     const handleColorSelect = (color: string) => {
         setBackgroundColor(color);
     };
@@ -60,21 +51,24 @@ export default function AddNewTag() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const name = nameRef.current!.value || '';
         const description = descriptionRef.current!.value || '';
 
         const newTag = {
-            tagName: name,
-            tagDescripion: description,
-            userId,
-            backgrounColor: backgroundColor,
+            title: name,
+            description: description,
+            user_id: userId,
+            backgroutd_color: backgroundColor,
+
         };
 
-        setTag(newTag);
+        // setCurrentTag(newTag);
         console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
-        setIsLoading(false);
+
+        handleAddTag(newTag)
+
+        // navigate(`tags/ ${newTag.tag_id}`)
 
     };
 
@@ -176,9 +170,9 @@ export default function AddNewTag() {
                             <button
                                 type="submit"
                                 className="button-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:!bg-green-700 focus:outline-none transition-all duration-300"
-                                disabled={isLoading}
+                                disabled={loading}
                             >
-                                {isLoading ? (
+                                {loading ? (
                                     <span className="flex items-center">
                                         <LoadingSpinner />
                                     </span>

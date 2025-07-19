@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/useAuth'
 import { Link, useNavigate } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import tinycolor from 'tinycolor2'
-import useTags from '../hooks/useTags'
+import useGetTags from '../hooks/useGetTags'
 import useTheme from '../hooks/useTheme'
 
 
@@ -11,7 +11,6 @@ const Tags = () => {
 
     const { user } = useAuth()
     const { isDark } = useTheme()
-    const { tags, loading } = useTags()
 
     const navigate = useNavigate()
 

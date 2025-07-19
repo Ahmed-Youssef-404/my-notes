@@ -4,7 +4,7 @@ import { useAuth } from './useAuth'
 
 
 
-const useTags = () => {
+const useGetTags = () => {
     // const TAGS_URL = 'http://localhost:3001/tags'
 
     // const { user } = useAuth()
@@ -42,4 +42,4 @@ const useTags = () => {
     // )
 }
 
-export default useTags
+export default useGetTags
