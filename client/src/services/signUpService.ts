@@ -22,8 +22,8 @@ export const insertUser = async (newUser: NewUser): Promise<User | null> => {
             id: userId, // ده نفس id بتاع auth.users
             username: newUser.username,
             email: data.user.email,
-            numOfTags: 0, // defulat value
-            numOfNotes: 0 // defulat value
+            // numOfTags: 0, // defulat value
+            // numOfNotes: 0 // defulat value
         });
 
         if (insertError) {

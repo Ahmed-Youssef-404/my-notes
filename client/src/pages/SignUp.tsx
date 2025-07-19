@@ -53,7 +53,6 @@ const SignUp = () => {
         }
 
         handleSignUp(authData)
-        navigate('/')
     };
 
 

@@ -3,6 +3,10 @@ import useTheme from "../hooks/useTheme";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useEffect, useState } from "react";
+import useGetTags from "../hooks/useGetTags";
+import type { Tag } from "../types/Types";
+import tinycolor from "tinycolor2";
 
 const Home = () => {
 
@@ -10,10 +14,25 @@ const Home = () => {
     const { isDark } = useTheme()
     const { user } = useAuth()
     const { profile } = useProfile()
-    console.log(user)
+    const { getAllTags, loading, } = useGetTags()
+    const [tags, setTags] = useState<Tag[]>([])
+    // console.log(user)
 
-    const tags: Array<number> = []
-    const loading = true
+    useEffect(() => {
+        const fetchTags = async () => {
+            const allTags = await getAllTags()
+            if (allTags) {
+                setTags(allTags)
+            }
+        }
+
+        fetchTags();
+    }, [])
+
+    const getTextColor = (bgColor: string) => {
+        return tinycolor(bgColor).isLight() ? 'black' : 'white'
+    }
+
 
     {
 
@@ -40,19 +59,25 @@ const Home = () => {
                                 {
                                     loading ? <div className='mt-16'> <LoadingSpinner height={50} color={isDark ? "white" : "black"} /></div>
                                         :
-                                        <div className="text-start grid md:grid-cols-3 gap-8 my-8">
-                                            {/* {tags && tags.slice(-4).map((tag) => (
-                                            <Link to={'/tags/' + tag.id + ''} key={tag.id} className="p-6 rounded-xl hover:shadow-md transition-all" style={{ background: `${tag.backgrounColor}` }}>
-                                                <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgrounColor) }}>
-                                                    {tag.tagName}
-                                                </h3>
-                                                <p style={{ color: getTextColor(tag.backgrounColor) }}>
-                                                    {tag.tagDescripion}
-                                                </p>
-                                            </Link>
-                                        ))} */}
-
+                                        <div className="m-4 mt-0 md:m-8">
+                                            <div className="text-start grid md:grid-cols-3 gap-8 my-8">
+                                                {tags && tags.slice(-6).reverse().map((tag) => (
+                                                    <Link to={'/tags/' + tag.tag_id + ''} key={tag.tag_id} className="p-6 rounded-xl border-2 border-[#00012f] hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
+                                                        <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                            {tag.title}
+                                                        </h3>
+                                                        <p style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                            {tag.description}
+                                                        </p>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                            <button onClick={() => navigate('/tags')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                                Show all tags
+                                            </button>
                                         </div>
+
+
                                 }
                             </>) : (
                             <section className="py-20 px-4 text-center">

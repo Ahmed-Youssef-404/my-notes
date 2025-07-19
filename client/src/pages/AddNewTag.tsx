@@ -136,7 +136,7 @@ export default function AddNewTag() {
                             </div>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 Background Color
                             </label>
@@ -164,7 +164,58 @@ export default function AddNewTag() {
                                     }}
                                 />
                             </div>
+                        </div> */}
+
+                        <div>
+                            <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                                Background Color
+                            </label>
+
+                            <div className="mt-2 flex flex-wrap gap-2 items-center">
+                                {colorOptions.map((color) => (
+                                    <button
+                                        key={color}
+                                        type="button"
+                                        onClick={() => handleColorSelect(color)}
+                                        className={`w-8 h-8 rounded-full border-2 transition-all duration-200 hover:scale-110 ${backgroundColor === color ? (isDark ? 'border-white' : 'border-black') : 'border-transparent'}`}
+                                        style={{ backgroundColor: color }}
+                                        aria-label={`Select color ${color}`}
+                                    />
+                                ))}
+
+                                <label htmlFor="custom-color" className="relative cursor-pointer">
+                                    <div
+                                        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition hover:scale-110 ${isDark ? 'border-gray-500 text-gray-300' : 'border-gray-400 text-gray-700'}`}
+                                    >
+                                        +
+                                    </div>
+                                    <input
+                                        type="color"
+                                        id="custom-color"
+                                        className="absolute opacity-0 w-0 h-0"
+                                        onChange={(e) => handleColorSelect(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+
+                            {/* اللون المختار */}
+                            <div className="mt-3 flex items-center">
+                                <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                                    Selected:
+                                </span>
+                                <div
+                                    className="ml-2 w-6 h-6 rounded border"
+                                    style={{
+                                        backgroundColor: backgroundColor,
+                                        borderColor: isDark ? '#4B5563' : '#D1D5DB'
+                                    }}
+                                />
+                                <span className={`ml-2 text-xs font-mono ${isDark ? 'text-gray-500' : 'text-gray-700'}`}>
+                                    {backgroundColor}
+                                </span>
+                            </div>
                         </div>
+
 
                         <div>
                             <button

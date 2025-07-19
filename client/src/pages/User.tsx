@@ -5,21 +5,16 @@ import { useProfile } from "../hooks/useProfile";
 import LoadingSpinner from "../components/LoadingSpinner";
 import useTheme from "../hooks/useTheme";
 import { clearDataInLocalStorage } from "../utils";
-import supabase from "../lib/supabaseClient";
 import signOut from "../hooks/useSignOut";
 import { useAuth } from "../hooks/useAuth";
 import useScrollToTop from "../hooks/useScrollToTop";
+import { numOfTags } from "../services/tagsService";
 
 const User = () => {
     const navigate = useNavigate();
     const { isDark } = useTheme();
-    const { user, setUser } = useAuth();
+    const { setUser } = useAuth();
     const { loading, error, profile, handleProfile } = useProfile();
-    // const scroll = useScrollToTop();
-    // console.log("user", user)
-    // console.log("Loading: ", loading)
-    // console.log("Error: ", error)
-    // console.log("Profile: ", profile)
 
     useEffect(() => {
         if (!loading) {
@@ -41,6 +36,8 @@ const User = () => {
     //     </p>
     //     )
     // }
+
+    
 
     if (loading)
         return (
@@ -113,6 +110,24 @@ const User = () => {
                                     minute: "2-digit",
                                     hour12: true,
                                 })}
+                            </span>
+                        </p>
+                        <p className="font-bold">
+                            Number of Tags:{" "}
+                            <span
+                                className="font-medium"
+                                style={{ color: "var(--color-text)" }}
+                            >
+                                {0}
+                            </span>
+                        </p>
+                        <p className="font-bold">
+                            Number of Notes:{" "}
+                            <span
+                                className="font-medium"
+                                style={{ color: "var(--color-text)" }}
+                            >
+                                {0}
                             </span>
                         </p>
                     </div>
