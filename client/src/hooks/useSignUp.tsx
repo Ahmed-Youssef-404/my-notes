@@ -19,8 +19,8 @@ export const useSignUp = () => {
                 console.log("savig data in local storage after signup: ", incomingData)
                 setUser(incomingData)
                 saveDataInLocalStorage(incomingData);
+                navigate('/')
             }
-            navigate('/')
         } catch (error) {
             setError(true)
             throw error

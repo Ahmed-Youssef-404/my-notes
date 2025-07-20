@@ -11,7 +11,7 @@ import { passwordSchema } from '../validators/validationSchemas';
 
 const SignUp = () => {
     // const { user, setUser } = useAuth() 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const { isDark } = useTheme()
     const { handleSignUp, loading } = useSignUp();

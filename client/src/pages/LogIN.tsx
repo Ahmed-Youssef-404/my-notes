@@ -11,7 +11,7 @@ import { emailSchema, passwordSchema } from '../validators/validationSchemas';
 
 
 const LogIn = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     // const { isLoading, setIsLoading, user, setUser } = useAuth()
 
     const { isDark } = useTheme()
@@ -48,7 +48,7 @@ const LogIn = () => {
                 return;
             }
             await handleLogIn(data)
-            navigate('/')
+            // navigate('/')
             // console.log(data)
         } catch (error) {
             console.log("error in login " + error)
