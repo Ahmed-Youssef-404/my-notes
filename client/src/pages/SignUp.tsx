@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
@@ -15,7 +15,8 @@ const SignUp = () => {
 
     const { isDark } = useTheme()
     const { handleSignUp, loading } = useSignUp();
-
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
     const [shown, setShown] = useState(false)
 
@@ -102,7 +103,6 @@ const SignUp = () => {
 
     // Check for passwords matching
     useEffect(() => {
-
         const password = inputData.password
         const confirmPassword = inputData.confirmPassword
         // console.log("password: ", password)
@@ -116,6 +116,16 @@ const SignUp = () => {
         }
 
     }, [inputData.password, inputData.confirmPassword])
+
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            const preview = URL.createObjectURL(file);
+            setPreviewUrl(preview);
+        }
+    };
 
 
 
@@ -137,6 +147,32 @@ const SignUp = () => {
             <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
                 <div className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'}  py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}>
                     <form className="space-y-6" onSubmit={handleSubmit}>
+                        {/* <div className='flex items-center justify-between flex-col sm:flex-row gap-8 sm:gap-16'>
+                            <div className="w-full">
+                                <label htmlFor="userAvatar" className={`mb-1 block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                                    User Image
+                                </label>
+                                <input
+                                    id="userAvatar"
+                                    name="userAvatar"
+                                    type="file"
+                                    accept="image/*"
+                                    // ref={userAvatar}
+                                    required
+                                    onChange={handleImageChange}
+                                    className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
+                                />
+                            </div>
+                            {previewUrl && (
+                                <div className="">
+                                    <img
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        className="max-w-[200px] rounded-md border border-gray-300 shadow"
+                                    />
+                                </div>
+                            )}
+                        </div> */}
                         <div>
                             <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 User name
