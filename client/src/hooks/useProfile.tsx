@@ -4,32 +4,36 @@ import type { userProfile } from "../types/Types";
 import { useAuth } from "./useAuth";
 
 export const useProfile = () => {
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
-    const [profile, setProfile] = useState<userProfile | null>(null) // هنا هنخزن الداتا
-    const { userId } = useAuth()
-
-    useEffect(() => {
-        if (userId) {
-            handleProfile();
-        }
-    }, [userId]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [profile, setProfile] = useState<userProfile | null>(null); // هنا هنخزن الداتا
+    const { user } = useAuth();
 
     const handleProfile = async () => {
-        console.log("Curretn userId: ", userId)
         try {
-            setLoading(true)
-            const data = await profileDetailes(userId + "")
-            setProfile(data) // خزن الداتا
+            if (!user?.id) return;
+            setLoading(true);
+            const data = await profileDetailes(user?.id);
+            setProfile(data); // خزن الداتا
         } catch (error) {
-            console.log("❌ Error get user profile:", error)
-            setError(true)
+            console.log("❌ Error get user profile:", error);
+            setError(true);
+            setLoading(false);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
+
+    useEffect(() => {
+        if (user?.id) {
+            handleProfile();
+        }
+    }, [user?.id]);
 
     return {
-        loading, error, profile, handleProfile
-    }
-}
+        loading,
+        error,
+        profile,
+        handleProfile,
+    };
+};

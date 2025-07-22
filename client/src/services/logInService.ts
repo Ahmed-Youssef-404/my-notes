@@ -2,10 +2,6 @@
 import supabase from "../lib/supabaseClient"
 import type { authDataTypes } from "../types/Types"
 
-
-
-
-
 const getUser = async (useData: authDataTypes) => {
     //      login code
     try {
@@ -20,11 +16,10 @@ const getUser = async (useData: authDataTypes) => {
             return;
         }
 
-        const userId = data.user.id;
-        console.log("✅ Login successful, userId:", userId);
+        return data.user
 
     } catch (error) {
-        console.log("❌ Unexpected error:", error);
+        console.log("Unexpected error:", error);
     }
 
 }

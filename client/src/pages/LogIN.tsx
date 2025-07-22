@@ -16,7 +16,7 @@ const LogIn = () => {
 
     const { isDark } = useTheme()
 
-    const { isLoading, handleLogIn, isLoged, error } = useLogIn()
+    const { isLoading, handleLogIn, error } = useLogIn()
 
 
 
@@ -48,6 +48,7 @@ const LogIn = () => {
                 return;
             }
             await handleLogIn(data)
+            // navigate('/')
             // console.log(data)
         } catch (error) {
             console.log("error in login " + error)

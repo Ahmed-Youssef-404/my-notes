@@ -1,15 +1,26 @@
 import { useState } from "react";
 import type { NewUser } from "../types/Types";
 import { insertUser } from "../services/signUpService";
+import { useAuth } from "./useAuth";
+import { saveDataInLocalStorage } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 export const useSignUp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const { setUser } = useAuth();
+    const navigate = useNavigate()
 
     const handleSignUp = async (data: NewUser) => {
         try {
             setLoading(true);
-            await insertUser(data)
+            const incomingData = await insertUser(data)
+            if (incomingData) {
+                console.log("savig data in local storage after signup: ", incomingData)
+                setUser(incomingData)
+                saveDataInLocalStorage(incomingData);
+                navigate('/')
+            }
         } catch (error) {
             setError(true)
             throw error
