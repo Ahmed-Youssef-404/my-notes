@@ -53,7 +53,7 @@
     --color-button-text: white;
     --color-link: #a78bfa;
     --color-link-hover: #8b5cf6;
-    --tag-card-color-1:  #171540;
+    --tag-card-color-1: #171540;
     --card-color-1: #190a30;
     --card-color-2: #011b3d;
     --card-color-3: #250824;
@@ -65,6 +65,10 @@
 
 button {
     cursor: pointer;
+}
+
+.button-gradient {
+    background-image: radial-gradient(circle farthest-corner at -5.6% -6.8%, #673191 37.3%, #5e2dac 73.5%);
 }
 
 /* Fonts */
@@ -79,6 +83,8 @@ button {
     font-family: 'Integral CF', sans-serif;
 }
 
+/* ----- */
+
 @font-face {
     font-family: 'Satoshi';
     src: url('./fonts/Satoshi-Medium.otf') format('truetype');
@@ -89,6 +95,8 @@ button {
 .font-satoshi {
     font-family: 'Satoshi', sans-serif;
 }
+
+/* ----- */
 
 @font-face {
     font-family: 'Poppins';
@@ -101,10 +109,6 @@ button {
     font-family: 'Poppins';
 }
 
-.button-gradient {
-    background-image: radial-gradient(circle farthest-corner at -5.6% -6.8%, #673191 37.3%, #5e2dac 73.5%);
-}
-
 
 /* ------------------------------------------------------------------ */
 
@@ -112,7 +116,7 @@ button {
 
 
 
-
+/* 404 page styeles */
 @keyframes float {
 
     0%,
@@ -210,3 +214,10 @@ button {
     animation: bounce-delay-2 5s ease-in-out infinite;
     animation-delay: 1s;
 }
+
+/* hover effect */
+.size-hover:hover{
+    /* border: solid red 15px !important; */
+    transform: scale(1.05);
+}
+

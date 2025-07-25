@@ -32,8 +32,8 @@ const Tags = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center mt-16 h-screen">
-                <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
+            <div className="flex justify-center mt-28 h-screen">
+                <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
             </div>
         )
     }
@@ -103,7 +103,7 @@ const Tags = () => {
             <hr className=' text-[#ffa6f8] ' />
             <div className="grid md:grid-cols-3 gap-8 my-16">
                 {tags && tags.map((tag) => (
-                    <Link to={tag.tag_id + ''} key={tag.tag_id} className="p-6 rounded-xl border-2 border-[#00012f] hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
+                    <Link to={tag.tag_id + ''} key={tag.tag_id} className="size-hover p-6 rounded-xl border-2 border-[#00012f] hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
                             {tag.title}
                         </h3>
