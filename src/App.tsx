@@ -304,26 +304,29 @@ import Tags from "./pages/Tags";
 import User from "./pages/User";
 import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home";
+import ScrolToTop from "./components/ScrolToTop";
 
-const App = () => {    
+const App = () => {
 
 
     return (
         <AppProvider>
-            <Routes>
-                <Route path="/" element={<RootLayout />}>
-                    <Route index element={<Home />} />
-                    <Route path="/login" element={<LogIn />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/user" element={<User />} />
-                    <Route path="/tags" element={<TagsLayout />}>
-                        <Route index element={<Tags />} />
-                        <Route path=":tagId" element={<SingleTag />} />
+            <ScrolToTop>
+                <Routes>
+                    <Route path="/" element={<RootLayout />}>
+                        <Route index element={<Home />} />
+                        <Route path="/login" element={<LogIn />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/user" element={<User />} />
+                        <Route path="/tags" element={<TagsLayout />}>
+                            <Route index element={<Tags />} />
+                            <Route path=":tagId" element={<SingleTag />} />
+                        </Route>
+                        <Route path="/newtag" element={<AddNewTag />} />
+                        <Route path="*" element={<NotFoundPage />} />
                     </Route>
-                    <Route path="/newtag" element={<AddNewTag />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                </Route>
-            </Routes>
+                </Routes>
+            </ScrolToTop>
         </AppProvider>
     );
 };
