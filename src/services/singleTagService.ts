@@ -10,13 +10,13 @@ export const getSingleTag = async (tag_id: string) => {
             const singleTag = tag as Tag[] | null;
         if (error) {
             console.log("Failed to get tag detailes", error.message)
-            return []
+            throw error
         }
         console.log("tag is",singleTag)
         // console.table(singleTag)
         return singleTag
     } catch (error) {
         console.log("Failed to get tags", error)
-        return []
+        throw error
     }
 }

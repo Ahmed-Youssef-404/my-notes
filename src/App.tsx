@@ -305,6 +305,8 @@ import User from "./pages/User";
 import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home";
 import ScrolToTop from "./components/ScrolToTop";
+import AddNewNote from "./pages/AddNewNote";
+import SingleNote from "./pages/SingleNote";
 
 const App = () => {
 
@@ -320,7 +322,11 @@ const App = () => {
                         <Route path="/user" element={<User />} />
                         <Route path="/tags" element={<TagsLayout />}>
                             <Route index element={<Tags />} />
-                            <Route path=":tagId" element={<SingleTag />} />
+                            <Route path=":tagId" element={<SingleTag />} >
+                                <Route path="notes" element={<SingleNote />} />
+                                <Route path="addnote" element={<AddNewNote />} />
+                            </Route>
+                            <Route path="*" element={<NotFoundPage />} />
                         </Route>
                         <Route path="/newtag" element={<AddNewTag />} />
                         <Route path="*" element={<NotFoundPage />} />

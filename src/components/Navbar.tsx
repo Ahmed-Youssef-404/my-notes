@@ -1,5 +1,5 @@
 // import React from 'react'
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import profileIcon from "../assets/user.webp";
 import moon from "../assets/moon.webp";
@@ -13,6 +13,7 @@ const Navbar = () => {
   const { user } = useAuth();
   const { profile } = useProfile();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate()
   
   const userName = profile?.username;
 
@@ -28,14 +29,14 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Left section - Logo */}
 
-          <NavLink to={"/"} className=" text-2xl ">
+          <button onClick={()=>{navigate('/')}} className=" text-2xl ">
             <div
               className="text-2xl md:text-3xl font-bold"
               style={{ color: "var(--logo-my)" }}
             >
               My<span style={{ color: "var(--logo-note)" }}>Notes</span>
             </div>
-          </NavLink>
+          </button>
 
           {/* Nav links */}
           <div className="hidden md:flex items-center gap-6 mx-15">

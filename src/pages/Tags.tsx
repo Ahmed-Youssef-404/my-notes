@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2'
 import useGetTags from '../hooks/useGetTags'
 import useTheme from '../hooks/useTheme'
 import { type Tag } from '../types/Types'
+import { insertNote } from '../services/notesService'
 
 
 const Tags = () => {
@@ -28,6 +29,7 @@ const Tags = () => {
     }, [])
 
 
+    // console.log("there is an error",error)
 
 
     if (loading) {
@@ -71,7 +73,7 @@ const Tags = () => {
                             You don't have any tags
                         </h3>
                         <button onClick={() => navigate("/newtag")} className="mt-16 button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                            Add new Tags
+                            Add new Tag
                         </button>
                     </div>
                 </div>
@@ -111,6 +113,11 @@ const Tags = () => {
                         </p>
                     </Link>
                 ))}
+            </div>
+            <div className="mx-auto text-center">
+                <button onClick={() => navigate("/newtag")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                    Add new Tag
+                </button>
             </div>
         </>
     )

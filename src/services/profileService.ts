@@ -14,6 +14,6 @@ export const profileDetailes = async (userId: string) => {
         return null;
     }
 
-    console.table(profileData);
+    // console.table(profileData);
     return profileData;
 }
