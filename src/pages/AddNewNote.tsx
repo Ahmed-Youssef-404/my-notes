@@ -21,7 +21,7 @@ export default function AddNewNote() {
     const { tag, error, loading: loadingTagName } = useTagDetails()
     const [currentTag, setCurrentTag] = useState()
     const [currentTagTitle, setCurrentTagTitle] = useState()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     useEffect(() => {
         setCurrentTag(tag)
@@ -29,8 +29,8 @@ export default function AddNewNote() {
             setCurrentTagTitle(tag[0].title)
         }
     }, [tag])
-    console.log("current tag", currentTag)
-    console.log("tag id:", currentTagTitle)
+    // console.log("current tag", currentTag)
+    // console.log("tag id:", currentTagTitle)
 
 
     // console.log(user?.id)
@@ -49,14 +49,6 @@ export default function AddNewNote() {
     const titleRef = useRef<HTMLInputElement>(null)
     const BodyRef = useRef<HTMLTextAreaElement>(null)
 
-    // const [description, setDescription] = useState<string>(''); // محتوى الـ textarea
-
-    // const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    //     const value = e.target.value;
-    //     setDescription(value);
-    // };
-
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -71,16 +63,8 @@ export default function AddNewNote() {
             background_color: backgroundColor,
 
         };
-
-        console.log("Note submitted:", newNote)
-
+        // console.log("Note submitted:", newNote)
         hadleAddNote(newNote)
-
-        // setCurrentTag(newTag);
-        // console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
-
-
-        // navigate(`tags/ ${newTag.tag_id}`)
 
     };
 

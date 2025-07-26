@@ -20,6 +20,7 @@ export interface Tag {
 }
 
 export interface Note {
+    note_id?:string
     user_id:string
     tag_id:string
     title: string
