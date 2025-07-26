@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
@@ -6,6 +6,9 @@ import useTheme from '../hooks/useTheme'
 const SingleTag = () => {
     const { tag, error, loading } = useTagDetails()
     const { isDark } = useTheme()
+    const navigate = useNavigate()
+    const inAddNote = location.pathname.includes("addnote");
+
     if (loading) {
         return (
             <div className="flex justify-center mt-28 h-screen">
@@ -15,8 +18,8 @@ const SingleTag = () => {
     }
 
 
-    console.log("tag from SingleTag.tsx", tag)
-    console.log("error", error)
+    // console.log("tag from SingleTag.tsx", tag)
+    // console.log("error", error)
 
     if (error || !tag) {
         return (
@@ -30,29 +33,39 @@ const SingleTag = () => {
         <div>
             <section className="pt-0">
                 <div className="mx-auto">{/*border-red-600 border-2*/}
-                    {/* <div className=""> */}
-                        <p className="flex justify-start sm:justify-around custom-justify-around flex-wrap gap-2 sm:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
-                            <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
-                            <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
-                            <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
-                                {new Date(tag[0].created_at).toLocaleString("en-GB", {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    hour12: true,
-                                })}
-                            </span>
-                            </span>
-                            <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tag[0].num_of_notes}</span></span>
-                        </p>
-                        <hr className=' text-[#ffa6f8] ' />
-                    {/* </div> */}
+                    {!inAddNote &&
+                        <div className="">
+                            <p className="flex justify-start sm:justify-around custom-justify-around flex-wrap gap-2 sm:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
+                                <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
+                                <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
+                                <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
+                                    {new Date(tag[0].created_at).toLocaleString("en-GB", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: true,
+                                    })}
+                                </span>
+                                </span>
+                                <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tag[0].num_of_notes}</span></span>
+                            </p>
+                            <hr className=' text-[#ffa6f8] ' />
+                        </div>
+                    }
                     {/* <div className="mx-auto text-center">
                         <p className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
                         </p>
                     </div> */}
+                    {
+                        !inAddNote &&
+                        <div className="mx-auto text-center mt-8">
+                            <button onClick={() => navigate("addnote")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                Add new Note
+                            </button>
+                        </div>
+                    }
                 </div>
             </section>
             <Outlet />

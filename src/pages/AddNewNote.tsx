@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -8,16 +8,30 @@ import { useAuth } from '../hooks/useAuth';
 import useAddTag from '../hooks/useAddTag';
 import useAddNote from '../hooks/useAddNote';
 import type { Note } from '../types/Types';
+import useTagDetails from '../hooks/useTagDetails';
 
 
 export default function AddNewNote() {
 
-    console.log("Rendered")
+    // console.log("Rendered")
 
     const { isDark } = useTheme()
     const { user } = useAuth()
     const { loading, hadleAddNote } = useAddNote()
+    const { tag, error, loading: loadingTagName } = useTagDetails()
+    const [currentTag, setCurrentTag] = useState()
+    const [currentTagTitle, setCurrentTagTitle] = useState()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        setCurrentTag(tag)
+        if (tag) {
+            setCurrentTagTitle(tag[0].title)
+        }
+    }, [tag])
+    console.log("current tag", currentTag)
+    console.log("tag id:", currentTagTitle)
+
 
     // console.log(user?.id)
     const userId = (user?.id + "")
@@ -81,14 +95,13 @@ export default function AddNewNote() {
                 <h2 className={`mt-6 text-center text-3xl font-extrabold`} style={{ color: 'var(--color-text)' }}>
                     Add New Note
                 </h2>
-                <p className={`mt-2 text-center text-sm`} style={{ color: isDark ? 'var(--color-text-light)' : 'var(--color-text-light)' }}>
-                    Or{' '}
-                    <Link
-                        to="../notes"
+                <p className={`flex justify-center items-center gap-2 mt-2 text-center text-lg`} style={{ color: isDark ? 'var(--color-text-light)' : 'var(--color-text-light)' }}>
+                    in Tag: {' '}
+                    <span
                         className={`font-medium ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}
                     >
-                        view existing Notes
-                    </Link>
+                        {loadingTagName ? <LoadingSpinner height={15} color={`${isDark ? '#c27af7' : '#9810fa'}`} /> : currentTagTitle}
+                    </span>
                 </p>
             </div>
 
@@ -121,7 +134,7 @@ export default function AddNewNote() {
                                 <textarea
                                     id="description"
                                     name="description"
-                                    rows={2}
+                                    rows={7}
                                     ref={BodyRef}
                                     // onChange={handleDescription}
                                     // value={description}
@@ -130,36 +143,6 @@ export default function AddNewNote() {
                                 />
                             </div>
                         </div>
-
-                        {/* <div>
-                            <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                Background Color
-                            </label>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                {colorOptions.map((color) => (
-                                    <button
-                                        key={color}
-                                        type="button"
-                                        onClick={() => handleColorSelect(color)}
-                                        className={`w-8 h-8 rounded-full border-2 ${backgroundColor === color ? (isDark ? 'border-white' : 'border-black') : 'border-transparent'}`}
-                                        style={{ backgroundColor: color }}
-                                        aria-label={`Select color ${color}`}
-                                    />
-                                ))}
-                            </div>
-                            <div className="mt-2 flex items-center">
-                                <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                                    Selected:
-                                </span>
-                                <div
-                                    className="ml-2 w-6 h-6 rounded"
-                                    style={{
-                                        backgroundColor: backgroundColor,
-                                        borderColor: isDark ? '#4B5563' : '#D1D5DB'
-                                    }}
-                                />
-                            </div>
-                        </div> */}
 
                         <div>
                             <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -222,7 +205,7 @@ export default function AddNewNote() {
                                     <span className="flex items-center">
                                         <LoadingSpinner />
                                     </span>
-                                ) : "Create Tag"}
+                                ) : "Add Note"}
                             </button>
                         </div>
                     </form>
