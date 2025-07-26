@@ -12,7 +12,7 @@ export const getSingleTag = async (tag_id: string) => {
             console.log("Failed to get tag detailes", error.message)
             throw error
         }
-        console.log("tag is",singleTag)
+        // console.log("tag is",singleTag)
         // console.table(singleTag)
         return singleTag
     } catch (error) {
