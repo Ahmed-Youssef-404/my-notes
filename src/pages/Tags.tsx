@@ -96,7 +96,6 @@ const Tags = () => {
 
     return (
         <>
-
             <h3 className="text-3xl md:text-4xl font-bold mb-6 text-center" style={{ color: 'var(--color-text)' }}>
                 Here are all your <span style={{ color: 'var(--logo-note)' }}>Tags</span>
             </h3>
@@ -112,7 +111,6 @@ const Tags = () => {
                         </p>
                     </Link>
                 ))}
-
             </div>
         </>
     )

@@ -1,43 +1,32 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { type Tag } from '../types/Types'
+import { getSingleTag } from "../services/singleTagService"
 
 const useTagDetails = () => {
     const { tagId } = useParams<{ tagId: string }>()
-    const tagID: number = Number(tagId)
 
-    const [tag, setTag] = useState<Tag | null>(null)
+    const [tag, setTag] = useState<any>(null)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    const TAGS_URL = 'http://localhost:3001/tags'
 
     useEffect(() => {
         const fetchTagDetails = async () => {
             try {
                 setLoading(true)
-                const res = await fetch(`${TAGS_URL}/${tagID}`)
-
-                if (!res.ok) {
-                    throw new Error("Tag not found")
-                }
-
-                const data = await res.json()
-                if (!data || !data.id) throw new Error("Invalid data")
-                setTag(data)
+                const res = await getSingleTag(tagId + "")
+                setTag(res)
                 setError(false)
-                
             } catch (err) {
-                // console.error("Error fetching the Tag", err)
+                console.error("Error fetching the Tag", err)
                 setError(true)
                 setTag(null)
             } finally {
                 setLoading(false)
             }
         }
-
-        if (tagID) fetchTagDetails()
-    }, [tagID])
+        if (tagId) fetchTagDetails()
+    }, [tagId])
 
     return {
         tag,
@@ -47,3 +36,6 @@ const useTagDetails = () => {
 }
 
 export default useTagDetails
+
+
+// setTag(res && Array.isArray(res) ? res[0] ?? null : null)

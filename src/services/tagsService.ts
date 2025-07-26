@@ -41,6 +41,7 @@ export const getTags = async (user_id: string) => {
     }
 }
 
+
 export const numOfTags = async () => {
     try {
         const { data, count, error } = await supabase
@@ -50,12 +51,30 @@ export const numOfTags = async () => {
         // console.log(data)
         if (error) {
             console.log("Failed to get number of Tags", error)
-            return
+            return 0
         }
         return count
     } catch (error) {
         console.log("Failed to get number of Tags", error)
-        return []
+        return 0
     }
 
 }
+
+// export const getTags = async (user_id: string) => {
+//     try {
+//         const { data, error } = await supabase
+//             .from("tags")
+//             .select("*")
+//             .eq("user_id", user_id);
+//         const tags = data as Tag[] | null;
+//         if (error) {
+//             console.log("Failed to get tags", error.message)
+//             return []
+//         }
+//         return tags
+//     } catch (error) {
+//         console.log("Failed to get tags", error)
+//         return []
+//     }
+// }
