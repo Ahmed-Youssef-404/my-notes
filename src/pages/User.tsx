@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useProfile } from "../hooks/useProfile";
 import LoadingSpinner from "../components/LoadingSpinner";
 import useTheme from "../hooks/useTheme";

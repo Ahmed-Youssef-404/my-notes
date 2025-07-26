@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { getDataFromLocalStorage } from "../utils";
-import { numOfTags } from "../services/tagsService";
 import { numOfTagNotes } from "../services/notesService";
 
 const useTagNotesCount = (tag_id: string) => {
