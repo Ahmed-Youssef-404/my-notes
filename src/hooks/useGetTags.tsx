@@ -32,6 +32,7 @@ const useGetTags = () => {
 
     }
 
+    console.log("Error from get tags",error)
 
     return { numOfTags, error, loading, getAllTags }
 }

@@ -19,6 +19,14 @@ export interface Tag {
     backgroutd_color: string
 }
 
+export interface Note {
+    user_id:string
+    tag_id:string
+    title: string
+    body: string
+    background_color: string
+}
+
 
 export interface NewUser {
     username: string;

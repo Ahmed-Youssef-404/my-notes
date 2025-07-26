@@ -16,7 +16,11 @@ const useTagDetails = () => {
                 setLoading(true)
                 const res = await getSingleTag(tagId + "")
                 setTag(res)
-                setError(false)
+                console.log("there is an error",error)
+                if (error) {
+                    setError(true)
+                    console.error("Error fetching the Tag", error)
+                }
             } catch (err) {
                 console.error("Error fetching the Tag", err)
                 setError(true)

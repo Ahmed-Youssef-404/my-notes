@@ -20,7 +20,6 @@ export const insertTag = async (tag: Tag) => {
     } catch (error) {
         console.error("error submiting tag data", error);
     }
-
 }
 
 
@@ -60,6 +59,26 @@ export const numOfTags = async () => {
     }
 
 }
+
+// export const insertNote = async (userId: Text, noteId: Text) => {
+// export const insertNote = async () => {
+//     try {
+//         const {data, error} = supabase
+//             .from("notes")
+//             .insert({
+//                 user_id:"d2b12eb2-a564-4550-9314-259992708e6e",
+//                 tag_id:"467faa28-24cf-4230-804f-d8fc13a62b79",
+//                 title:"test note",
+//                 body:"this is the first note",
+//                 background_color:"#FF5733",
+//             });
+//             if (error) {
+//                 console.log("Failed to add note", error)
+//             }
+//     } catch (error) {
+        
+//     }
+// }
 
 // export const getTags = async (user_id: string) => {
 //     try {

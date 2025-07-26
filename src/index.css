@@ -221,10 +221,9 @@ button {
     transform: scale(1.05);
 }
 
-/* custom screen flex */
-/* @media (min-width: 550px) {
-  .custom-justify-around {
-    justify-content: space-around;
-    gap: 1rem;
-  }
-} */
+nav a.active{
+    /* color:#5fa4f9; */
+    color:var(--logo-note);
+}
+
+
