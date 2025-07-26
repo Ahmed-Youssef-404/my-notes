@@ -3,9 +3,9 @@ import type { Note } from "../types/Types";
 import { getDataFromLocalStorage } from "../utils";
 
 
-const userData = getDataFromLocalStorage()
-const userId = userData?.id
-
+// const userData = getDataFromLocalStorage()
+// const userId = userData?.id
+// console.log("UserId is:", userId)
 
 export const insertNote = async (note: Note) => {
     // export const insertNote = async () => {
@@ -42,25 +42,27 @@ export const getNotes = async (user_id: string, tag_id: string) => {
 
 export const numOfTagNotes = async (tag_id:string) => {
     try {
-        const { data, count, error } = await supabase
+        const { count, error } = await supabase
             .from("notes")
             .select("*", { count: "exact", head: true })
             .eq("tag_id", tag_id);
         // console.log(data)
         if (error) {
-            console.log("Failed to get number of notes", error)
+            console.log("Failed to get number of tag notes", error)
             return 0
         }
         return count
     } catch (error) {
-        console.log("Failed to get number of notes", error)
+        console.log("Failed to get number of tag notes", error)
         return 0
     }
 }
 
 export const numOfUserNotes = async () => {
+    const userData = getDataFromLocalStorage()
+    const userId = userData?.id
     try {
-        const { data, count, error } = await supabase
+        const { count, error } = await supabase
             .from("notes")
             .select("*", { count: "exact", head: true })
             .eq("user_id", userId);

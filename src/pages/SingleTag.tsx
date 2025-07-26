@@ -97,7 +97,7 @@ const SingleTag = () => {
                     {
                         !inAddNote &&
                         <div className="grid md:grid-cols-3 gap-8 my-8">
-                            {notes && notes.map((note) => (
+                            {notes && [...notes].reverse().map((note) => (
                                 <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
                                     <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
                                         {note.title}

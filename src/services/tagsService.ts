@@ -3,9 +3,10 @@ import type { Tag } from "../types/Types";
 import { getDataFromLocalStorage } from "../utils";
 
 
-const userData = getDataFromLocalStorage()
-const userId = userData?.id
+// const userData = getDataFromLocalStorage()
+// const userId = userData?.id
 // console.log(userData?.id)
+
 
 export const insertTag = async (tag: Tag) => {
     try {
@@ -23,12 +24,14 @@ export const insertTag = async (tag: Tag) => {
 }
 
 
-export const getTags = async (user_id: string) => {
+export const getTags = async () => {
+    const userData = getDataFromLocalStorage()
+    const userId = userData?.id
     try {
         const { data: tags, error } = await supabase
             .from("tags")
             .select("*")
-            .eq("user_id", user_id);
+            .eq("user_id", userId);
         if (error) {
             console.log("Failed to get tags", error.message)
             return []
@@ -42,12 +45,15 @@ export const getTags = async (user_id: string) => {
 
 
 export const numOfTags = async () => {
+    const userData = getDataFromLocalStorage()
+    const userId = userData?.id
     try {
         const { data, count, error } = await supabase
             .from("tags")
             .select("*", { count: "exact", head: true })
             .eq("user_id", userId);
         // console.log(data)
+        // console.log(userId)
         if (error) {
             console.log("Failed to get number of Tags", error)
             return 0
