@@ -48,7 +48,7 @@ export const numOfTags = async () => {
     const userData = getDataFromLocalStorage()
     const userId = userData?.id
     try {
-        const { data, count, error } = await supabase
+        const { count, error } = await supabase
             .from("tags")
             .select("*", { count: "exact", head: true })
             .eq("user_id", userId);

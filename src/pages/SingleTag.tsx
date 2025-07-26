@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
@@ -16,7 +16,7 @@ const SingleTag = () => {
     const navigate = useNavigate()
     const inAddNote = location.pathname.includes("addnote");
     const { tagId } = useParams<{ tagId: string }>()
-    const {tagNotesCount} = useTagNotesCount(tagId+"")
+    const { tagNotesCount } = useTagNotesCount(tagId + "")
 
     useEffect(() => {
         if (tagId) {
@@ -95,21 +95,41 @@ const SingleTag = () => {
                     }
 
                     {
-                        !inAddNote &&
-                        <div className="grid md:grid-cols-3 gap-8 my-8">
-                            {notes && [...notes].reverse().map((note) => (
-                                <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
-                                    <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
-                                        {note.title}
+                        !inAddNote && (
+                            <div className="grid md:grid-cols-3 gap-8 my-8">
+                                {loadingNotes ? (
+                                    <LoadingSpinner />
+                                ) : notes && notes.length > 0 ? (
+                                    [...notes].reverse().map((note) => (
+                                        <div
+                                            key={note.note_id}
+                                            className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
+                                            style={{ background: `${note.background_color}` }}
+                                        >
+                                            <h3
+                                                className="text-xl font-semibold mb-2"
+                                                style={{ color: getTextColor(note.background_color) }}
+                                            >
+                                                {note.title}
+                                            </h3>
+                                            {/* <p style={{ color: getTextColor(note.background_color) }}>
+                                                   {note.body}
+                                                </p> */}
+                                        </div>
+                                    ))
+                                ) : notesError ? (
+                                    <h3 className="text-3xl md:text-3xl text-center text-red-600 font-bold mb-6 col-span-full">
+                                        <span>Error get Notes</span>
                                     </h3>
-                                    {/* <p style={{ color: getTextColor(note.background_color) }}>
-                                        {note.body}
-                                    </p> */}
-                                </div>
-                            ))}
-                        </div>
-
+                                ) : (
+                                    <h3 className="text-3xl md:text-3xl text-center font-bold mb-6 col-span-full" style={{ color: 'var(--color-text)' }}>
+                                        <span>You have no Notes</span>
+                                    </h3>
+                                )}
+                            </div>
+                        )
                     }
+
 
                 </div>
             </section>
@@ -119,3 +139,30 @@ const SingleTag = () => {
 }
 
 export default SingleTag
+
+
+
+
+//     < div className = "grid md:grid-cols-3 gap-8 my-8" >
+//         { notes && notes?.length !== 0 && [...notes].reverse().map((note) => (
+//             loadingNotes ? (
+//                 <LoadingSpinner />
+//             )
+//                 : (
+//                     <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
+//                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
+//                             {note.title}
+//                         </h3>
+//                         {/* <p style={{ color: getTextColor(note.background_color) }}>
+//                                                 {note.body}
+//                                             </p> */}
+//                     </div>
+//                 )
+
+//         ))}
+// {
+//     <div className="grid md:grid-cols-3 gap-8 my-8">
+//         {notes && notes?.length == 0 ? <h1>No notes</h1> : <h1></h1>}
+//     </div>
+// }
+//                         </ >
