@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import useGetNotes from '../hooks/useGetNotes'
 import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
+import useTagNotesCount from '../hooks/useTagNotesCount'
 
 const SingleTag = () => {
     const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()
@@ -15,6 +16,7 @@ const SingleTag = () => {
     const navigate = useNavigate()
     const inAddNote = location.pathname.includes("addnote");
     const { tagId } = useParams<{ tagId: string }>()
+    const {tagNotesCount} = useTagNotesCount(tagId+"")
 
     useEffect(() => {
         if (tagId) {
@@ -74,7 +76,7 @@ const SingleTag = () => {
                                     })}
                                 </span>
                                 </span>
-                                <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tag[0].num_of_notes}</span></span>
+                                <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tagNotesCount}</span></span>
                             </p>
                             <hr className=' text-[#ffa6f8] ' />
                         </div>

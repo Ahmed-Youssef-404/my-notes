@@ -7,12 +7,14 @@ import { clearDataInLocalStorage } from "../utils";
 import signOut from "../hooks/useSignOut";
 import { useAuth } from "../hooks/useAuth";
 import useTagsCount from "../hooks/useTagCount";
+import useUserNotesCount from "../hooks/useUserNotesCount";
 
 const User = () => {
     const navigate = useNavigate();
     const { isDark } = useTheme();
     const { setUser } = useAuth();
     const { tagCount } = useTagsCount()
+    const { userNotesCount } = useUserNotesCount()
     const { loading, error, profile, handleProfile } = useProfile();
 
     useEffect(() => {
@@ -116,7 +118,7 @@ const User = () => {
                                 className="font-medium"
                                 style={{ color: "var(--color-text)" }}
                             >
-                                {0}
+                                {userNotesCount}
                             </span>
                         </p>
                     </div>

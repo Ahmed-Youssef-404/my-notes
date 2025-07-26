@@ -39,3 +39,39 @@ export const getNotes = async (user_id: string, tag_id: string) => {
         throw error
     }
 }
+
+export const numOfTagNotes = async (tag_id:string) => {
+    try {
+        const { data, count, error } = await supabase
+            .from("notes")
+            .select("*", { count: "exact", head: true })
+            .eq("tag_id", tag_id);
+        // console.log(data)
+        if (error) {
+            console.log("Failed to get number of notes", error)
+            return 0
+        }
+        return count
+    } catch (error) {
+        console.log("Failed to get number of notes", error)
+        return 0
+    }
+}
+
+export const numOfUserNotes = async () => {
+    try {
+        const { data, count, error } = await supabase
+            .from("notes")
+            .select("*", { count: "exact", head: true })
+            .eq("user_id", userId);
+        // console.log(data)
+        if (error) {
+            console.log("Failed to get number of notes", error)
+            return 0
+        }
+        return count
+    } catch (error) {
+        console.log("Failed to get number of notes", error)
+        return 0
+    }
+}
