@@ -21,3 +21,21 @@ export const insertNote = async (note: Note) => {
         console.error("error submiting note data", error);
     }
 }
+
+export const getNotes = async (user_id: string, tag_id: string) => {
+    try {
+        const { data: notes, error } = await supabase
+            .from("notes")
+            .select("*")
+            .eq("user_id", user_id)
+            .eq("tag_id", tag_id)
+        if (error) {
+            console.log("failed to get notes", error)
+            throw error
+        }
+        return notes
+    } catch (error) {
+        console.log("failed to get notes", error)
+        throw error
+    }
+}

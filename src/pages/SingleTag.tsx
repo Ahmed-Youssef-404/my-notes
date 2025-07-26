@@ -1,15 +1,40 @@
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
+import { useEffect, useState } from 'react'
+import useGetNotes from '../hooks/useGetNotes'
+import tinycolor from 'tinycolor2'
+import type { Note } from '../types/Types'
 
 const SingleTag = () => {
-    const { tag, error, loading } = useTagDetails()
+    const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()
+    const { getAllNotes, error: notesError, loading: loadingNotes } = useGetNotes()
+    const [notes, setNotes] = useState<Note[] | null>()
     const { isDark } = useTheme()
     const navigate = useNavigate()
     const inAddNote = location.pathname.includes("addnote");
+    const { tagId } = useParams<{ tagId: string }>()
 
-    if (loading) {
+    useEffect(() => {
+        if (tagId) {
+            const fetchNotes = async () => {
+                const allNotes = await getAllNotes(tagId)
+                if (allNotes) {
+                    setNotes(allNotes)
+                }
+            }
+            fetchNotes()
+        }
+    }, [])
+
+    // console.log("Notes are:", notes)
+
+    // console.log("tag from SingleTag.tsx", tag)
+    // console.log("error", error)
+
+
+    if (loadingDetailes) {
         return (
             <div className="flex justify-center mt-28 h-screen">
                 <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
@@ -17,16 +42,16 @@ const SingleTag = () => {
         )
     }
 
-
-    // console.log("tag from SingleTag.tsx", tag)
-    // console.log("error", error)
-
-    if (error || !tag) {
+    if (detailesError || !tag) {
         return (
             <div className="text-center mt-20 text-red-500 text-xl font-bold">
                 Tag not found!
             </div>
         )
+    }
+
+    const getTextColor = (bgColor: string) => {
+        return tinycolor(bgColor).isLight() ? 'black' : 'white'
     }
 
     return (
@@ -66,6 +91,24 @@ const SingleTag = () => {
                             </button>
                         </div>
                     }
+
+                    {
+                        !inAddNote &&
+                        <div className="grid md:grid-cols-3 gap-8 my-8">
+                            {notes && notes.map((note) => (
+                                <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
+                                    <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
+                                        {note.title}
+                                    </h3>
+                                    {/* <p style={{ color: getTextColor(note.background_color) }}>
+                                        {note.body}
+                                    </p> */}
+                                </div>
+                            ))}
+                        </div>
+
+                    }
+
                 </div>
             </section>
             <Outlet />
