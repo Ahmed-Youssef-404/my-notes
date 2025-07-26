@@ -1,24 +1,23 @@
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from '../hooks/useAuth'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProfile } from "../hooks/useProfile";
 import LoadingSpinner from "../components/LoadingSpinner";
 import useTheme from "../hooks/useTheme";
 import { clearDataInLocalStorage } from "../utils";
 import signOut from "../hooks/useSignOut";
 import { useAuth } from "../hooks/useAuth";
-import useScrollToTop from "../hooks/useScrollToTop";
-import { numOfTags } from "../services/tagsService";
+import useTagsCount from "../hooks/useTagCount";
 
 const User = () => {
     const navigate = useNavigate();
     const { isDark } = useTheme();
     const { setUser } = useAuth();
+    const { tagCount } = useTagsCount()
     const { loading, error, profile, handleProfile } = useProfile();
 
     useEffect(() => {
         if (!loading) {
-            handleProfile(); // هنا بننفذ الفانكشن أول ما الصفحة تفتح
+            handleProfile(); 
         }
     }, []);
 
@@ -28,16 +27,6 @@ const User = () => {
         setUser(null)
         navigate('/')
     }
-
-    // if (!user) {
-    //     return (
-    //     <p className="text-center mt-28 text-red-500 text-2xl">
-    //         You are not loged in
-    //     </p>
-    //     )
-    // }
-
-    
 
     if (loading)
         return (
@@ -118,7 +107,7 @@ const User = () => {
                                 className="font-medium"
                                 style={{ color: "var(--color-text)" }}
                             >
-                                {0}
+                                {tagCount}
                             </span>
                         </p>
                         <p className="font-bold">
@@ -141,3 +130,13 @@ const User = () => {
 };
 
 export default User;
+
+
+
+// if (!user) {
+//     return (
+//     <p className="text-center mt-28 text-red-500 text-2xl">
+//         You are not loged in
+//     </p>
+//     )
+// }
