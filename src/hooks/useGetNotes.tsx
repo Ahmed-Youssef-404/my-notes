@@ -7,7 +7,7 @@ const useGetNotes = () => {
     const userData = getDataFromLocalStorage()
     const userId = (userData?.id + "")
     const [error, setError] = useState(false)
-    const [numOfTagNotes, setNumOfTagNotes] = useState<number>(0)
+    const [numOfTagNotes, setNumOfTagNotes] = useState<number>()
 
     const getAllNotes = async (tag_id: string) => {
         try {
