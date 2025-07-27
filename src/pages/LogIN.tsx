@@ -185,7 +185,7 @@ const LogIn = () => {
                             <p className="mb-4">{showAuthPopup ? ("Email or password is incorrect. Please try again.") : (showInputPopup ? ("Invalid inputs. Please try again.") : null)}</p>
                             <div className="flex justify-center gap-4">
                                 <button
-                                    onClick={() => setShowAuthPopup(false)}
+                                    onClick={() => setShowPopup(false)}
                                     className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
                                 >
                                     OK

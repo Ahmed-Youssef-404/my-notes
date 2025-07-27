@@ -14,7 +14,11 @@ const SignUp = () => {
     // const navigate = useNavigate()
 
     const { isDark } = useTheme()
-    const { handleSignUp, loading } = useSignUp();
+    const { handleSignUp, loading, isError, signupErrorCount } = useSignUp();
+    const [showAuthPopup, setShowAuthPopup] = useState(false)
+    const [showInputPopup, setShowInputPopup] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
+
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
@@ -41,6 +45,21 @@ const SignUp = () => {
         confirmPassword: ""
     })
 
+    useEffect(() => {
+        if (isError) {
+            setShowPopup(true)
+            setShowAuthPopup(true);
+        } else {
+            closePupup()
+        }
+    }, [signupErrorCount]);
+
+    const closePupup = () => {
+        setShowPopup(false)
+        setShowAuthPopup(false);
+        setShowInputPopup(false)
+    }
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Handle sign up logic here
@@ -48,7 +67,9 @@ const SignUp = () => {
 
         // console.log(isValidInput)
         if (!Object.values(isValidInput).every(Boolean)) {
-            alert('Please make sure all fields are valid');
+            // alert('Please make sure all fields are valid');
+            setShowPopup(true)
+            setShowInputPopup(true)
             console.log(isValidInput);
             return;
         }
@@ -288,6 +309,30 @@ const SignUp = () => {
                     </form>
                 </div>
             </div>
+            {
+                showPopup && (
+                    <div
+                        onClick={() => closePupup()}
+                        className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-[#ddc9fb] p-6 min-w-80 rounded-lg shadow-lg border-2 border-red-500"
+                        >
+                            {showAuthPopup && <h2 className="text-lg font-bold mb-4">Signup Failed</h2>}
+                            <p className="mb-4">{showAuthPopup ? ("User already exist.") : (showInputPopup ? ("Invalid inputs. Please try again.") : null)}</p>
+                            <div className="flex justify-center gap-4">
+                                <button
+                                    onClick={() => closePupup()}
+                                    className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
+                                >
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 };
