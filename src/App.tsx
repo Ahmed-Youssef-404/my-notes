@@ -302,10 +302,10 @@ import SignUp from "./pages/SignUp";
 import SingleTag from "./pages/SingleTag";
 import Tags from "./pages/Tags";
 import User from "./pages/User";
-import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home";
 import ScrolToTop from "./components/ScrolToTop";
 import AddNewNote from "./pages/AddNewNote";
+import SingleTagLyout from "./layout/SingleTagLayout";
 
 const App = () => {
 
@@ -321,10 +321,12 @@ const App = () => {
                         <Route path="/user" element={<User />} />
                         <Route path="/tags" element={<TagsLayout />}>
                             <Route index element={<Tags />} />
-                            <Route path=":tagId" element={<SingleTag />} >
-                                {/* <Route path="notes" element={<SingleNote />} /> */}
+
+                            <Route path=":tagId" element={<SingleTagLyout />} >
+                                <Route index element={<SingleTag />} />
                                 <Route path="addnote" element={<AddNewNote />} />
                             </Route>
+
                             <Route path="*" element={<NotFoundPage />} />
                         </Route>
                         <Route path="/newtag" element={<AddNewTag />} />
@@ -337,3 +339,6 @@ const App = () => {
 };
 
 export default App;
+
+
+{/* <Route path=":tagId" element={<SingleTag />} ></Route> */ }

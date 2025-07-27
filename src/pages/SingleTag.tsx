@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
@@ -15,7 +15,7 @@ const SingleTag = () => {
     const [notes, setNotes] = useState<Note[] | null>()
     const { isDark } = useTheme()
     const navigate = useNavigate()
-    const inAddNote = location.pathname.includes("addnote");
+    // const inAddNote = location.pathname.includes("addnote");
     const { tagId } = useParams<{ tagId: string }>()
     const { tagNotesCount } = useTagNotesCount(tagId + "")
     const [showPopup, setShowPopup] = useState(false)
@@ -32,6 +32,8 @@ const SingleTag = () => {
             fetchNotes()
         }
     }, [])
+
+    console.log("khjfd;khjsdkhj")
 
 
     const handleDeleteTag = () => {
@@ -72,78 +74,72 @@ const SingleTag = () => {
         <div>
             <section className="pt-0">
                 <div className="mx-auto">{/*border-red-600 border-2*/}
-                    {!inAddNote &&
-                        <div className="">
-                            <p className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
-                                <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
-                                <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
-                                <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
-                                    {new Date(tag[0].created_at).toLocaleString("en-GB", {
-                                        day: "2-digit",
-                                        month: "short",
-                                        year: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                    })}
-                                </span>
-                                </span>
-                                <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tagNotesCount}</span></span>
-                                <button onClick={handleDeleteTag} className="bg-red-500 cursor-pointer text-white px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                                    Delete Tag
-                                </button>
-                            </p>
-                            <hr className=' text-[#ffa6f8] ' />
-                        </div>
-                    }
+
+                    <div className="">
+                        <p className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
+                            <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
+                            <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
+                            <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
+                                {new Date(tag[0].created_at).toLocaleString("en-GB", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                })}
+                            </span>
+                            </span>
+                            <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tagNotesCount}</span></span>
+                            <button onClick={handleDeleteTag} className="bg-red-500 cursor-pointer text-white px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                Delete Tag
+                            </button>
+                        </p>
+                        <hr className=' text-[#ffa6f8] ' />
+                    </div>
+
                     {/* <div className="mx-auto text-center">
                         <p className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
                         </p>
                     </div> */}
-                    {
-                        !inAddNote &&
-                        <div className="mx-auto text-center mt-8">
-                            <button onClick={() => navigate("addnote")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                                Add new Note
-                            </button>
-                        </div>
-                    }
 
-                    {
-                        !inAddNote && (
-                            <div className="grid md:grid-cols-3 gap-8 my-8">
-                                {loadingNotes ? (
-                                    <LoadingSpinner />
-                                ) : notes && notes.length > 0 ? (
-                                    [...notes].reverse().map((note) => (
-                                        <div
-                                            key={note.note_id}
-                                            className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
-                                            style={{ background: `${note.background_color}` }}
-                                        >
-                                            <h3
-                                                className="text-xl font-semibold mb-2"
-                                                style={{ color: getTextColor(note.background_color) }}
-                                            >
-                                                {note.title}
-                                            </h3>
-                                            {/* <p style={{ color: getTextColor(note.background_color) }}>
+                    <div className="mx-auto text-center mt-8">
+                        <button onClick={() => navigate("addnote")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            Add new Note
+                        </button>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8 my-8">
+                        {loadingNotes ? (
+                            <LoadingSpinner />
+                        ) : notes && notes.length > 0 ? (
+                            [...notes].reverse().map((note) => (
+                                <div
+                                    key={note.note_id}
+                                    className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
+                                    style={{ background: `${note.background_color}` }}
+                                >
+                                    <h3
+                                        className="text-xl font-semibold mb-2"
+                                        style={{ color: getTextColor(note.background_color) }}
+                                    >
+                                        {note.title}
+                                    </h3>
+                                    {/* <p style={{ color: getTextColor(note.background_color) }}>
                                                    {note.body}
                                                 </p> */}
-                                        </div>
-                                    ))
-                                ) : notesError ? (
-                                    <h3 className="text-3xl md:text-3xl text-center text-red-600 font-bold mb-6 col-span-full">
-                                        <span>Error get Notes</span>
-                                    </h3>
-                                ) : (
-                                    <h3 className="text-3xl md:text-3xl text-center font-bold mb-6 col-span-full" style={{ color: 'var(--color-text)' }}>
-                                        <span>You have no Notes</span>
-                                    </h3>
-                                )}
-                            </div>
-                        )
-                    }
+                                </div>
+                            ))
+                        ) : notesError ? (
+                            <h3 className="text-3xl md:text-3xl text-center text-red-600 font-bold mb-6 col-span-full">
+                                <span>Error get Notes</span>
+                            </h3>
+                        ) : (
+                            <h3 className="text-3xl md:text-3xl text-center font-bold mb-6 col-span-full" style={{ color: 'var(--color-text)' }}>
+                                <span>You have no Notes</span>
+                            </h3>
+                        )}
+                    </div>
 
                     {
                         showPopup && (
@@ -178,7 +174,6 @@ const SingleTag = () => {
                     }
                 </div>
             </section>
-            <Outlet />
         </div>
     )
 }
