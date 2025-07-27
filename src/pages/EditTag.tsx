@@ -1,26 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
-// import { insertTag } from '../services/tagsService';
-// import { type Tag } from '../types/Types';
-// import useAddTag from '../hooks/useAddTag';
 import useTagDetails from '../hooks/useTagDetails';
+import useEditTag from '../hooks/useEditTag';
 
 
 
 export default function EditTAg() {
     const { isDark } = useTheme()
     const { user } = useAuth()
-    // const { loading, handleAddTag } = useAddTag()
+    const { loading, handleEditTag } = useEditTag()
     // const navigate = useNavigate()
     const { tag, error: detailesError, loading: loadingTagDetailes } = useTagDetails()
     const { tagId } = useParams<{ tagId: string }>()
     const [oldTagTitle, setOldTagTitle] = useState("")
     const [oldTagDescription, setOldTagDescription] = useState("")
-
-    console.log(tag)
 
     const userId = (user?.id + "")
 
@@ -48,7 +44,7 @@ export default function EditTAg() {
     const [tagTitle, setTagTitle] = useState(oldTagTitle)
     const [tagDescription, setTagDescription] = useState<string>(oldTagDescription);
 
-    console.log(oldTagTitle)
+    // console.log(oldTagTitle)
 
     const [deslength, setDeslength] = useState<number>(0);
 
@@ -89,6 +85,7 @@ export default function EditTAg() {
         console.log('Edited Tag:', editedTag); // طبع الجديد مش القديم
 
         // handleAddTag(editedTag)
+        handleEditTag(editedTag)
 
         // navigate(`tags/ ${newTag.tag_id}`)
 
@@ -220,14 +217,13 @@ export default function EditTAg() {
                                     <button
                                         type="submit"
                                         className="button-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:!bg-green-700 focus:outline-none transition-all duration-300"
-                                    // disabled={loading}
+                                    disabled={loading}
                                     >
-                                        {/* {loading ? (
+                                        {loading ? (
                                     <span className="flex items-center">
                                         <LoadingSpinner />
                                     </span>
-                                ) : "Create Tag"} */}
-                                        save changes
+                                ) : "save changes"}
                                     </button>
                                 </div>
                             </form>
