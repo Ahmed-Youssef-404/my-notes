@@ -113,7 +113,9 @@ const SingleTag = () => {
 
                     <div className="grid md:grid-cols-3 gap-8 my-8">
                         {loadingNotes ? (
-                            <LoadingSpinner />
+                            <div className="flex justify-center mt-28 h-screen">
+                                <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
+                            </div>
                         ) : notes && notes.length > 0 ? (
                             [...notes].reverse().map((note) => (
                                 <div

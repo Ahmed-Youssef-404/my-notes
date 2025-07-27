@@ -12,14 +12,16 @@ const getUser = async (useData: authDataTypes) => {
 
         if (error || !data.user) {
             console.log("Login failed:", error?.message);
-            alert(error?.message)
+            // alert(error?.message)
             return;
         }
+        
 
         return data.user
 
     } catch (error) {
         console.log("Unexpected error:", error);
+        return null
     }
 
 }
