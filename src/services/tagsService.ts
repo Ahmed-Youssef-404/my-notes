@@ -79,6 +79,23 @@ export const deleteTagService = async (tagId: string)=>{
     }
 }
 
+export const editTag = async (tag: Tag) => {
+    const userId = getUserId()
+    try {
+        const { error } = await supabase
+            .from("tags")
+            .update([tag])
+            .eq('user_id', userId)
+        console.log("Successfully edited the tag")
+        alert(`Successfully edited the tag "${tag.title}"`);
+        if (error) {
+            console.log("Error editing the tag", error)
+        }
+    } catch (error) {
+        console.error("error submiting tag data", error);
+    }
+}
+
 // export const insertNote = async (userId: Text, noteId: Text) => {
 // export const insertNote = async () => {
 //     try {

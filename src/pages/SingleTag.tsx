@@ -11,12 +11,12 @@ import useDeleteTag from '../hooks/useDeleteTag'
 
 const SingleTag = () => {
     const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()
+    const { tagId } = useParams<{ tagId: string }>()
     const { getAllNotes, error: notesError, loading: loadingNotes } = useGetNotes()
     const [notes, setNotes] = useState<Note[] | null>()
     const { isDark } = useTheme()
     const navigate = useNavigate()
     // const inAddNote = location.pathname.includes("addnote");
-    const { tagId } = useParams<{ tagId: string }>()
     const { tagNotesCount } = useTagNotesCount(tagId + "")
     const [showPopup, setShowPopup] = useState(false)
     const { deleteTag } = useDeleteTag()
@@ -32,9 +32,6 @@ const SingleTag = () => {
             fetchNotes()
         }
     }, [])
-
-    console.log("khjfd;khjsdkhj")
-
 
     const handleDeleteTag = () => {
         // if (confirm("Are you suer you want to delete the Tag? this will delet all it's notes also")) {
@@ -76,7 +73,7 @@ const SingleTag = () => {
                 <div className="mx-auto">{/*border-red-600 border-2*/}
 
                     <div className="">
-                        <p className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
+                        <div className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
                             <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
                             <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
                             <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
@@ -91,10 +88,15 @@ const SingleTag = () => {
                             </span>
                             </span>
                             <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tagNotesCount}</span></span>
-                            <button onClick={handleDeleteTag} className="bg-red-500 cursor-pointer text-white px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                                Delete Tag
-                            </button>
-                        </p>
+                            <div>
+                                <button onClick={() => { navigate("edittag") }} className="bg-green-600 cursor-pointer text-white mr-1 px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                    Edit Tag
+                                </button>
+                                <button onClick={handleDeleteTag} className="bg-red-500 cursor-pointer text-white ml-1 px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                    Delete Tag
+                                </button>
+                            </div>
+                        </div>
                         <hr className=' text-[#ffa6f8] ' />
                     </div>
 

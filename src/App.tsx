@@ -306,6 +306,7 @@ import Home from "./pages/Home";
 import ScrolToTop from "./components/ScrolToTop";
 import AddNewNote from "./pages/AddNewNote";
 import SingleTagLyout from "./layout/SingleTagLayout";
+import EditTAg from "./pages/EditTag";
 
 const App = () => {
 
@@ -325,6 +326,7 @@ const App = () => {
                             <Route path=":tagId" element={<SingleTagLyout />} >
                                 <Route index element={<SingleTag />} />
                                 <Route path="addnote" element={<AddNewNote />} />
+                                <Route path="edittag" element={<EditTAg />} />
                             </Route>
 
                             <Route path="*" element={<NotFoundPage />} />
