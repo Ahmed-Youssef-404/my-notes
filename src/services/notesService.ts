@@ -2,10 +2,10 @@ import supabase from "../lib/supabaseClient";
 import type { Note } from "../types/Types";
 import { getDataFromLocalStorage } from "../utils";
 
-
-// const userData = getDataFromLocalStorage()
-// const userId = userData?.id
-// console.log("UserId is:", userId)
+const getUserId = () => {
+    const userData = getDataFromLocalStorage()
+    return userData?.id
+}
 
 export const insertNote = async (note: Note) => {
     // export const insertNote = async () => {
@@ -40,7 +40,7 @@ export const getNotes = async (user_id: string, tag_id: string) => {
     }
 }
 
-export const numOfTagNotes = async (tag_id:string) => {
+export const numOfTagNotes = async (tag_id: string) => {
     try {
         const { count, error } = await supabase
             .from("notes")
@@ -59,8 +59,7 @@ export const numOfTagNotes = async (tag_id:string) => {
 }
 
 export const numOfUserNotes = async () => {
-    const userData = getDataFromLocalStorage()
-    const userId = userData?.id
+    const userId = getUserId()
     try {
         const { count, error } = await supabase
             .from("notes")

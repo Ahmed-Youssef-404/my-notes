@@ -7,6 +7,7 @@ import useGetNotes from '../hooks/useGetNotes'
 import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
 import useTagNotesCount from '../hooks/useTagNotesCount'
+import useDeleteTag from '../hooks/useDeleteTag'
 
 const SingleTag = () => {
     const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()
@@ -17,6 +18,8 @@ const SingleTag = () => {
     const inAddNote = location.pathname.includes("addnote");
     const { tagId } = useParams<{ tagId: string }>()
     const { tagNotesCount } = useTagNotesCount(tagId + "")
+    const [showPopup, setShowPopup] = useState(false)
+    const { deleteTag } = useDeleteTag()
 
     useEffect(() => {
         if (tagId) {
@@ -30,10 +33,19 @@ const SingleTag = () => {
         }
     }, [])
 
-    // console.log("Notes are:", notes)
 
-    // console.log("tag from SingleTag.tsx", tag)
-    // console.log("error", error)
+    const handleDeleteTag = () => {
+        // if (confirm("Are you suer you want to delete the Tag? this will delet all it's notes also")) {
+        //     if (tagId) {
+        //         deleteTag(tagId)
+        //         navigate("../")
+        //     }
+        // } else {
+        //     return
+        // }
+        setShowPopup(true)
+        console.log(showPopup)
+    }
 
 
     if (loadingDetailes) {
@@ -62,7 +74,7 @@ const SingleTag = () => {
                 <div className="mx-auto">{/*border-red-600 border-2*/}
                     {!inAddNote &&
                         <div className="">
-                            <p className="flex justify-start sm:justify-around custom-justify-around flex-wrap gap-2 sm:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
+                            <p className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
                                 <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
                                 <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
                                 <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
@@ -77,6 +89,9 @@ const SingleTag = () => {
                                 </span>
                                 </span>
                                 <span>Number of notes: <span style={{ color: 'var(--logo-note)' }}>{tagNotesCount}</span></span>
+                                <button onClick={handleDeleteTag} className="bg-red-500 cursor-pointer text-white px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                    Delete Tag
+                                </button>
                             </p>
                             <hr className=' text-[#ffa6f8] ' />
                         </div>
@@ -130,7 +145,37 @@ const SingleTag = () => {
                         )
                     }
 
-
+                    {
+                        showPopup && (
+                            <div onClick={() => { setShowPopup(false) }} className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                                <div className="bg-[#8b90be] p-6 rounded-lg shadow-lg">
+                                    <h2 className="text-lg font-bold mb-4">Are You Sure?</h2>
+                                    <p className="mb-4">This will Delete the tag and all its notes</p>
+                                    <div className="flex justify-center gap-4">
+                                        <button
+                                            onClick={() => setShowPopup(false)}
+                                            className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                if (tagId) {
+                                                    deleteTag(tagId)
+                                                    navigate("../")
+                                                    setShowPopup(false)
+                                                    navigate("../")
+                                                }
+                                            }}
+                                            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                                        >
+                                            Confirm Deleting
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             </section>
             <Outlet />
