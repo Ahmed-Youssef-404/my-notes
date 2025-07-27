@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
 // import { insertTag } from '../services/tagsService';
 // import { type Tag } from '../types/Types';
-import useAddTag from '../hooks/useAddTag';
 import useAddNote from '../hooks/useAddNote';
 import type { Note } from '../types/Types';
 import useTagDetails from '../hooks/useTagDetails';
@@ -18,13 +17,13 @@ export default function AddNewNote() {
     const { isDark } = useTheme()
     const { user } = useAuth()
     const { loading, hadleAddNote } = useAddNote()
-    const { tag, error, loading: loadingTagName } = useTagDetails()
-    const [currentTag, setCurrentTag] = useState()
+    const { tag, loading: loadingTagName } = useTagDetails()
+    // const [currentTag, setCurrentTag] = useState()
     const [currentTagTitle, setCurrentTagTitle] = useState()
     // const navigate = useNavigate()
 
     useEffect(() => {
-        setCurrentTag(tag)
+        // setCurrentTag(tag)
         if (tag) {
             setCurrentTagTitle(tag[0].title)
         }
