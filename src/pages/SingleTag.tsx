@@ -148,13 +148,13 @@ const SingleTag = () => {
                     {
                         showPopup && (
                             <div onClick={() => { setShowPopup(false) }} className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-                                <div className="bg-[#8b90be] p-6 rounded-lg shadow-lg">
+                                <div className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
                                     <h2 className="text-lg font-bold mb-4">Are You Sure?</h2>
                                     <p className="mb-4">This will Delete the tag and all its notes</p>
                                     <div className="flex justify-center gap-4">
                                         <button
                                             onClick={() => setShowPopup(false)}
-                                            className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+                                            className="bg-violet-300 hover:bg-violet-400 text-black px-4 py-2 rounded"
                                         >
                                             Cancel
                                         </button>

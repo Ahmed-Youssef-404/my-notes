@@ -14,18 +14,22 @@ const LogIn = () => {
     const { isDark } = useTheme()
 
     const { isLoading, handleLogIn, error, loginErrorCount } = useLogIn()
+    const [showAuthPopup, setShowAuthPopup] = useState(false)
+    const [showInputPopup, setShowInputPopup] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
 
     useEffect(() => {
         if (error) {
-            setShowPopup(true);
+            setShowPopup(true)
+            setShowAuthPopup(true);
         } else {
-            setShowPopup(false);
+            setShowPopup(false)
+            setShowAuthPopup(false);
         }
     }, [loginErrorCount]);
 
 
-    console.log("Error from component", error)
+    // console.log("Error from component", error)
 
 
     const [data, setData] = useState<authDataTypes>({
@@ -50,7 +54,9 @@ const LogIn = () => {
         e.preventDefault();
         try {
             if (!Object.values(isValidInput).every(Boolean)) {
-                alert('Please make sure all fields are valid');
+                // alert('Please make sure all fields are valid');
+                setShowPopup(true)
+                setShowInputPopup(true)
                 console.log(isValidInput);
                 return;
             }
@@ -175,11 +181,11 @@ const LogIn = () => {
                             onClick={(e) => e.stopPropagation()}
                             className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500 "
                         >
-                            <h2 className="text-lg font-bold mb-4">Login Failed</h2>
-                            <p className="mb-4">Email or password is incorrect. Please try again.</p>
+                            {showAuthPopup && <h2 className="text-lg font-bold mb-4">Login Failed</h2>}
+                            <p className="mb-4">{showAuthPopup ? ("Email or password is incorrect. Please try again.") : (showInputPopup ? ("Invalid inputs. Please try again.") : null)}</p>
                             <div className="flex justify-center gap-4">
                                 <button
-                                    onClick={() => setShowPopup(false)}
+                                    onClick={() => setShowAuthPopup(false)}
                                     className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
                                 >
                                     OK
@@ -189,7 +195,6 @@ const LogIn = () => {
                     </div>
                 )
             }
-
         </div >
     );
 };
@@ -221,3 +226,29 @@ export default LogIn;
 
 
 
+
+
+ {
+                // showInputPopup && (
+                //     <div
+                //         onClick={() => setShowInputPopup(false)}
+                //         className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                //     >
+                //         <div
+                //             onClick={(e) => e.stopPropagation()}
+                //             className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500"
+                //         >
+                //             {/* <h2 className="text-lg font-bold mb-4">Login Failed</h2> */}
+                //             <p className="mb-4">Invalid inputs. Please try again.</p>
+                //             <div className="flex justify-center gap-4">
+                //                 <button
+                //                     onClick={() => setShowInputPopup(false)}
+                //                     className="bg-violet-300 hover:bg-violet-400ؤ text-black px-4 py-2 rounded"
+                //                 >
+                //                     OK
+                //                 </button>
+                //             </div>
+                //         </div>
+                //     </div>
+                // )
+            }
