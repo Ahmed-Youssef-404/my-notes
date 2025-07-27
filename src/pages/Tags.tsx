@@ -102,7 +102,12 @@ const Tags = () => {
                 Here are all your <span style={{ color: 'var(--logo-note)' }}>Tags</span>
             </h3>
             <hr className=' text-[#ffa6f8] ' />
-            <div className="grid md:grid-cols-3 gap-8 my-16">
+            <div className="mx-auto text-center mt-8">
+                <button onClick={() => navigate("/newtag")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                    Add new Tag
+                </button>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 my-8">
                 {tags && tags.map((tag) => (
                     <Link to={tag.tag_id + ''} key={tag.tag_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
@@ -113,11 +118,6 @@ const Tags = () => {
                         </p>
                     </Link>
                 ))}
-            </div>
-            <div className="mx-auto text-center">
-                <button onClick={() => navigate("/newtag")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                    Add new Tag
-                </button>
             </div>
         </>
     )

@@ -2,11 +2,10 @@ import supabase from "../lib/supabaseClient";
 import type { Tag } from "../types/Types";
 import { getDataFromLocalStorage } from "../utils";
 
-
-// const userData = getDataFromLocalStorage()
-// const userId = userData?.id
-// console.log(userData?.id)
-
+const getUserId =()=>{
+const userData = getDataFromLocalStorage()
+    return userData?.id
+}
 
 export const insertTag = async (tag: Tag) => {
     try {
@@ -25,8 +24,7 @@ export const insertTag = async (tag: Tag) => {
 
 
 export const getTags = async () => {
-    const userData = getDataFromLocalStorage()
-    const userId = userData?.id
+    const userId = getUserId()
     try {
         const { data: tags, error } = await supabase
             .from("tags")
@@ -45,8 +43,7 @@ export const getTags = async () => {
 
 
 export const numOfTags = async () => {
-    const userData = getDataFromLocalStorage()
-    const userId = userData?.id
+    const userId = getUserId()
     try {
         const { count, error } = await supabase
             .from("tags")
@@ -63,7 +60,23 @@ export const numOfTags = async () => {
         console.log("Failed to get number of Tags", error)
         return 0
     }
+}
 
+export const deleteTagService = async (tagId: string)=>{
+    const userId = getUserId()
+    try {
+        const { data, error } = await supabase
+            .from("tags")
+            .delete()
+            .eq("tag_id", tagId)
+            .eq("user_id", userId)
+        if (error) {
+            console.log("Failed to Delet Tag", error)
+        }
+        console.log(data)
+    } catch (error) {
+        console.log("Failed to Delet Tag", error)
+    }
 }
 
 // export const insertNote = async (userId: Text, noteId: Text) => {
