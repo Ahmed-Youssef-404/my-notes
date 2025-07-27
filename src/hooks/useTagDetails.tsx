@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { getSingleTag } from "../services/singleTagService"
+import type { Tag } from "../types/Types"
 
 const useTagDetails = () => {
     const { tagId } = useParams<{ tagId: string }>()
 
-    const [tag, setTag] = useState<any>(null)
+    const [tag, setTag] = useState<Tag[] | null>(null)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 

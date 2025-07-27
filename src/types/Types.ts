@@ -13,6 +13,7 @@ export type authDataTypes = {
 
 export interface Tag {
     tag_id?: string
+    created_at?: any
     title: string
     description: string
     user_id: string
@@ -20,9 +21,9 @@ export interface Tag {
 }
 
 export interface Note {
-    note_id?:string
-    user_id:string
-    tag_id:string
+    note_id?: string
+    user_id: string
+    tag_id: string
     title: string
     body: string
     background_color: string
