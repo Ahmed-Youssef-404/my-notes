@@ -7,11 +7,11 @@ const useEditTag = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const handleEditTag = async (tag: Tag) => {
+    const handleEditTag = async (tag: Tag, tag_id: string) => {
 
         try {
             setLoading(true)
-            await editTag(tag)
+            await editTag(tag, tag_id)
             console.log("Tag added:", tag)
         } catch (error) {
             setError(true)

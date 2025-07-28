@@ -19,7 +19,7 @@ export default function AddNewNote() {
     const { loading, hadleAddNote } = useAddNote()
     const { tag, loading: loadingTagName } = useTagDetails()
     // const [currentTag, setCurrentTag] = useState()
-    const [currentTagTitle, setCurrentTagTitle] = useState()
+    const [currentTagTitle, setCurrentTagTitle] = useState("")
     // const navigate = useNavigate()
 
     useEffect(() => {

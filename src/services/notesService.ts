@@ -76,3 +76,21 @@ export const numOfUserNotes = async () => {
         return 0
     }
 }
+
+
+export const deleteNoteService = async (noteID: string)=>{
+    const userId = getUserId()
+    try {
+        const { data, error } = await supabase
+            .from("notes")
+            .delete()
+            .eq("note_id", noteID)
+            .eq("user_id", userId)
+        if (error) {
+            console.log("Failed to Delet note", error)
+        }
+        console.log(data)
+    } catch (error) {
+        console.log("Failed to Delet note", error)
+    }
+}

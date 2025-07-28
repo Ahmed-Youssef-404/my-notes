@@ -333,6 +333,7 @@ const App = () => {
                                 <Route path=":noteId" element={<SingleNoteLayout />} >
                                     <Route index element={<SingleNote />} />
                                     {/* <Route path="edittag" element={<EditNote />} /> */}
+                                    <Route path="*" element={<NotFoundPage />} />
                                 </Route>
 
                             </Route>

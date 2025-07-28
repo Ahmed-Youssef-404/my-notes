@@ -1,17 +1,20 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTheme from '../hooks/useTheme'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import tinycolor from 'tinycolor2'
 import useNoteDetails from '../hooks/useNoteDetails'
+import useDeleteNote from '../hooks/useDeleteNote'
 
 const SingleNote = () => {
     const { note, error: detailesError, loading: loadingDetailes } = useNoteDetails()
     const { noteId } = useParams()
     const { isDark } = useTheme()
     const navigate = useNavigate()
+    const { deleteNote, loading: lodingDelete } = useDeleteNote()
     // const inAddNote = location.pathname.includes("addnote");
     const [showPopup, setShowPopup] = useState(false)
+    const [doneDeleting, setDoneDeleting] = useState(false)
     // const { deleteTag } = useDeleteTag()
 
 
@@ -19,6 +22,18 @@ const SingleNote = () => {
         setShowPopup(true)
         console.log(showPopup)
     }
+
+    useEffect(() => {
+        if (lodingDelete) {
+            console.log("loading delete is:", lodingDelete)
+            console.log("done deleting and will close and navigate")
+            setDoneDeleting(true)
+        }
+        if (doneDeleting) {
+            setShowPopup(false)
+            navigate("../")
+        }
+    }, [lodingDelete])
 
 
     if (loadingDetailes) {
@@ -29,7 +44,11 @@ const SingleNote = () => {
         )
     }
 
-    if (detailesError || !note) {
+    if (!note) {
+        return
+    }
+    
+    if (detailesError || !note[0]) {
         return (
             <div className="text-center mt-20 text-red-500 text-xl font-bold">
                 note not found!
@@ -73,10 +92,10 @@ const SingleNote = () => {
                         <hr className=' text-[#ffa6f8] ' />
                     </div>
 
-                    <div className="mx-auto text-center mt-4">
-                        <h1 className={`${isDark ? "text-white" : "text-black"} font-bold text-4xl mb-4`}>{note[0].title}</h1>
+                    <div className="mx-auto mt-4">
+                        <h1 className={`${isDark ? "text-white" : "text-black"} text-center font-bold text-4xl mb-4`}>{note[0].title}</h1>
                         <hr className=' text-[#8b8b8b] w-56 mx-auto mb-8' />
-                        <p className={`${isDark ? "text-white" : "text-black"} text-xl`} >
+                        <p className={`${isDark ? "text-white" : "text-black"} text-xl whitespace-pre-wrap w-[90%] mx-auto  border-red-400`} >
                             {note[0].body}
                         </p>
                     </div>
@@ -86,9 +105,9 @@ const SingleNote = () => {
                     {
                         showPopup && (
                             <div onClick={() => { setShowPopup(false) }} className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-                                <div className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
+                                <div onClick={(e) => e.stopPropagation()} className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
                                     <h2 className="text-lg font-bold mb-4">Are You Sure?</h2>
-                                    <p className="mb-4">This will Delete the tag and all its notes</p>
+                                    <p className="mb-4">Confirm deleting the Note?</p>
                                     <div className="flex justify-center gap-4">
                                         <button
                                             onClick={() => setShowPopup(false)}
@@ -99,14 +118,12 @@ const SingleNote = () => {
                                         <button
                                             onClick={() => {
                                                 if (noteId) {
-                                                    // deleteTag(noteId)
-                                                    setShowPopup(false)
-                                                    navigate("../")
+                                                    deleteNote(noteId)
                                                 }
                                             }}
                                             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
                                         >
-                                            Confirm Deleting
+                                            {lodingDelete ? <LoadingSpinner /> : "Confirm Deleting"}
                                         </button>
                                     </div>
                                 </div>
