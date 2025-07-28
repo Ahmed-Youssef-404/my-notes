@@ -307,6 +307,8 @@ import ScrolToTop from "./components/ScrolToTop";
 import AddNewNote from "./pages/AddNewNote";
 import SingleTagLyout from "./layout/SingleTagLayout";
 import EditTAg from "./pages/EditTag";
+import SingleNoteLayout from "./layout/SingleNoteLayout";
+import SingleNote from "./pages/SingleNote";
 
 const App = () => {
 
@@ -327,6 +329,12 @@ const App = () => {
                                 <Route index element={<SingleTag />} />
                                 <Route path="addnote" element={<AddNewNote />} />
                                 <Route path="edittag" element={<EditTAg />} />
+
+                                <Route path=":noteId" element={<SingleNoteLayout />} >
+                                    <Route index element={<SingleNote />} />
+                                    {/* <Route path="edittag" element={<EditNote />} /> */}
+                                </Route>
+
                             </Route>
 
                             <Route path="*" element={<NotFoundPage />} />

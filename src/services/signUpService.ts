@@ -14,7 +14,7 @@ export const insertUser = async (newUser: NewUser): Promise<User | null> => {
         console.log(error) // هيبقى ب null بس عشان اتأكد
         if (error || !data.user) {
             console.log("Signup failed:", error?.message);
-            alert(error?.message)
+            // alert(error?.message)
             return null;
         }
         const userId = data.user.id;
@@ -28,7 +28,7 @@ export const insertUser = async (newUser: NewUser): Promise<User | null> => {
 
         if (insertError) {
             console.log("Failed to insert profile:", insertError.message);
-            alert(insertError.message)
+            // alert(insertError.message)
         } else {
             console.log("Profile inserted successfully");
         }

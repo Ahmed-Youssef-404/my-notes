@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const useSignUp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [signupErrorCount, setSignupErrorCount] = useState(0);
     const { setUser } = useAuth();
     const navigate = useNavigate()
 
@@ -19,7 +20,11 @@ export const useSignUp = () => {
                 console.log("savig data in local storage after signup: ", incomingData)
                 setUser(incomingData)
                 saveDataInLocalStorage(incomingData);
+                setError(false)
                 navigate('/')
+            } else {
+                setSignupErrorCount((prev => prev + 1))
+                setError(true)
             }
         } catch (error) {
             setError(true)
@@ -31,7 +36,7 @@ export const useSignUp = () => {
     }
 
     return {
-        loading, handleSignUp, isError: error
+        loading, handleSignUp, isError: error, signupErrorCount
 
     }
 }   

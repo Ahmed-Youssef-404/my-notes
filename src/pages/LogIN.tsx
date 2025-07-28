@@ -1,23 +1,41 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import LoadingSpinner from '../components/LoadingSpinner';
-// import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
 import { useLogIn } from '../hooks/useLogIn';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { type authDataTypes } from '../types/Types';
 import { emailSchema, passwordSchema } from '../validators/validationSchemas';
-// import supabase from '../lib/supabaseClient';
 
 
 const LogIn = () => {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     // const { isLoading, setIsLoading, user, setUser } = useAuth()
 
     const { isDark } = useTheme()
 
-    const { isLoading, handleLogIn, error } = useLogIn()
+    const { isLoading, handleLogIn, error, loginErrorCount } = useLogIn()
+    const [showAuthPopup, setShowAuthPopup] = useState(false)
+    const [showInputPopup, setShowInputPopup] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
 
+    useEffect(() => {
+        if (error) {
+            setShowPopup(true)
+            setShowAuthPopup(true);
+        } else {
+            setShowPopup(false)
+            setShowAuthPopup(false);
+        }
+    }, [loginErrorCount]);
+
+    const closePupup = () => {
+        setShowPopup(false)
+        setShowAuthPopup(false);
+        setShowInputPopup(false)
+    }
+
+
+    // console.log("Error from component", error)
 
 
     const [data, setData] = useState<authDataTypes>({
@@ -40,15 +58,15 @@ const LogIn = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         try {
             if (!Object.values(isValidInput).every(Boolean)) {
-                alert('Please make sure all fields are valid');
+                // alert('Please make sure all fields are valid');
+                setShowPopup(true)
+                setShowInputPopup(true)
                 console.log(isValidInput);
                 return;
             }
             await handleLogIn(data)
-            // navigate('/')
             // console.log(data)
         } catch (error) {
             console.log("error in login " + error)
@@ -78,31 +96,13 @@ const LogIn = () => {
     }
 
 
-    // if (user) {
-    //     return (
-    //         <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
-    //         <section className="py-20 px-4 text-center">
-    //             <div className="max-w-4xl mx-auto">
-    //                 <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
-    //                     <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
-    //                 </h3>
-    //                 {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
-    //                 <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-    //                     Show your Tags
-    //                 </button>
-    //             </div>
-    //         </section>
-    //     </div>
-    //     )
-    // }
-
     return (
 
         <div className={`min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300`} style={{ background: 'var(--color-bg)' }}>
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className={`mt-6 text-center text-3xl font-extrabold`} style={{ color: 'var(--color-text)' }}>
-                    Sign in to your account
+                    Log in to your account
                 </h2>
                 <p className={`mt-2 text-center text-sm`} style={{ color: 'var(--color-text-light)' }}>
                     Or{' '}
@@ -177,8 +177,84 @@ const LogIn = () => {
                     </form>
                 </div>
             </div >
+            {
+                showPopup && (
+                    <div
+                        onClick={() => closePupup()}
+                        className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500 "
+                        >
+                            {showAuthPopup && <h2 className="text-lg font-bold mb-4">Login Failed</h2>}
+                            <p className="mb-4">{showAuthPopup ? ("Email or password is incorrect. Please try again.") : (showInputPopup ? ("Invalid inputs. Please try again.") : null)}</p>
+                            <div className="flex justify-center gap-4">
+                                <button
+                                    onClick={() => closePupup()}
+                                    className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
+                                >
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div >
     );
 };
 
 export default LogIn;
+
+
+
+
+
+
+// if (user) {
+//     return (
+//         <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
+//         <section className="py-20 px-4 text-center">
+//             <div className="max-w-4xl mx-auto">
+//                 <h3 className="text-3xl md:text-3xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>
+//                     <span>You are already loged in as </span><span style={{ color: 'var(--logo-note)' }}>{user?.username}</span>
+//                 </h3>
+//                 {/* bg-gradient-to-r from-purple-600 to-blue-500  */}
+//                 <button onClick={() => navigate('*')} className="button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+//                     Show your Tags
+//                 </button>
+//             </div>
+//         </section>
+//     </div>
+//     )
+// }
+
+
+
+
+
+ {
+                // showInputPopup && (
+                //     <div
+                //         onClick={() => setShowInputPopup(false)}
+                //         className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                //     >
+                //         <div
+                //             onClick={(e) => e.stopPropagation()}
+                //             className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500"
+                //         >
+                //             {/* <h2 className="text-lg font-bold mb-4">Login Failed</h2> */}
+                //             <p className="mb-4">Invalid inputs. Please try again.</p>
+                //             <div className="flex justify-center gap-4">
+                //                 <button
+                //                     onClick={() => setShowInputPopup(false)}
+                //                     className="bg-violet-300 hover:bg-violet-400ؤ text-black px-4 py-2 rounded"
+                //                 >
+                //                     OK
+                //                 </button>
+                //             </div>
+                //         </div>
+                //     </div>
+                // )
+            }

@@ -27,6 +27,7 @@ export interface Note {
     title: string
     body: string
     background_color: string
+    created_at?: any;
 }
 
 

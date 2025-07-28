@@ -111,12 +111,11 @@ export default function EditTAg() {
                         </h2>
                         <p className={`mt-2 text-center text-sm`} style={{ color: isDark ? 'var(--color-text-light)' : 'var(--color-text-light)' }}>
                             Of{' '}
-                            <Link
-                                to="/tags"
+                            <span
                                 className={`font-medium ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}
                             >
                                 {oldTagTitle}
-                            </Link>
+                            </span>
                         </p>
                     </div>
 
