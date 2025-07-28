@@ -70,11 +70,11 @@ const Home = () => {
                                                     className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
                                                     style={{ background: tag.backgroutd_color }}
                                                 >
-                                                    <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                    <p className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
                                                         {tag.title}
-                                                    </h3>
+                                                    </p>
                                                     <p style={{ color: getTextColor(tag.backgroutd_color) }}>
-                                                        {tag.description}
+                                                        {tag.description.length > 15 ? tag.description.slice(0, 15) + "..." : tag.description}
                                                     </p>
                                                 </Link>
                                             ))}

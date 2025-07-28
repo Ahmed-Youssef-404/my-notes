@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
@@ -118,21 +118,22 @@ const SingleTag = () => {
                             </div>
                         ) : notes && notes.length > 0 ? (
                             [...notes].reverse().map((note) => (
-                                <div
+                                <Link
+                                    to={note.note_id + ""}
                                     key={note.note_id}
                                     className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
                                     style={{ background: `${note.background_color}` }}
                                 >
-                                    <h3
+                                    <p
                                         className="text-xl font-semibold mb-2"
                                         style={{ color: getTextColor(note.background_color) }}
                                     >
                                         {note.title}
-                                    </h3>
-                                    {/* <p style={{ color: getTextColor(note.background_color) }}>
-                                                   {note.body}
-                                                </p> */}
-                                </div>
+                                    </p>
+                                    <p style={{ color: getTextColor(note.background_color) }}>
+                                        {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
+                                    </p>
+                                </Link>
                             ))
                         ) : notesError ? (
                             <h3 className="text-3xl md:text-3xl text-center text-red-600 font-bold mb-6 col-span-full">
@@ -162,7 +163,6 @@ const SingleTag = () => {
                                             onClick={() => {
                                                 if (tagId) {
                                                     deleteTag(tagId)
-                                                    navigate("../")
                                                     setShowPopup(false)
                                                     navigate("../")
                                                 }

@@ -113,8 +113,9 @@ const Tags = () => {
                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
                             {tag.title}
                         </h3>
+
                         <p style={{ color: getTextColor(tag.backgroutd_color) }}>
-                            {tag.description}
+                            {tag.description.length > 15 ? tag.description.slice(0, 15) + "..." : tag.description}
                         </p>
                     </Link>
                 ))}
@@ -125,5 +126,4 @@ const Tags = () => {
 
 
 export default Tags
-
 
