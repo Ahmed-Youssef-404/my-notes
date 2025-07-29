@@ -15,13 +15,15 @@ export const useSearch = () => {
             setLoading(true)
             setNotFound(false)
             const comingData = await searchService(searchFor, text)
-            if (comingData) {
+            console.log("coming data", comingData)
+            if (comingData?.length != 0) {
                 setData(comingData)
                 setNotFound(false)
                 return comingData
             } else {
                 setData([])
                 setNotFound(true)
+                console.log("Not found in hook")
                 return null
             }
             setError(false)

@@ -15,15 +15,17 @@ const Search = () => {
     const { data, handleSearch, error, notFound, loading } = useSearch()
     const navigate = useNavigate()
     const [searchType, setSearchType] = useState<'notes' | 'tags'>('notes');
-
+    const [localLoading, setLocalLoading] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState<Note[] | Tag[]>([]);
 
 
     console.log("Data coming from the service", data)
+    console.log("haha", localLoading)
 
     useEffect(() => {
         console.log("useEffect fierd")
+        setLocalLoading(true)
         const handler = setTimeout(() => {
             if (searchText.trim()) {
                 const fetchData = async () => {
@@ -34,8 +36,11 @@ const Search = () => {
                 }
                 fetchData();
             }
+            setLocalLoading(false)
         }, 500);
-        return () => clearTimeout(handler);
+        return () => {
+            clearTimeout(handler)
+        };
     }, [searchText, searchType]);
 
 
@@ -78,7 +83,7 @@ const Search = () => {
                             <div className="relative w-full max-w-3xl">
                                 <input
                                     type="search"
-                                    className={`w-full pl-10 pr-4 py-2 rounded-md border ${isDark ? "text-white" : "text-black"} border-gray-300 focus:ring-indigo-500 focus:border-indigo-500`}
+                                    className={`w-full px-6 py-2 rounded-md border ${isDark ? "text-white" : "text-black"} border-gray-300 focus:ring-indigo-500 focus:border-indigo-500`}
                                     name="search"
                                     placeholder={`Search for ${searchType == "notes" ? "Notes" : "Tags"}`}
                                     value={searchText}
@@ -150,17 +155,17 @@ const Search = () => {
                         <hr className=' text-[#ffa6f8] ' />
 
                         {
-                            (loading) ? (
+                            (loading || localLoading) ? (
                                 <div className="flex justify-center mt-24">
                                     <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
                                 </div>
                             ) : (
-                                (results.length == 0) ? (
+                                (notFound) ? (
                                     <section className="py-16 pt-0 px-4">
                                         <div className="max-w-6xl mx-auto">
                                             <div className="mx-auto text-center">
                                                 <p className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
-                                                    {`No ${searchType == "notes" ? "Notes" : "Tags"} found`}
+                                                    {(searchText !== "") && `No ${searchType == "notes" ? "Notes" : "Tags"} found`}
                                                 </p>
                                             </div>
                                         </div>
