@@ -12,7 +12,7 @@ const useEditTag = () => {
         try {
             setLoading(true)
             await editTag(tag, tag_id)
-            console.log("Tag added:", tag)
+            console.log("Tag edited:", tag)
         } catch (error) {
             setError(true)
             console.log("Error in useAddTag:", error)

@@ -309,6 +309,7 @@ import SingleTagLyout from "./layout/SingleTagLayout";
 import EditTAg from "./pages/EditTag";
 import SingleNoteLayout from "./layout/SingleNoteLayout";
 import SingleNote from "./pages/SingleNote";
+import EditNote from "./pages/EditNote";
 
 const App = () => {
 
@@ -332,7 +333,7 @@ const App = () => {
 
                                 <Route path=":noteId" element={<SingleNoteLayout />} >
                                     <Route index element={<SingleNote />} />
-                                    {/* <Route path="edittag" element={<EditNote />} /> */}
+                                    <Route path="editnote" element={<EditNote />} />
                                     <Route path="*" element={<NotFoundPage />} />
                                 </Route>
 

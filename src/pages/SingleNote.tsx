@@ -81,7 +81,7 @@ const SingleNote = () => {
                             </span>
                             </span>
                             <div>
-                                <button onClick={() => { navigate("edittag") }} className="bg-green-600 cursor-pointer text-white mr-1 px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                                <button onClick={() => { navigate("editnote") }} className="bg-green-600 cursor-pointer text-white mr-1 px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
                                     Edit Note
                                 </button>
                                 <button onClick={handleDeleteNote} className="bg-red-500 cursor-pointer text-white ml-1 px-3 py-[1px] rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">

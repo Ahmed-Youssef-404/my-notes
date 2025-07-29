@@ -78,7 +78,7 @@ export const numOfUserNotes = async () => {
 }
 
 
-export const deleteNoteService = async (noteID: string)=>{
+export const deleteNoteService = async (noteID: string) => {
     const userId = getUserId()
     try {
         const { data, error } = await supabase
@@ -92,5 +92,23 @@ export const deleteNoteService = async (noteID: string)=>{
         console.log(data)
     } catch (error) {
         console.log("Failed to Delet note", error)
+    }
+}
+
+export const editNote = async (note: Note, note_id: string) => {
+    const userId = getUserId()
+    try {
+        const { error } = await supabase
+            .from("notes")
+            .update([note])
+            .eq('user_id', userId)
+            .eq('note_id', note_id)
+        console.log("Successfully edited the note")
+        alert(`Successfully edited the note "${note.title}"`);
+        if (error) {
+            console.log("Error editing the note", error)
+        }
+    } catch (error) {
+        console.error("error submiting note data", error);
     }
 }

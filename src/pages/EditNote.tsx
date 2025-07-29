@@ -1,24 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
-import useTagDetails from '../hooks/useTagDetails';
-import useEditTag from '../hooks/useEditTag';
+import useEditNote from '../hooks/useEditNote';
+import useNoteDetails from '../hooks/useNoteDetails';
+import type { Note } from '../types/Types';
 
 
 
-export default function EditTAg() {
+export default function EditNote() {
     const { isDark } = useTheme()
     const { user } = useAuth()
-    const { loading, handleEditTag } = useEditTag()
+    const { handleEditNote, loading, error } = useEditNote()
     // const navigate = useNavigate()
-    const { tag, error: detailesError, loading: loadingTagDetailes } = useTagDetails()
-    const { tagId } = useParams<{ tagId: string }>()
-    const [oldTagTitle, setOldTagTitle] = useState("")
-    const [oldTagDescription, setOldTagDescription] = useState("")
-    const [tagTitle, setTagTitle] = useState(oldTagTitle)
-    const [tagDescription, setTagDescription] = useState<string>(oldTagDescription);
+    const { note, error: detailesError, loading: loadingNoteDetailes } = useNoteDetails()
+    // const { noteId } = useParams() as { noteID: string }
+    const { noteId } = useParams() as { noteId: string }
+    const { tagId } = useParams() as { tagId: string };
+    const [oldNoteTitle, setOldNoteTitle] = useState("")
+    const [oldNoteBody, setOldNoteBody] = useState("")
+    // const [currentNoteTitle, setCurrentNoteTitle] = useState()
+    const [noteTitle, setNoteTitle] = useState(oldNoteTitle)
+    const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
+
+    // console.log("Note id", noteId)
+    // console.log("Tag id", tagId)
+
     const userId = (user?.id + "")
 
     const colorOptions = [
@@ -32,64 +40,47 @@ export default function EditTAg() {
 
 
     useEffect(() => {
-        if (tag && tag.length > 0) {
-            setOldTagTitle(tag[0].title);
-            setOldTagDescription(tag[0].description);
-            setTagTitle(tag[0].title);
-            setTagDescription(tag[0].description);
-            setBackgroundColor(tag[0].backgroutd_color || '#FF5733');
+        if (note && note.length > 0) {
+            setOldNoteTitle(note[0].title);
+            setOldNoteBody(note[0].body);
+            setNoteTitle(note[0].title);
+            setNoteBody(note[0].body);
+            setBackgroundColor(note[0].background_color || '#FF5733');
         }
-    }, [tag]);
+    }, [note]);
 
 
-    // console.log(oldTagTitle)
 
-    const [deslength, setDeslength] = useState<number>(0);
+    const titleRef = useRef<HTMLInputElement>(null)
+    const BodyRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setTagTitle(value)
+        const value = e.target.value
+        setNoteTitle(value)
     }
 
-    const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value;
-
-        if (value.length <= 75) {
-            setTagDescription(value);
-            setDeslength(value.length);
-        } else {
-            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
-            const trimmed = value.slice(0, 75);
-            setTagDescription(trimmed);
-            setDeslength(75);
-        }
-    };
+    const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value
+        setNoteBody(value)
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!tagId) {
-            return
-        }
+        const title = titleRef.current!.value || '';
+        const body = BodyRef.current!.value || '';
 
-        const name = tagTitle.trim();
-        const description = tagDescription.trim();
-
-
-        const editedTag = {
-            title: name,
-            description: description,
+        const newNote: Note = {
             user_id: userId,
-            backgroutd_color: backgroundColor,
+            tag_id: tagId,
+            note_id: noteId,
+            title: title,
+            body: body,
+            background_color: backgroundColor,
+
         };
-
-        // setCurrentTag(newTag);
-        console.log('Edited Tag:', editedTag); // طبع الجديد مش القديم
-
-        // handleAddTag(editedTag)
-        handleEditTag(editedTag, tagId)
-
-        // navigate(`tags/ ${newTag.tag_id}`)
+        // console.log("Note submitted:", newNote)
+        handleEditNote(newNote, noteId)
 
     };
 
@@ -98,7 +89,7 @@ export default function EditTAg() {
 
         return (
 
-            loadingTagDetailes ? (
+            loadingNoteDetailes ? (
                 <div className="flex justify-center mt-28 h-screen">
                     <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
                 </div>
@@ -109,14 +100,14 @@ export default function EditTAg() {
                 >
                     <div className="sm:mx-auto sm:w-full sm:max-w-md">
                         <h2 className={`text-center text-3xl font-extrabold`} style={{ color: 'var(--color-text)' }}>
-                            Edit Tag
+                            Edit Note
                         </h2>
                         <p className={`mt-2 text-center text-sm`} style={{ color: isDark ? 'var(--color-text-light)' : 'var(--color-text-light)' }}>
                             Of{' '}
                             <span
                                 className={`font-medium ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}
                             >
-                                {oldTagTitle}
+                                {oldNoteTitle}
                             </span>
                         </p>
                     </div>
@@ -128,15 +119,16 @@ export default function EditTAg() {
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        Tag Name
+                                        Note Tilte
                                     </label>
                                     <div className="mt-1">
                                         <input
                                             id="name"
                                             name="name"
                                             type="text"
+                                            ref={titleRef}
+                                            value={noteTitle}
                                             onChange={handleTitle}
-                                            value={tagTitle}
                                             required
                                             className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />
@@ -145,18 +137,16 @@ export default function EditTAg() {
 
                                 <div>
                                     <label htmlFor="description" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        Description (max 75 chars)
-                                        <span className="ml-1 text-xs text-gray-500">
-                                            {deslength}/75
-                                        </span>
+                                        Body
                                     </label>
                                     <div className="mt-1">
                                         <textarea
                                             id="description"
                                             name="description"
                                             rows={2}
-                                            onChange={handleDescription}
-                                            value={tagDescription}
+                                            ref={BodyRef}
+                                            value={noteBody}
+                                            onChange={handleBody}
                                             required
                                             className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />

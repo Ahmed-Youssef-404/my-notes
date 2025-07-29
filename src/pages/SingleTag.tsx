@@ -39,7 +39,7 @@ const SingleTag = () => {
         console.log(showPopup)
     }
 
-    console.log("global loading delete is:", lodingDelete)
+    // console.log("global loading delete is:", lodingDelete)
 
     useEffect(() => {
         if (lodingDelete) {
