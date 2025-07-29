@@ -107,7 +107,7 @@ const Tags = () => {
                     Add new Tag
                 </button>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 my-8">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
                 {tags && tags.map((tag) => (
                     <Link to={tag.tag_id + ''} key={tag.tag_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>

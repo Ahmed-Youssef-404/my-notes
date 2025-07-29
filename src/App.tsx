@@ -310,6 +310,7 @@ import EditTAg from "./pages/EditTag";
 import SingleNoteLayout from "./layout/SingleNoteLayout";
 import SingleNote from "./pages/SingleNote";
 import EditNote from "./pages/EditNote";
+import Search from "./pages/Search";
 
 const App = () => {
 
@@ -341,6 +342,7 @@ const App = () => {
 
                             <Route path="*" element={<NotFoundPage />} />
                         </Route>
+                        <Route path="/search" element={<Search />} />
                         <Route path="/newtag" element={<AddNewTag />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>

@@ -64,6 +64,14 @@ const Navbar = () => {
             >
               Add new tag
             </NavLink>
+            <NavLink
+              to="search"
+              className={`font-satoshi ${
+                isDark ? "text-white" : "text-black"
+              } hover:text-blue-600`}
+            >
+              Search
+            </NavLink>
             <button className="cursor-pointer" onClick={toggleTheme}>
               {!isDark ? (
                 <img
@@ -81,40 +89,6 @@ const Navbar = () => {
                 ></img>
               )}
             </button>
-          </div>
-
-          {/* Middle section - Search */}
-          <div
-            className={`flex-1 px-4 max-w-md hidden ${
-              user && user.id ? "md:block" : ""
-            } `}
-          >
-            <div className="relative">
-              <input
-                type="search"
-                name="search"
-                placeholder="Search for Notes"
-                className={`w-full pl-10 pr-4 py-2 rounded-md border  ${
-                  isDark ? "text-white" : "text-black"
-                } border-gray-300 focus:ring-indigo-500 focus:border-indigo-500`}
-              />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </div>
-            </div>
           </div>
 
           {/* Right section - Icons */}
@@ -195,6 +169,14 @@ const Navbar = () => {
             >
               Add new tag
             </NavLink>
+             <NavLink
+              to="search"
+              className={`font-satoshi ${
+                isDark ? "text-white" : "text-black"
+              } hover:text-blue-600`}
+            >
+              Search
+            </NavLink>
           <button className="cursor-pointer" onClick={toggleTheme}>
             {!isDark ? (
               <img
@@ -213,34 +195,7 @@ const Navbar = () => {
             )}
           </button>
 
-          <div className={`flex-1 max-w-md ${user && user.id ? "block" : "hidden"}`}>
-            <div className="relative">
-              <input
-                type="search"
-                name="search"
-                placeholder="Search for Notes"
-                className={`w-full pl-10 pr-4 py-2 rounded-md border  ${
-                  isDark ? "text-white" : "text-black"
-                } border-gray-300 focus:ring-indigo-500 focus:border-indigo-500`}
-              />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+          
         </div>
       )}
     </nav>
