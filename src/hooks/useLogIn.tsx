@@ -8,14 +8,14 @@ import { useNavigate } from "react-router-dom";
 export const useLogIn = () => {
     const { setUser } = useAuth();
     const navigate = useNavigate();
-    const [loading, setIsloading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [loginErrorCount, setLoginErrorCount] = useState(0);
     //   const [isLoged, setIsLoged] = useState(false);
     const [error, setError] = useState(false);
 
     const handleLogIn = async (data: authDataTypes) => {
         try {
-            setIsloading(true);
+            setLoading(true);
             const incomingData = await getUser(data);
             if (incomingData) {
                 console.log("saving data in local storage & store ", incomingData);
@@ -33,7 +33,7 @@ export const useLogIn = () => {
             console.log("error form hook", err)
             // throw error;
         } finally {
-            setIsloading(false);
+            setLoading(false);
         }
         console.log("error form hook", error)
     };

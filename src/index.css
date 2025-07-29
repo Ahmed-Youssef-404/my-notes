@@ -62,7 +62,26 @@
     --color-shape-3: #5b21b6;
 }
 
+/* hide scroll bar */
+/* Scrollbar صغير */
+::-webkit-scrollbar {
+  width: 6px; /* للـ vertical */
+  height: 6px; /* للـ horizontal */
+}
 
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* لون خفيف */
+  /* background-color: rgb(255, 0, 0); لون خفيف */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* background: rgb(220, 222, 242); */
+}
+
+
+/* general styels */
 button {
     cursor: pointer;
 }
@@ -214,6 +233,8 @@ button {
     animation: bounce-delay-2 5s ease-in-out infinite;
     animation-delay: 1s;
 }
+
+/* ------------------------------------------------------------------ */
 
 /* hover effect */
 .size-hover:hover{
