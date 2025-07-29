@@ -18,8 +18,7 @@ export default function AddNewNote() {
     const { user } = useAuth()
     const { loading, hadleAddNote } = useAddNote()
     const { tag, loading: loadingTagName } = useTagDetails()
-    // const [currentTag, setCurrentTag] = useState()
-    const [currentTagTitle, setCurrentTagTitle] = useState()
+    const [currentTagTitle, setCurrentTagTitle] = useState("")
     // const navigate = useNavigate()
 
     useEffect(() => {
@@ -28,17 +27,14 @@ export default function AddNewNote() {
             setCurrentTagTitle(tag[0].title)
         }
     }, [tag])
-    // console.log("current tag", currentTag)
-    // console.log("tag id:", currentTagTitle)
 
 
-    // console.log(user?.id)
     const userId = (user?.id + "")
     const { tagId } = useParams() as { tagId: string };
 
     const colorOptions = [
         '#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3',
-        '#33FFF3', '#8A2BE2', '#FF7F50', '#6495ED', '#DC143C'
+        '#33FFF3', '#8A2BE2', '#ccebff', '#6495ED', '#DC143C'
     ];
     const [backgroundColor, setBackgroundColor] = useState<string>('#FF5733');
     const handleColorSelect = (color: string) => {
@@ -119,8 +115,6 @@ export default function AddNewNote() {
                                     name="description"
                                     rows={7}
                                     ref={BodyRef}
-                                    // onChange={handleDescription}
-                                    // value={description}
                                     required
                                     className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />

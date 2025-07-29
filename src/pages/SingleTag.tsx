@@ -13,13 +13,14 @@ const SingleTag = () => {
     const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()
     const { tagId } = useParams<{ tagId: string }>()
     const { getAllNotes, error: notesError, loading: loadingNotes } = useGetNotes()
+    const { deleteTag, loading: lodingDelete } = useDeleteTag()
     const [notes, setNotes] = useState<Note[] | null>()
     const { isDark } = useTheme()
     const navigate = useNavigate()
     // const inAddNote = location.pathname.includes("addnote");
     const { tagNotesCount } = useTagNotesCount(tagId + "")
     const [showPopup, setShowPopup] = useState(false)
-    const { deleteTag } = useDeleteTag()
+    const [doneDeleting, setDoneDeleting] = useState(false)
 
     useEffect(() => {
         if (tagId) {
@@ -34,17 +35,24 @@ const SingleTag = () => {
     }, [])
 
     const handleDeleteTag = () => {
-        // if (confirm("Are you suer you want to delete the Tag? this will delet all it's notes also")) {
-        //     if (tagId) {
-        //         deleteTag(tagId)
-        //         navigate("../")
-        //     }
-        // } else {
-        //     return
-        // }
         setShowPopup(true)
         console.log(showPopup)
     }
+
+    // console.log("global loading delete is:", lodingDelete)
+
+    useEffect(() => {
+        if (lodingDelete) {
+            console.log("loading delete is:", lodingDelete)
+            console.log("done deleting and will close and navigate")
+            setDoneDeleting(true)
+        }
+        if (doneDeleting) {
+            setShowPopup(false)
+            navigate("../")
+        }
+    }, [lodingDelete])
+
 
 
     if (loadingDetailes) {
@@ -55,7 +63,11 @@ const SingleTag = () => {
         )
     }
 
-    if (detailesError || !tag) {
+    if (!tag) {
+        return
+    }
+
+    if (detailesError || !tag[0]) {
         return (
             <div className="text-center mt-20 text-red-500 text-xl font-bold">
                 Tag not found!
@@ -149,7 +161,7 @@ const SingleTag = () => {
                     {
                         showPopup && (
                             <div onClick={() => { setShowPopup(false) }} className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-                                <div className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
+                                <div onClick={(e) => e.stopPropagation()} className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
                                     <h2 className="text-lg font-bold mb-4">Are You Sure?</h2>
                                     <p className="mb-4">This will Delete the tag and all its notes</p>
                                     <div className="flex justify-center gap-4">
@@ -163,13 +175,12 @@ const SingleTag = () => {
                                             onClick={() => {
                                                 if (tagId) {
                                                     deleteTag(tagId)
-                                                    setShowPopup(false)
-                                                    navigate("../")
                                                 }
-                                            }}
+                                            }
+                                            }
                                             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
                                         >
-                                            Confirm Deleting
+                                            {lodingDelete ? <LoadingSpinner /> : "Confirm Deleting"}
                                         </button>
                                     </div>
                                 </div>

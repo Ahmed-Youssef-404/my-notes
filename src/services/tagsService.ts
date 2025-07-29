@@ -79,13 +79,14 @@ export const deleteTagService = async (tagId: string)=>{
     }
 }
 
-export const editTag = async (tag: Tag) => {
+export const editTag = async (tag: Tag, tag_id:string) => {
     const userId = getUserId()
     try {
         const { error } = await supabase
             .from("tags")
             .update([tag])
             .eq('user_id', userId)
+            .eq('tag_id', tag_id)
         console.log("Successfully edited the tag")
         alert(`Successfully edited the tag "${tag.title}"`);
         if (error) {
