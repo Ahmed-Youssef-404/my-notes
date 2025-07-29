@@ -22,12 +22,8 @@ const Search = () => {
 
     console.log("Data coming from the service", data)
 
-
     useEffect(() => {
-
-    }, [searchText])
-
-    useEffect(() => {
+        console.log("useEffect fierd")
         const handler = setTimeout(() => {
             if (searchText.trim()) {
                 const fetchData = async () => {
@@ -36,11 +32,9 @@ const Search = () => {
                         setResults(allData)
                     }
                 }
-
                 fetchData();
             }
         }, 500);
-
         return () => clearTimeout(handler);
     }, [searchText, searchType]);
 
@@ -69,23 +63,6 @@ const Search = () => {
             </section>
         )
     }
-
-    // if (!loading && results && results.length === 0) {
-    //     return (
-    //         <section className="py-16 pt-0 px-4">
-    //             <div className="max-w-6xl mx-auto">
-    //                 <div className="mx-auto text-center">
-    //                     <h3 className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
-    //                         You don't have any tags
-    //                     </h3>
-    //                     <button onClick={() => navigate("/newtag")} className="mt-16 button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-    //                         Add new Tag
-    //                     </button>
-    //                 </div>
-    //             </div>
-    //         </section>
-    //     )
-    // }
 
     return (
 
@@ -127,7 +104,11 @@ const Search = () => {
                             <div className="relative w-fit">
                                 <select
                                     value={searchType}
-                                    onChange={(e) => setSearchType(e.target.value as 'notes' | 'tags')}
+                                    onChange={(e) => {
+                                        setSearchType(e.target.value as 'notes' | 'tags');
+                                        setResults([]);
+                                    }}
+
                                     className={`appearance-none px-4 py-2 pr-10 rounded-lg border text-center transition-all duration-200
                                         ${isDark
                                             ? "bg-gray-800 text-gray-100 border-gray-600 hover:border-gray-500"
@@ -169,12 +150,12 @@ const Search = () => {
                         <hr className=' text-[#ffa6f8] ' />
 
                         {
-                            loading ? (
+                            (loading) ? (
                                 <div className="flex justify-center mt-24">
                                     <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
                                 </div>
                             ) : (
-                                (results.length === 0) ? (
+                                (results.length == 0) ? (
                                     <section className="py-16 pt-0 px-4">
                                         <div className="max-w-6xl mx-auto">
                                             <div className="mx-auto text-center">
@@ -234,7 +215,7 @@ const Search = () => {
 
 
                     </div>
-                </section>
+                </section >
             }
         </>
     )
