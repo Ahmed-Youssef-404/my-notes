@@ -218,7 +218,7 @@ const Search = () => {
                                             ))
                                             : (results as Note[]).map((note) => (
                                                 <Link
-                                                    to={`/tags/${note.tag_id}/${note.note_id}`}
+                                                    to={`/notes/${note.note_id}`}
                                                     key={note.note_id}
                                                     className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
                                                     style={{ background: `${note.background_color}` }}

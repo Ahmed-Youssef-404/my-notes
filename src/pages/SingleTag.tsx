@@ -3,7 +3,7 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
 import { useEffect, useState } from 'react'
-import useGetNotes from '../hooks/useGetNotes'
+import {useGetNotes} from '../hooks/useGetNotes'
 import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
 import useTagNotesCount from '../hooks/useTagNotesCount'
@@ -123,7 +123,7 @@ const SingleTag = () => {
                         </button>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 my-8">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {loadingNotes ? (
                             <div className="flex justify-center mt-28 h-screen">
                                 <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
@@ -131,7 +131,7 @@ const SingleTag = () => {
                         ) : notes && notes.length > 0 ? (
                             [...notes].reverse().map((note) => (
                                 <Link
-                                    to={note.note_id + ""}
+                                    to={`/notes/${note.note_id}`}
                                     key={note.note_id}
                                     className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
                                     style={{ background: `${note.background_color}` }}
@@ -152,7 +152,7 @@ const SingleTag = () => {
                                 <span>Error get Notes</span>
                             </h3>
                         ) : (
-                            <h3 className="text-3xl md:text-3xl text-center font-bold mb-6 col-span-full" style={{ color: 'var(--color-text)' }}>
+                            <h3 className="text-3xl md:text-3xl text-center font-bold mt-6 col-span-full" style={{ color: 'var(--color-text)' }}>
                                 <span>You have no Notes</span>
                             </h3>
                         )}
