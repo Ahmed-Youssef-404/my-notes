@@ -311,6 +311,8 @@ import SingleNoteLayout from "./layout/SingleNoteLayout";
 import SingleNote from "./pages/SingleNote";
 import EditNote from "./pages/EditNote";
 import Search from "./pages/Search";
+import NotesLayout from "./layout/NotesLayout";
+import Notes from "./pages/Notes";
 
 const App = () => {
 
@@ -332,17 +334,25 @@ const App = () => {
                                 <Route path="addnote" element={<AddNewNote />} />
                                 <Route path="edittag" element={<EditTAg />} />
 
-                                <Route path=":noteId" element={<SingleNoteLayout />} >
+                                {/* <Route path=":noteId" element={<SingleNoteLayout />} >
                                     <Route index element={<SingleNote />} />
                                     <Route path="editnote" element={<EditNote />} />
                                     <Route path="*" element={<NotFoundPage />} />
-                                </Route>
-
+                                </Route> */}
                             </Route>
-
                             <Route path="*" element={<NotFoundPage />} />
                         </Route>
                         <Route path="/search" element={<Search />} />
+
+                        <Route path="/notes" element={<NotesLayout />} >
+                            <Route index element={<Notes />} />
+                            <Route path=":noteId" element={<SingleNoteLayout />} >
+                                <Route index element={<SingleNote />} />
+                                <Route path="editnote" element={<EditNote />} />
+                                <Route path="*" element={<NotFoundPage />} />
+                            </Route>
+                        </Route>
+
                         <Route path="/newtag" element={<AddNewTag />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>

@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { getDataFromLocalStorage } from "../utils"
-import { getNotes } from "../services/notesService"
+import { getAllNotes, getNotes } from "../services/notesService"
 
-const useGetNotes = () => {
+export const useGetNotes = () => {
     const [loading, setLoading] = useState(false)
     const userData = getDataFromLocalStorage()
     const userId = (userData?.id + "")
@@ -28,4 +28,30 @@ const useGetNotes = () => {
     }
 }
 
-export default useGetNotes
+
+export const useGetAllNotes = () => {
+    const [loading, setLoading] = useState(false)
+    const userData = getDataFromLocalStorage()
+    const userId = (userData?.id + "")
+    const [error, setError] = useState(false)
+    const [numOfUserNotes, setNumOfUserNotes] = useState<number>()
+
+    const getAllUserNotes = async () => {
+        try {
+            setLoading(true)
+            const AllNotes = await getAllNotes(userId)
+            setNumOfUserNotes(AllNotes.length)
+            return AllNotes
+        } catch (error) {
+            setError(true)
+            console.log("Error get all user Notes", error);
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return {
+        loading, error, numOfUserNotes, getAllUserNotes
+    }
+}
+

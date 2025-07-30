@@ -40,6 +40,23 @@ export const getNotes = async (user_id: string, tag_id: string) => {
     }
 }
 
+export const getAllNotes = async (user_id: string) => {
+    try {
+        const { data: notes, error } = await supabase
+            .from("notes")
+            .select("*")
+            .eq("user_id", user_id)
+        if (error) {
+            console.log("failed to get All notes", error)
+            throw error
+        }
+        return notes
+    } catch (error) {
+        console.log("failed to get notes", error)
+        throw error
+    }
+}
+
 export const numOfTagNotes = async (tag_id: string) => {
     try {
         const { count, error } = await supabase
