@@ -20,14 +20,19 @@ const Search = () => {
     const [results, setResults] = useState<Note[] | Tag[]>([]);
 
 
-    console.log("Data coming from the service", data)
-    console.log("haha", localLoading)
+    // console.log("Data coming from the service", data)
+    // console.log("haha", localLoading)
+
+    // console.log("Search text", searchText.length)
+    // console.log("Not found?", notFound)
+    console.log("not found",notFound)
+
 
     useEffect(() => {
-        console.log("useEffect fierd")
-        setLocalLoading(true)
+        // console.log("useEffect fierd")
+        searchText !== "" && setLocalLoading(true)
         const handler = setTimeout(() => {
-            if (searchText.trim()) {
+            if (searchText.trim().length > 0) {
                 const fetchData = async () => {
                     const allData = await handleSearch(searchType, searchText);
                     if (allData) {
@@ -42,6 +47,12 @@ const Search = () => {
             clearTimeout(handler)
         };
     }, [searchText, searchType]);
+
+    useEffect(()=>{
+        if (searchText.length == 0) {
+        setResults([])
+    }
+    },[searchText])
 
 
 
@@ -67,6 +78,21 @@ const Search = () => {
                 </div>
             </section>
         )
+    }
+    
+    if (error) {
+        return (
+            <section className="py-16 pt-0 px-4">
+                <div className="max-w-6xl mx-auto">
+                    <div className="mx-auto text-center">
+                        <h3 className="text-3xl md:text-4xl font-bold mt-16 text-red-500">
+                            Something went Wrong!
+                        </h3>
+                    </div>
+                </div>
+            </section>
+        )
+
     }
 
     return (
@@ -159,60 +185,59 @@ const Search = () => {
                                 <div className="flex justify-center mt-24">
                                     <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
                                 </div>
-                            ) : (
-                                (notFound) ? (
-                                    <section className="py-16 pt-0 px-4">
-                                        <div className="max-w-6xl mx-auto">
-                                            <div className="mx-auto text-center">
-                                                <p className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
-                                                    {(searchText !== "") && `No ${searchType == "notes" ? "Notes" : "Tags"} found`}
-                                                </p>
-                                            </div>
+                            ) : (notFound || searchText == "") ? (
+                                <section className="py-16 pt-0 px-4">
+                                    <div className="max-w-6xl mx-auto">
+                                        <div className="mx-auto text-center">
+                                            <p className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
+                                                {/* {(searchText !== "") && `No ${searchType == "notes" ? "Notes" : "Tags"} found`} */}
+                                                {(searchText == "") ? ("Type in the Search bar") : (`No ${searchType == "notes" ? "Notes" : "Tags"} found`)}
+                                                {/* test text */}
+                                            </p>
                                         </div>
-                                    </section>
-                                ) : (
+                                    </div>
+                                </section>
+                            ) : (
+                                (
                                     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
-                                        {
-                                            searchType === 'tags' ?
-                                                (results && (results as Tag[]).map((tag) => (
-                                                    <Link to={`/tags/${tag.tag_id}`} key={tag.tag_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
-                                                        <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
-                                                            {tag.title}
-                                                        </h3>
-
-                                                        <p style={{ color: getTextColor(tag.backgroutd_color) }}>
-                                                            {tag.description.length > 15 ? tag.description.slice(0, 15) + "..." : tag.description}
-                                                        </p>
-                                                    </Link>
-                                                )))
-                                                :
-                                                (
-                                                    results && (results as Note[]).map((note) => (
-                                                        <Link
-                                                            to={`/tags/${note.tag_id}/${note.note_id}`}
-                                                            key={note.note_id}
-                                                            className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
-                                                            style={{ background: `${note.background_color}` }}
-                                                        >
-                                                            <p
-                                                                className="text-xl font-semibold mb-2"
-                                                                style={{ color: getTextColor(note.background_color) }}
-                                                            >
-                                                                {note.title}
-                                                            </p>
-                                                            <p style={{ color: getTextColor(note.background_color) }}>
-                                                                {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
-                                                            </p>
-                                                        </Link>
-                                                    ))
-                                                )
-                                        }
-
+                                        {searchType === 'tags'
+                                            ? (results as Tag[]).map((tag) => (
+                                                <Link
+                                                    to={`/tags/${tag.tag_id}`}
+                                                    key={tag.tag_id}
+                                                    className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
+                                                    style={{ background: `${tag.backgroutd_color}` }}
+                                                >
+                                                    <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                        {tag.title}
+                                                    </h3>
+                                                    <p style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                        {tag.description.length > 15 ? tag.description.slice(0, 15) + "..." : tag.description}
+                                                    </p>
+                                                </Link>
+                                            ))
+                                            : (results as Note[]).map((note) => (
+                                                <Link
+                                                    to={`/tags/${note.tag_id}/${note.note_id}`}
+                                                    key={note.note_id}
+                                                    className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
+                                                    style={{ background: `${note.background_color}` }}
+                                                >
+                                                    <p
+                                                        className="text-xl font-semibold mb-2"
+                                                        style={{ color: getTextColor(note.background_color) }}
+                                                    >
+                                                        {note.title}
+                                                    </p>
+                                                    <p style={{ color: getTextColor(note.background_color) }}>
+                                                        {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
+                                                    </p>
+                                                </Link>
+                                            ))}
                                     </div>
                                 )
                             )
                         }
-
 
 
 
