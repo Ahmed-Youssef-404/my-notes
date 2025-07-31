@@ -33,7 +33,7 @@ export default function EditNote() {
         '#E07B5A', '#7FD58A', '#6C80E0', '#D3D97A', '#D97ACD',
         '#78D8D2', '#A070E0', '#d5e3f0', '#c7c7c7', '#C05C6E'
     ];
-    const [backgroundColor, setBackgroundColor] = useState<string>('#FF5733');
+    const [backgroundColor, setBackgroundColor] = useState<string>('#E07B5A');
     const handleColorSelect = (color: string) => {
         setBackgroundColor(color);
     };
@@ -45,7 +45,7 @@ export default function EditNote() {
             setOldNoteBody(note[0].body);
             setNoteTitle(note[0].title);
             setNoteBody(note[0].body);
-            setBackgroundColor(note[0].background_color || '#FF5733');
+            setBackgroundColor(note[0].background_color || '#E07B5A');
         }
     }, [note]);
 
@@ -143,7 +143,7 @@ export default function EditNote() {
                                         <textarea
                                             id="description"
                                             name="description"
-                                            rows={2}
+                                            rows={7}
                                             ref={BodyRef}
                                             value={noteBody}
                                             onChange={handleBody}
@@ -179,6 +179,7 @@ export default function EditNote() {
                                             <input
                                                 type="color"
                                                 id="custom-color"
+
                                                 value={backgroundColor}
                                                 className="absolute opacity-0 w-0 h-0"
                                                 onChange={(e) => handleColorSelect(e.target.value)}

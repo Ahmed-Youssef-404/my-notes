@@ -117,13 +117,13 @@ const SingleTag = () => {
                         </p>
                     </div> */}
 
-                    <div className="mx-auto text-center mt-8">
+                    <div className="mx-auto text-center my-8">
                         <button onClick={() => navigate("addnote")} className=" button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
                             Add new Note
                         </button>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         {loadingNotes ? (
                             <div className="flex justify-center mt-28 h-screen">
                                 <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
