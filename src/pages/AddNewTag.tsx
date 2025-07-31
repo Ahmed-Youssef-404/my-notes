@@ -24,7 +24,7 @@ export default function AddNewTag() {
         '#E07B5A', '#7FD58A', '#6C80E0', '#D3D97A', '#D97ACD',
         '#78D8D2', '#A070E0', '#d5e3f0', '#c7c7c7', '#C05C6E'
     ];
-    const [backgroundColor, setBackgroundColor] = useState<string>('#FF5733');
+    const [backgroundColor, setBackgroundColor] = useState<string>('#E07B5A');
     const handleColorSelect = (color: string) => {
         setBackgroundColor(color);
     };

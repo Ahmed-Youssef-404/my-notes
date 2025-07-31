@@ -33,10 +33,10 @@ export default function AddNewNote() {
     const { tagId } = useParams() as { tagId: string };
 
     const colorOptions = [
-        '#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3',
-        '#33FFF3', '#8A2BE2', '#ccebff', '#6495ED', '#DC143C'
+        '#E07B5A', '#7FD58A', '#6C80E0', '#D3D97A', '#D97ACD',
+        '#78D8D2', '#A070E0', '#d5e3f0', '#c7c7c7', '#C05C6E'
     ];
-    const [backgroundColor, setBackgroundColor] = useState<string>('#FF5733');
+    const [backgroundColor, setBackgroundColor] = useState<string>('#E07B5A');
     const handleColorSelect = (color: string) => {
         setBackgroundColor(color);
     };
@@ -147,6 +147,7 @@ export default function AddNewNote() {
                                     <input
                                         type="color"
                                         id="custom-color"
+                                        value={backgroundColor}
                                         className="absolute opacity-0 w-0 h-0"
                                         onChange={(e) => handleColorSelect(e.target.value)}
                                     />
