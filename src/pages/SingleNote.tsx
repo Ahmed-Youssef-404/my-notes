@@ -31,7 +31,7 @@ const SingleNote = () => {
         }
         if (doneDeleting) {
             setShowPopup(false)
-            navigate("../")
+            navigate(-1)
         }
     }, [lodingDelete])
 
@@ -104,7 +104,7 @@ const SingleNote = () => {
 
                     {
                         showPopup && (
-                            <div onClick={() => { setShowPopup(false) }} className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                            <div onClick={() => { setShowPopup(false) }} className="animation fixed inset-0 bg-black/50 flex justify-center items-center z-50">
                                 <div onClick={(e) => e.stopPropagation()} className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
                                     <h2 className="text-lg font-bold mb-4">Are You Sure?</h2>
                                     <p className="mb-4">Confirm deleting the Note?</p>
@@ -121,7 +121,7 @@ const SingleNote = () => {
                                                     deleteNote(noteId)
                                                 }
                                             }}
-                                            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                                            className="w-46 flex justify-center items-center bg-red-600 hover:bg-red-700 text-white rounded"
                                         >
                                             {lodingDelete ? <LoadingSpinner /> : "Confirm Deleting"}
                                         </button>

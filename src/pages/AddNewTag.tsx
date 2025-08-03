@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -11,14 +11,21 @@ import useAddTag from '../hooks/useAddTag';
 export default function AddNewTag() {
     const { isDark } = useTheme()
     const { user } = useAuth()
-    const { loading, handleAddTag } = useAddTag()
+    const { loading, handleAddTag, error } = useAddTag()
     const navigate = useNavigate()
 
-    console.log(user?.id)
+    const [inputError, setInputError] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
+    const [successfulSubmit, setSuccessfulSubmit] = useState(false)
+
+    const [deslength, setDeslength] = useState<number>(0);
+    const [description, setDescription] = useState<string>(''); // محتوى الـ textarea
+
+    const [titleLength, setTitleLength] = useState<number>(0);
+    const [title, setTitle] = useState<string>(''); // محتوى الـ textarea
+
+    // console.log(user?.id)
     const userId = (user?.id + "")
-
-
-
 
     const colorOptions = [
         '#E07B5A', '#7FD58A', '#6C80E0', '#D3D97A', '#D97ACD',
@@ -32,8 +39,37 @@ export default function AddNewTag() {
     const nameRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
 
-    const [deslength, setDeslength] = useState<number>(0);
-    const [description, setDescription] = useState<string>(''); // محتوى الـ textarea
+    console.log("is successful submit?",successfulSubmit)
+    console.log("is loadign?",loading)
+
+    useEffect(() => {
+        console.log("useEffect fiered")
+        if (!loading) {
+            if (successfulSubmit) {
+                setShowPopup(true)
+            }
+        }
+    }, [loading, successfulSubmit])
+
+    const closePupup = () => {
+        setShowPopup(false)
+        setInputError(false)
+        !inputError && navigate("/tags")
+    }
+
+    const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        if (value.length <= 15) {
+            setTitle(value);
+            setTitleLength(value.length);
+        } else {
+            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
+            const trimmed = value.slice(0, 15);
+            setTitle(trimmed);
+            setTitleLength(15);
+        }
+    }
 
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = e.target.value;
@@ -52,6 +88,13 @@ export default function AddNewTag() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (nameRef.current?.value.trim() == "" || descriptionRef.current?.value.trim() == "") {
+            setInputError(true)
+            setShowPopup(true)
+            return
+        }
+
+
         const name = nameRef.current!.value || '';
         const description = descriptionRef.current!.value || '';
 
@@ -64,12 +107,16 @@ export default function AddNewTag() {
         };
 
         // setCurrentTag(newTag);
-        console.log('Tag submitted:', newTag); // طبع الجديد مش القديم
+        // console.log('Tag submitted:', newTag);
 
         handleAddTag(newTag)
 
-        // navigate(`tags/ ${newTag.tag_id}`)
+        if (!error) {
+            setSuccessfulSubmit(true)
+        }
 
+
+        // navigate(`tags/ ${newTag.tag_id}`)
     };
 
 
@@ -101,7 +148,10 @@ export default function AddNewTag() {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                Tag Name
+                                Tag Name (max 15 chars)
+                                <span className="ml-1 text-xs text-gray-500">
+                                    {titleLength}/15
+                                </span>
                             </label>
                             <div className="mt-1">
                                 <input
@@ -109,7 +159,9 @@ export default function AddNewTag() {
                                     name="name"
                                     type="text"
                                     ref={nameRef}
-                                    required
+                                    onChange={handleTitle}
+                                    value={title}
+                                    // required
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -130,7 +182,7 @@ export default function AddNewTag() {
                                     ref={descriptionRef}
                                     onChange={handleDescription}
                                     value={description}
-                                    required
+                                    // required
                                     className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -234,6 +286,32 @@ export default function AddNewTag() {
                     </form>
                 </div>
             </div>
+            {
+                showPopup && (
+                    <div
+                        onClick={() => closePupup()}
+                        className="animation animation fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className={`animation bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
+                        >
+                            {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
+                            <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Tag submited succesfully.")}</p>
+                            <div className="flex justify-center gap-4">
+                                <button
+                                    onClick={() => {
+                                        closePupup()
+                                    }}
+                                    className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
+                                >
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 }

@@ -13,7 +13,7 @@ export const insertTag = async (tag: Tag) => {
             .from("tags")
             .insert([tag]);
         console.log("Successfully added the tag")
-        alert(`Successfully added the tag "${tag.title}"`);
+        // alert(`Successfully added the tag "${tag.title}"`);
         if (error) {
             console.log("Error adding the tag", error)
         }
@@ -29,7 +29,8 @@ export const getTags = async () => {
         const { data: tags, error } = await supabase
             .from("tags")
             .select("*")
-            .eq("user_id", userId);
+            .eq("user_id", userId)
+            .order('created_at', { ascending: false });
         if (error) {
             console.log("Failed to get tags", error.message)
             return []

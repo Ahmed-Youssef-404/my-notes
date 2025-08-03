@@ -247,4 +247,18 @@ nav a.active{
     color:var(--logo-note);
 }
 
+/* styles.css */
+@keyframes popup-in {
+  0% {
+    opacity: 0;
+    /* transform: scale(0.8); */
+  }
+  100% {
+    opacity: 1;
+    /* transform: scale(1); */
+  }
+}
 
+.animation {
+  animation: popup-in 0.2s ease-out forwards;
+}

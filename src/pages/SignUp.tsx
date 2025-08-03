@@ -168,7 +168,7 @@ const SignUp = () => {
             <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
                 <div className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'}  py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}>
                     <form className="space-y-6" onSubmit={handleSubmit}>
-                        {/* <div className='flex items-center justify-between flex-col sm:flex-row gap-8 sm:gap-16'>
+                        <div className='flex items-center justify-between flex-col sm:flex-row gap-8 sm:gap-16'>
                             <div className="w-full">
                                 <label htmlFor="userAvatar" className={`mb-1 block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                     User Image
@@ -193,7 +193,7 @@ const SignUp = () => {
                                     />
                                 </div>
                             )}
-                        </div> */}
+                        </div>
                         <div>
                             <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 User name
@@ -313,7 +313,7 @@ const SignUp = () => {
                 showPopup && (
                     <div
                         onClick={() => closePupup()}
-                        className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                        className="animation fixed inset-0 bg-black/50 flex justify-center items-center z-50"
                     >
                         <div
                             onClick={(e) => e.stopPropagation()}
