@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
@@ -16,9 +16,15 @@ export default function AddNewNote() {
 
     const { isDark } = useTheme()
     const { user } = useAuth()
-    const { loading, hadleAddNote } = useAddNote()
+    const { loading, hadleAddNote, error } = useAddNote()
     const { tag, loading: loadingTagName } = useTagDetails()
+    const navigate = useNavigate()
+    const [inputError, setInputError] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
+    const [successfulSubmit, setSuccessfulSubmit] = useState(false)
     const [currentTagTitle, setCurrentTagTitle] = useState("")
+    const [titleLength, setTitleLength] = useState<number>(0);
+    const [title, setTitle] = useState<string>('');
     // const navigate = useNavigate()
 
     useEffect(() => {
@@ -27,6 +33,15 @@ export default function AddNewNote() {
             setCurrentTagTitle(tag[0].title)
         }
     }, [tag])
+
+    useEffect(() => {
+        console.log("useEffect fiered")
+        if (!loading) {
+            if (successfulSubmit) {
+                setShowPopup(true)
+            }
+        }
+    }, [loading, successfulSubmit])
 
 
     const userId = (user?.id + "")
@@ -44,8 +59,28 @@ export default function AddNewNote() {
     const titleRef = useRef<HTMLInputElement>(null)
     const BodyRef = useRef<HTMLTextAreaElement>(null)
 
+    const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        if (value.length <= 15) {
+            setTitle(value);
+            setTitleLength(value.length);
+        } else {
+            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
+            const trimmed = value.slice(0, 15);
+            setTitle(trimmed);
+            setTitleLength(15);
+        }
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (titleRef.current?.value.trim() == "" || BodyRef.current?.value.trim() == "") {
+            setInputError(true)
+            setShowPopup(true)
+            return
+        }
 
         const title = titleRef.current!.value || '';
         const body = BodyRef.current!.value || '';
@@ -60,8 +95,17 @@ export default function AddNewNote() {
         };
         // console.log("Note submitted:", newNote)
         hadleAddNote(newNote)
+        if (!error) {
+            setSuccessfulSubmit(true)
+        }
 
     };
+
+    const closePupup = () => {
+        setShowPopup(false)
+        setInputError(false)
+        !inputError && navigate(`/tags/${tagId}`)
+    }
 
 
 
@@ -91,7 +135,10 @@ export default function AddNewNote() {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                Note title
+                                Note title (max 15 chars)
+                                <span className="ml-1 text-xs text-gray-500">
+                                    {titleLength}/15
+                                </span>
                             </label>
                             <div className="mt-1">
                                 <input
@@ -99,7 +146,9 @@ export default function AddNewNote() {
                                     name="name"
                                     type="text"
                                     ref={titleRef}
-                                    required
+                                    onChange={handleTitle}
+                                    value={title}
+                                    // required
                                     className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -115,7 +164,7 @@ export default function AddNewNote() {
                                     name="description"
                                     rows={7}
                                     ref={BodyRef}
-                                    required
+                                    // required
                                     className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 />
                             </div>
@@ -189,6 +238,32 @@ export default function AddNewNote() {
                     </form>
                 </div>
             </div>
+            {
+                showPopup && (
+                    <div
+                        onClick={() => closePupup()}
+                        className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className={`bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
+                        >
+                            {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
+                            <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Note submited succesfully.")}</p>
+                            <div className="flex justify-center gap-4">
+                                <button
+                                    onClick={() => {
+                                        closePupup()
+                                    }}
+                                    className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
+                                >
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 }

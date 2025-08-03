@@ -13,7 +13,7 @@ export const insertNote = async (note: Note) => {
         const { error } = await supabase
             .from("notes")
             .insert([note]);
-        console.log("note inserted successfully")
+        // console.log("note inserted successfully")
         if (error) {
             console.log("Failed to add note", error)
         }
