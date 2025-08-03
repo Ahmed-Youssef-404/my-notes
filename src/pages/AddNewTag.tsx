@@ -290,11 +290,11 @@ export default function AddNewTag() {
                 showPopup && (
                     <div
                         onClick={() => closePupup()}
-                        className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                        className="animation animation fixed inset-0 bg-black/50 flex justify-center items-center z-50"
                     >
                         <div
                             onClick={(e) => e.stopPropagation()}
-                            className={`bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
+                            className={`animation bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
                         >
                             {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
                             <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Tag submited succesfully.")}</p>

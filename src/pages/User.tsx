@@ -19,7 +19,7 @@ const User = () => {
 
     useEffect(() => {
         if (!loading) {
-            handleProfile(); 
+            handleProfile();
         }
     }, []);
 
@@ -32,17 +32,18 @@ const User = () => {
 
     if (loading)
         return (
-            <p className="text-center mt-28 text-2xl">
-                <LoadingSpinner color={isDark ? "white" : "black"} height={50} />
-            </p>
+            <div className="flex justify-center mt-48 h-screen">
+                <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
+            </div>
         );
+
     else if (error || !profile)
         return (
             <p className="text-center mt-28 text-red-500 text-2xl">
                 Failed to load profile
             </p>
         );
-
+        
     else return (
         <div className="add min-h-screen">
             <section className="py-20 px-4">

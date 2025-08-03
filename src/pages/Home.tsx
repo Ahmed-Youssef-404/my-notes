@@ -63,7 +63,7 @@ const Home = () => {
                                     </p>
                                     <div className="m-4 mt-0 md:m-8">
                                         <div className="text-left grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
-                                            {tags.slice(-6).reverse().map((tag) => (
+                                            {tags.slice(-6).map((tag) => (
                                                 <Link
                                                     to={`/tags/${tag.tag_id}`}
                                                     key={tag.tag_id}

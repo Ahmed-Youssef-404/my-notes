@@ -3,7 +3,7 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
 import useTheme from '../hooks/useTheme'
 import { useEffect, useState } from 'react'
-import {useGetNotes} from '../hooks/useGetNotes'
+import { useGetNotes } from '../hooks/useGetNotes'
 import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
 import useTagNotesCount from '../hooks/useTagNotesCount'
@@ -49,7 +49,7 @@ const SingleTag = () => {
         }
         if (doneDeleting) {
             setShowPopup(false)
-            navigate("../")
+            navigate(-1)
         }
     }, [lodingDelete])
 
@@ -123,44 +123,49 @@ const SingleTag = () => {
                         </button>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                        {loadingNotes ? (
-                            <div className="flex justify-center mt-28 h-screen">
-                                <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
-                            </div>
-                        ) : notes && notes.length > 0 ? (
-                            [...notes].reverse().map((note) => (
-                                <Link
-                                    to={`/notes/${note.note_id}`}
-                                    key={note.note_id}
-                                    className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
-                                    style={{ background: `${note.background_color}` }}
-                                >
-                                    <p
-                                        className="text-xl font-semibold mb-2"
-                                        style={{ color: getTextColor(note.background_color) }}
+
+                    {loadingNotes ? (
+                        <div className="flex justify-center mt-28 h-screen">
+                            <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
+                        </div>
+                    ) : (
+                        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                            {notes && notes.length > 0 ? (
+                                [...notes].reverse().map((note) => (
+                                    <Link
+                                        to={`/notes/${note.note_id}`}
+                                        key={note.note_id}
+                                        className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
+                                        style={{ background: `${note.background_color}` }}
                                     >
-                                        {note.title}
-                                    </p>
-                                    <p style={{ color: getTextColor(note.background_color) }}>
-                                        {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
-                                    </p>
-                                </Link>
-                            ))
-                        ) : notesError ? (
-                            <h3 className="text-3xl md:text-3xl text-center text-red-600 font-bold mb-6 col-span-full">
-                                <span>Error get Notes</span>
-                            </h3>
-                        ) : (
-                            <h3 className="text-3xl md:text-3xl text-center font-bold mt-6 col-span-full" style={{ color: 'var(--color-text)' }}>
-                                <span>You have no Notes</span>
-                            </h3>
-                        )}
-                    </div>
+                                        <p
+                                            className="text-xl font-semibold mb-2"
+                                            style={{ color: getTextColor(note.background_color) }}
+                                        >
+                                            {note.title}
+                                        </p>
+                                        <p style={{ color: getTextColor(note.background_color) }}>
+                                            {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
+                                        </p>
+                                    </Link>
+
+                                ))
+                            ) : notesError ? (
+                                <h3 className="text-3xl md:text-3xl text-center text-red-600 font-bold mb-6 col-span-full">
+                                    <span>Error get Notes</span>
+                                </h3>
+                            ) : (
+                                <h3 className="text-3xl md:text-3xl text-center font-bold mt-6 col-span-full" style={{ color: 'var(--color-text)' }}>
+                                    <span>You have no Notes</span>
+                                </h3>
+                            )}
+                        </div>
+                    )}
+
 
                     {
                         showPopup && (
-                            <div onClick={() => { setShowPopup(false) }} className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                            <div onClick={() => { setShowPopup(false) }} className="animation fixed inset-0 bg-black/50 flex justify-center items-center z-50">
                                 <div onClick={(e) => e.stopPropagation()} className="bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 border-red-500">
                                     <h2 className="text-lg font-bold mb-4">Are You Sure?</h2>
                                     <p className="mb-4">This will Delete the tag and all its notes</p>
@@ -178,9 +183,10 @@ const SingleTag = () => {
                                                 }
                                             }
                                             }
-                                            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                                            className="w-46 flex justify-center items-center bg-red-600 hover:bg-red-700 text-white rounded"
                                         >
                                             {lodingDelete ? <LoadingSpinner /> : "Confirm Deleting"}
+                                            {/* <LoadingSpinner /> */}
                                         </button>
                                     </div>
                                 </div>
