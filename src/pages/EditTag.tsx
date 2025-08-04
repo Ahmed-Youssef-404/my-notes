@@ -17,7 +17,8 @@ export default function EditTAg() {
     const { tagId } = useParams<{ tagId: string }>()
     const [oldTagTitle, setOldTagTitle] = useState("")
     const [oldTagDescription, setOldTagDescription] = useState("")
-    const [tagTitle, setTagTitle] = useState(oldTagTitle)
+    const [titleLength, setTitleLength] = useState<number>(0);
+    const [title, setTitle] = useState<string>(oldTagTitle);
     const [tagDescription, setTagDescription] = useState<string>(oldTagDescription);
     const userId = (user?.id + "")
 
@@ -35,11 +36,15 @@ export default function EditTAg() {
         if (tag && tag.length > 0) {
             setOldTagTitle(tag[0].title);
             setOldTagDescription(tag[0].description);
-            setTagTitle(tag[0].title);
+            setTitle(tag[0].title);
             setTagDescription(tag[0].description);
             setBackgroundColor(tag[0].backgroutd_color || '#FF5733');
         }
     }, [tag]);
+
+    useEffect(()=>{
+        setTitleLength(oldTagTitle.length)
+    },[oldTagTitle])
 
 
     // console.log(oldTagTitle)
@@ -48,7 +53,16 @@ export default function EditTAg() {
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setTagTitle(value)
+
+        if (value.length <= 15) {
+            setTitle(value);
+            setTitleLength(value.length);
+        } else {
+            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
+            const trimmed = value.slice(0, 15);
+            setTitle(trimmed);
+            setTitleLength(15);
+        }
     }
 
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -72,7 +86,7 @@ export default function EditTAg() {
             return
         }
 
-        const name = tagTitle.trim();
+        const name = title.trim();
         const description = tagDescription.trim();
 
 
@@ -128,7 +142,10 @@ export default function EditTAg() {
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        Tag Name
+                                        Tag Name (max 15 chars)
+                                        <span className="ml-1 text-xs text-gray-500">
+                                            {titleLength}/15
+                                        </span>
                                     </label>
                                     <div className="mt-1">
                                         <input
@@ -136,7 +153,7 @@ export default function EditTAg() {
                                             name="name"
                                             type="text"
                                             onChange={handleTitle}
-                                            value={tagTitle}
+                                            value={title}
                                             required
                                             className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />

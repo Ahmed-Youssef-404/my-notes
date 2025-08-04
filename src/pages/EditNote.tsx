@@ -20,8 +20,8 @@ export default function EditNote() {
     const { tagId } = useParams() as { tagId: string };
     const [oldNoteTitle, setOldNoteTitle] = useState("")
     const [oldNoteBody, setOldNoteBody] = useState("")
-    // const [currentNoteTitle, setCurrentNoteTitle] = useState()
-    const [noteTitle, setNoteTitle] = useState(oldNoteTitle)
+    const [titleLength, setTitleLength] = useState<number>(oldNoteBody.length);
+    const [title, setTitle] = useState<string>(oldNoteBody);
     const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
 
     // console.log("Note id", noteId)
@@ -43,20 +43,31 @@ export default function EditNote() {
         if (note && note.length > 0) {
             setOldNoteTitle(note[0].title);
             setOldNoteBody(note[0].body);
-            setNoteTitle(note[0].title);
+            setTitle(note[0].title);
             setNoteBody(note[0].body);
             setBackgroundColor(note[0].background_color || '#E07B5A');
         }
     }, [note]);
 
-
+    useEffect(()=>{
+        setTitleLength(oldNoteTitle.length)
+    },[oldNoteTitle])
 
     const titleRef = useRef<HTMLInputElement>(null)
     const BodyRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setNoteTitle(value)
+        const value = e.target.value;
+
+        if (value.length <= 15) {
+            setTitle(value);
+            setTitleLength(value.length);
+        } else {
+            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
+            const trimmed = value.slice(0, 15);
+            setTitle(trimmed);
+            setTitleLength(15);
+        }
     }
 
     const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -119,7 +130,10 @@ export default function EditNote() {
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        Note Tilte
+                                        Note Tilte (max 15 chars)
+                                        <span className="ml-1 text-xs text-gray-500">
+                                            {titleLength}/15
+                                        </span>
                                     </label>
                                     <div className="mt-1">
                                         <input
@@ -127,8 +141,8 @@ export default function EditNote() {
                                             name="name"
                                             type="text"
                                             ref={titleRef}
-                                            value={noteTitle}
                                             onChange={handleTitle}
+                                            value={title}
                                             required
                                             className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />
