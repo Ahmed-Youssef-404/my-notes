@@ -89,7 +89,7 @@ export const editTag = async (tag: Tag, tag_id:string) => {
             .eq('user_id', userId)
             .eq('tag_id', tag_id)
         console.log("Successfully edited the tag")
-        alert(`Successfully edited the tag "${tag.title}"`);
+        // alert(`Successfully edited the tag "${tag.title}"`);
         if (error) {
             console.log("Error editing the tag", error)
         }

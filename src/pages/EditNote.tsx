@@ -13,15 +13,18 @@ export default function EditNote() {
     const { isDark } = useTheme()
     const { user } = useAuth()
     const { handleEditNote, loading, error } = useEditNote()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { note, error: detailesError, loading: loadingNoteDetailes } = useNoteDetails()
     // const { noteId } = useParams() as { noteID: string }
     const { noteId } = useParams() as { noteId: string }
     const { tagId } = useParams() as { tagId: string };
+    const [inputError, setInputError] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
+    const [successfulSubmit, setSuccessfulSubmit] = useState(false)
     const [oldNoteTitle, setOldNoteTitle] = useState("")
     const [oldNoteBody, setOldNoteBody] = useState("")
-    // const [currentNoteTitle, setCurrentNoteTitle] = useState()
-    const [noteTitle, setNoteTitle] = useState(oldNoteTitle)
+    const [titleLength, setTitleLength] = useState<number>(oldNoteBody.length);
+    const [title, setTitle] = useState<string>(oldNoteBody);
     const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
 
     // console.log("Note id", noteId)
@@ -43,20 +46,40 @@ export default function EditNote() {
         if (note && note.length > 0) {
             setOldNoteTitle(note[0].title);
             setOldNoteBody(note[0].body);
-            setNoteTitle(note[0].title);
+            setTitle(note[0].title);
             setNoteBody(note[0].body);
             setBackgroundColor(note[0].background_color || '#E07B5A');
         }
     }, [note]);
 
+    useEffect(() => {
+        setTitleLength(oldNoteTitle.length)
+    }, [oldNoteTitle])
 
+    useEffect(() => {
+        console.log("useEffect fiered")
+        if (!loading) {
+            if (successfulSubmit) {
+                setShowPopup(true)
+            }
+        }
+    }, [loading, successfulSubmit])
 
     const titleRef = useRef<HTMLInputElement>(null)
     const BodyRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setNoteTitle(value)
+        const value = e.target.value;
+
+        if (value.length <= 15) {
+            setTitle(value);
+            setTitleLength(value.length);
+        } else {
+            // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
+            const trimmed = value.slice(0, 15);
+            setTitle(trimmed);
+            setTitleLength(15);
+        }
     }
 
     const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -66,6 +89,12 @@ export default function EditNote() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (titleRef.current?.value.trim() == "" || BodyRef.current?.value.trim() == "") {
+            setInputError(true)
+            setShowPopup(true)
+            return
+        }
 
         const title = titleRef.current!.value || '';
         const body = BodyRef.current!.value || '';
@@ -82,7 +111,17 @@ export default function EditNote() {
         // console.log("Note submitted:", newNote)
         handleEditNote(newNote, noteId)
 
+        if (!error) {
+            setSuccessfulSubmit(true)
+        }
+
     };
+
+    const closePupup = () => {
+        setShowPopup(false)
+        setInputError(false)
+        !inputError && navigate(-1)
+    }
 
 
     {
@@ -119,7 +158,10 @@ export default function EditNote() {
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        Note Tilte
+                                        Note Tilte (max 15 chars)
+                                        <span className="ml-1 text-xs text-gray-500">
+                                            {titleLength}/15
+                                        </span>
                                     </label>
                                     <div className="mt-1">
                                         <input
@@ -127,9 +169,9 @@ export default function EditNote() {
                                             name="name"
                                             type="text"
                                             ref={titleRef}
-                                            value={noteTitle}
                                             onChange={handleTitle}
-                                            required
+                                            value={title}
+                                            // required
                                             className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />
                                     </div>
@@ -147,7 +189,7 @@ export default function EditNote() {
                                             ref={BodyRef}
                                             value={noteBody}
                                             onChange={handleBody}
-                                            required
+                                            // required
                                             className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />
                                     </div>
@@ -222,6 +264,32 @@ export default function EditNote() {
                             </form>
                         </div>
                     </div>
+                    {
+                        showPopup && (
+                            <div
+                                onClick={() => closePupup()}
+                                className="animation fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                            >
+                                <div
+                                    onClick={(e) => e.stopPropagation()}
+                                    className={`bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
+                                >
+                                    {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
+                                    <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Note submited succesfully.")}</p>
+                                    <div className="flex justify-center gap-4">
+                                        <button
+                                            onClick={() => {
+                                                closePupup()
+                                            }}
+                                            className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
+                                        >
+                                            OK
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             )
         );

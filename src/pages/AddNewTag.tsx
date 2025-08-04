@@ -22,7 +22,7 @@ export default function AddNewTag() {
     const [description, setDescription] = useState<string>(''); // محتوى الـ textarea
 
     const [titleLength, setTitleLength] = useState<number>(0);
-    const [title, setTitle] = useState<string>(''); // محتوى الـ textarea
+    const [title, setTitle] = useState<string>('');
 
     // console.log(user?.id)
     const userId = (user?.id + "")
@@ -39,8 +39,8 @@ export default function AddNewTag() {
     const nameRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
 
-    console.log("is successful submit?",successfulSubmit)
-    console.log("is loadign?",loading)
+    // console.log("is successful submit?",successfulSubmit)
+    // console.log("is loadign?",loading)
 
     useEffect(() => {
         console.log("useEffect fiered")
