@@ -25,7 +25,7 @@ const Search = () => {
 
     // console.log("Search text", searchText.length)
     // console.log("Not found?", notFound)
-    console.log("not found",notFound)
+    // console.log("not found",notFound)
 
 
     useEffect(() => {

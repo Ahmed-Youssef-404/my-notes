@@ -22,6 +22,12 @@ const SingleTag = () => {
     const [showPopup, setShowPopup] = useState(false)
     const [doneDeleting, setDoneDeleting] = useState(false)
 
+    console.log("error?",detailesError)
+    
+    const getTextColor = (bgColor: string) => {
+        return tinycolor(bgColor).isLight() ? 'black' : 'white'
+    }
+
     useEffect(() => {
         if (tagId) {
             const fetchNotes = async () => {
@@ -54,7 +60,6 @@ const SingleTag = () => {
     }, [lodingDelete])
 
 
-
     if (loadingDetailes) {
         return (
             <div className="flex justify-center mt-28 h-screen">
@@ -63,20 +68,13 @@ const SingleTag = () => {
         )
     }
 
-    if (!tag) {
-        return
-    }
 
-    if (detailesError || !tag[0]) {
+    if (detailesError || !tag || !tag[0]) {
         return (
-            <div className="text-center mt-20 text-red-500 text-xl font-bold">
+            <div className="text-center mt-20 text-red-500 text-4xl font-bold">
                 Tag not found!
             </div>
         )
-    }
-
-    const getTextColor = (bgColor: string) => {
-        return tinycolor(bgColor).isLight() ? 'black' : 'white'
     }
 
     return (
