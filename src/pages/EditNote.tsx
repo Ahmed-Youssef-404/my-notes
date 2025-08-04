@@ -13,11 +13,14 @@ export default function EditNote() {
     const { isDark } = useTheme()
     const { user } = useAuth()
     const { handleEditNote, loading, error } = useEditNote()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { note, error: detailesError, loading: loadingNoteDetailes } = useNoteDetails()
     // const { noteId } = useParams() as { noteID: string }
     const { noteId } = useParams() as { noteId: string }
     const { tagId } = useParams() as { tagId: string };
+    const [inputError, setInputError] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
+    const [successfulSubmit, setSuccessfulSubmit] = useState(false)
     const [oldNoteTitle, setOldNoteTitle] = useState("")
     const [oldNoteBody, setOldNoteBody] = useState("")
     const [titleLength, setTitleLength] = useState<number>(oldNoteBody.length);
@@ -49,9 +52,18 @@ export default function EditNote() {
         }
     }, [note]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setTitleLength(oldNoteTitle.length)
-    },[oldNoteTitle])
+    }, [oldNoteTitle])
+
+    useEffect(() => {
+        console.log("useEffect fiered")
+        if (!loading) {
+            if (successfulSubmit) {
+                setShowPopup(true)
+            }
+        }
+    }, [loading, successfulSubmit])
 
     const titleRef = useRef<HTMLInputElement>(null)
     const BodyRef = useRef<HTMLTextAreaElement>(null)
@@ -78,6 +90,12 @@ export default function EditNote() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (titleRef.current?.value.trim() == "" || BodyRef.current?.value.trim() == "") {
+            setInputError(true)
+            setShowPopup(true)
+            return
+        }
+
         const title = titleRef.current!.value || '';
         const body = BodyRef.current!.value || '';
 
@@ -93,7 +111,17 @@ export default function EditNote() {
         // console.log("Note submitted:", newNote)
         handleEditNote(newNote, noteId)
 
+        if (!error) {
+            setSuccessfulSubmit(true)
+        }
+
     };
+
+    const closePupup = () => {
+        setShowPopup(false)
+        setInputError(false)
+        !inputError && navigate(-1)
+    }
 
 
     {
@@ -143,7 +171,7 @@ export default function EditNote() {
                                             ref={titleRef}
                                             onChange={handleTitle}
                                             value={title}
-                                            required
+                                            // required
                                             className={`appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />
                                     </div>
@@ -161,7 +189,7 @@ export default function EditNote() {
                                             ref={BodyRef}
                                             value={noteBody}
                                             onChange={handleBody}
-                                            required
+                                            // required
                                             className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                         />
                                     </div>
@@ -236,6 +264,32 @@ export default function EditNote() {
                             </form>
                         </div>
                     </div>
+                    {
+                        showPopup && (
+                            <div
+                                onClick={() => closePupup()}
+                                className="animation fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+                            >
+                                <div
+                                    onClick={(e) => e.stopPropagation()}
+                                    className={`bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
+                                >
+                                    {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
+                                    <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Note submited succesfully.")}</p>
+                                    <div className="flex justify-center gap-4">
+                                        <button
+                                            onClick={() => {
+                                                closePupup()
+                                            }}
+                                            className="bg-violet-300 hover:bg-violet-400  border-indigo-400 text-black px-4 py-2 rounded"
+                                        >
+                                            OK
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             )
         );

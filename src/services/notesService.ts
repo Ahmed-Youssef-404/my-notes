@@ -121,7 +121,6 @@ export const editNote = async (note: Note, note_id: string) => {
             .eq('user_id', userId)
             .eq('note_id', note_id)
         console.log("Successfully edited the note")
-        alert(`Successfully edited the note "${note.title}"`);
         if (error) {
             console.log("Error editing the note", error)
         }

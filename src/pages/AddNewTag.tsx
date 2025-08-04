@@ -39,8 +39,8 @@ export default function AddNewTag() {
     const nameRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
 
-    console.log("is successful submit?",successfulSubmit)
-    console.log("is loadign?",loading)
+    // console.log("is successful submit?",successfulSubmit)
+    // console.log("is loadign?",loading)
 
     useEffect(() => {
         console.log("useEffect fiered")
