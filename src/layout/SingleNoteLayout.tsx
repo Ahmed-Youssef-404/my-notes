@@ -1,7 +1,6 @@
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 const SingleNoteLayout = () => {
-    const {noteId} = useParams()
     return (
         <section className='pt-0'>
             <div className="mx-auto">

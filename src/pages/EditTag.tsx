@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
@@ -13,7 +13,7 @@ export default function EditTAg() {
     const { user } = useAuth()
     const { loading, handleEditTag, error } = useEditTag()
     const navigate = useNavigate()
-    const { tag, error: detailesError, loading: loadingTagDetailes } = useTagDetails()
+    const { tag, loading: loadingTagDetailes } = useTagDetails()
     const { tagId } = useParams<{ tagId: string }>()
     const [inputError, setInputError] = useState(false)
     const [showPopup, setShowPopup] = useState(false)

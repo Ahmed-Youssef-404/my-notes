@@ -1,6 +1,6 @@
 import supabase from "../lib/supabaseClient"
 import type { NewUser } from "../types/Types"
-import { isAuthError, type User } from "@supabase/supabase-js"
+import { type User } from "@supabase/supabase-js"
 
 export const insertUser = async (newUser: NewUser): Promise<User | null> => {
 

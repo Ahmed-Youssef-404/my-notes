@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getTags } from '../services/tagsService'
-import { getDataFromLocalStorage } from '../utils'
+// import { getDataFromLocalStorage } from '../utils'
 // import type { Tag } from '../types/Types'
 
 
 const useGetTags = () => {
 
-    const userData = getDataFromLocalStorage()
-    const userId = (userData?.id + "")
+    // const userData = getDataFromLocalStorage()
+    // const userId = (userData?.id + "")
     const [numOfTags, setNumOfTags] = useState<number>(0)
     // console.log(userData?.id)
 
@@ -17,7 +17,7 @@ const useGetTags = () => {
     const getAllTags = async () => {
         try {
             setLoading(true)
-            const allTags = await getTags(userId)
+            const allTags = await getTags()
             // console.log("all tags:", allTags)
             // console.table(allTags)
             setNumOfTags(allTags.length)
