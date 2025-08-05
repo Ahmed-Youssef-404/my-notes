@@ -38,7 +38,7 @@ const Navbar = () => {
                     </button>
 
                     {/* Nav links */}
-                    <div className="hidden md:flex items-center gap-6 mx-15">
+                    <div className="hidden lg:flex items-center gap-6 mx-15">
                         <NavLink
                             to="/"
                             className={`font-satoshi ${isDark ? "text-white" : "text-black"
@@ -114,7 +114,7 @@ const Navbar = () => {
                         {/* Hamburger for Mobile */}
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
-                            className="md:hidden focus:outline-none"
+                            className="lg:hidden focus:outline-none"
                             aria-label="Toggle menu"
                         >
                             <svg
@@ -143,7 +143,7 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {menuOpen && (
                 <div
-                    className={`flex flex-col md:hidden px-4 py-2 space-y-2 ${isDark ? "bg-purple-950" : "bg-gray-200"
+                    className={`flex flex-col lg:hidden px-4 py-2 space-y-2 ${isDark ? "bg-purple-950" : "bg-gray-200"
                         } border-t shadow animate-slideDown`}
                 >
                     <NavLink
