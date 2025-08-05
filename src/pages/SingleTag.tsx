@@ -22,7 +22,7 @@ const SingleTag = () => {
     const [showPopup, setShowPopup] = useState(false)
     const [doneDeleting, setDoneDeleting] = useState(false)
 
-    console.log("error?",detailesError)
+    // console.log("error?",detailesError)
     
     const getTextColor = (bgColor: string) => {
         return tinycolor(bgColor).isLight() ? 'black' : 'white'
