@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { searchService } from "../services/searchService";
-import { string } from "yup";
 import type { Note, Tag } from "../types/Types";
 
 

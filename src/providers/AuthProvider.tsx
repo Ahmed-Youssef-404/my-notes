@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, type ReactNode } from "react";
 import { AuthContext } from "../context/AuthContext";
 import getUserService from "../services/getUserService";
 import type { User } from "@supabase/supabase-js";
-import { getDataFromLocalStorage, saveDataInLocalStorage } from "../utils";
+import { saveDataInLocalStorage } from "../utils";
 import { useNavigate } from "react-router-dom";
 
 interface AuthProviderProps {

@@ -96,7 +96,7 @@ const Notes = () => {
         <>
             <h3 className="flex justify-around items-center flex-col md:flex-row gap-2 text-2xl md:text-3xl font-bold mb-6 text-center" style={{ color: 'var(--color-text)' }}>
                 <span>Here are all your <span style={{ color: 'var(--logo-note)' }}>Notes</span></span>
-                <span className='text-2xl md:text-3xl'>Number of Notes: <span style={{ color: 'var(--logo-note)' }}>{notes.length}</span></span>
+                <span className='text-2xl md:text-3xl'>Number of Notes: <span style={{ color: 'var(--logo-note)' }}>{numOfUserNotes}</span></span>
             </h3>
             <hr className=' text-[#ffa6f8] ' />
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
