@@ -17,11 +17,17 @@ const Navbar = () => {
 
     const userName = profile?.username;
 
+    const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target as Node)
+            ) {
                 setMenuOpen(false);
             }
         };
@@ -131,6 +137,7 @@ const Navbar = () => {
 
                         {/* Hamburger for Mobile */}
                         <button
+                            ref={buttonRef}
                             onClick={() => setMenuOpen(!menuOpen)}
                             className="lg:hidden focus:outline-none"
                             aria-label="Toggle menu"
