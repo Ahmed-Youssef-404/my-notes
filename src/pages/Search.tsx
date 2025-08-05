@@ -12,7 +12,7 @@ const Search = () => {
 
     const { user } = useAuth()
     const { isDark } = useTheme()
-    const { data, handleSearch, error, notFound, loading } = useSearch()
+    const { handleSearch, error, notFound, loading } = useSearch()
     const navigate = useNavigate()
     const [searchType, setSearchType] = useState<'notes' | 'tags'>('notes');
     const [localLoading, setLocalLoading] = useState(false)

@@ -1,5 +1,5 @@
 import { type FormEvent, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import { useLogIn } from '../hooks/useLogIn';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -8,7 +8,7 @@ import { emailSchema, passwordSchema } from '../validators/validationSchemas';
 
 
 const LogIn = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     // const { isLoading, setIsLoading, user, setUser } = useAuth()
 
     const { isDark } = useTheme()

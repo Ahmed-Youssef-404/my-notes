@@ -6,7 +6,6 @@ import tinycolor from 'tinycolor2'
 import useGetTags from '../hooks/useGetTags'
 import useTheme from '../hooks/useTheme'
 import { type Tag } from '../types/Types'
-import { insertNote } from '../services/notesService'
 
 
 const Tags = () => {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../hooks/useAuth';
@@ -14,7 +14,7 @@ export default function EditNote() {
     const { user } = useAuth()
     const { handleEditNote, loading, error } = useEditNote()
     const navigate = useNavigate()
-    const { note, error: detailesError, loading: loadingNoteDetailes } = useNoteDetails()
+    const { note, loading: loadingNoteDetailes } = useNoteDetails()
     // const { noteId } = useParams() as { noteID: string }
     const { noteId } = useParams() as { noteId: string }
     const { tagId } = useParams() as { tagId: string };

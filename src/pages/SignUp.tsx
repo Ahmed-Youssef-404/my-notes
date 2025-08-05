@@ -1,5 +1,6 @@
-import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// import { type ChangeEvent } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 // import { useAuth } from '../hooks/useAuth';
 import useTheme from '../hooks/useTheme';
@@ -19,8 +20,8 @@ const SignUp = () => {
     const [showInputPopup, setShowInputPopup] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
 
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    // const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    // const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
     const [shown, setShown] = useState(false)
 
@@ -139,14 +140,14 @@ const SignUp = () => {
     }, [inputData.password, inputData.confirmPassword])
 
 
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setSelectedImage(file);
-            const preview = URL.createObjectURL(file);
-            setPreviewUrl(preview);
-        }
-    };
+    // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0];
+    //     if (file) {
+    //         setSelectedImage(file);
+    //         const preview = URL.createObjectURL(file);
+    //         setPreviewUrl(preview);
+    //     }
+    // };
 
 
 
