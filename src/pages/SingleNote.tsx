@@ -2,7 +2,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTheme from '../hooks/useTheme'
 import { useEffect, useState } from 'react'
-import tinycolor from 'tinycolor2'
 import useNoteDetails from '../hooks/useNoteDetails'
 import useDeleteNote from '../hooks/useDeleteNote'
 
@@ -44,20 +43,13 @@ const SingleNote = () => {
         )
     }
 
-    if (!note) {
-        return
-    }
-    
-    if (detailesError || !note[0]) {
+
+    if (detailesError || !note || !note[0]) {
         return (
-            <div className="text-center mt-20 text-red-500 text-xl font-bold">
+            <div className="text-center mt-20 text-red-500 text-4xl font-bold">
                 note not found!
             </div>
         )
-    }
-
-    const getTextColor = (bgColor: string) => {
-        return tinycolor(bgColor).isLight() ? 'black' : 'white'
     }
 
     return (

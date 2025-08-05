@@ -46,6 +46,7 @@ export const getAllNotes = async (user_id: string) => {
             .from("notes")
             .select("*")
             .eq("user_id", user_id)
+            .order('created_at', { ascending: false });
         if (error) {
             console.log("failed to get All notes", error)
             throw error
