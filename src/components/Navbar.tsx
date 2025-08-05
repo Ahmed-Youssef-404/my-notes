@@ -1,6 +1,6 @@
 // import React from 'react'
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import profileIcon from "../assets/user.webp";
 import moon from "../assets/moon.webp";
 import sun from "../assets/daylight.webp";
@@ -17,7 +17,25 @@ const Navbar = () => {
 
     const userName = profile?.username;
 
-    //   console.log(user)
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setMenuOpen(false);
+            }
+        };
+
+        if (menuOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menuOpen]);
+
+
 
     return (
         <nav
@@ -143,11 +161,13 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {menuOpen && (
                 <div
+                    ref={menuRef}
                     className={`flex flex-col lg:hidden px-4 py-2 space-y-2 ${isDark ? "bg-purple-950" : "bg-gray-200"
                         } border-t shadow animate-slideDown`}
                 >
                     <NavLink
                         to="/"
+                        onClick={() => setMenuOpen(false)}
                         className={`font-satoshi ${isDark ? "text-white" : "text-black"
                             } hover:text-blue-600`}
                     >
@@ -155,6 +175,7 @@ const Navbar = () => {
                     </NavLink>
                     <NavLink
                         to="/tags"
+                        onClick={() => setMenuOpen(false)}
                         className={`font-satoshi ${isDark ? "text-white" : "text-black"
                             } hover:text-blue-600`}
                     >
@@ -162,19 +183,24 @@ const Navbar = () => {
                     </NavLink>
                     <NavLink
                         to="newtag"
+                        onClick={() => setMenuOpen(false)}
                         className={`font-satoshi ${isDark ? "text-white" : "text-black"
                             } hover:text-blue-600`}
                     >
                         Add new tag
                     </NavLink>
                     <NavLink
+                        onClick={() => setMenuOpen(false)}
                         to="search"
                         className={`font-satoshi ${isDark ? "text-white" : "text-black"
                             } hover:text-blue-600`}
                     >
                         Search
                     </NavLink>
-                    <button className="cursor-pointer" onClick={toggleTheme}>
+                    <button className="cursor-pointer" onClick={() => {
+                        toggleTheme()
+                        setMenuOpen(false)
+                    }}>
                         {!isDark ? (
                             <img
                                 src={sun}
@@ -194,8 +220,9 @@ const Navbar = () => {
 
 
                 </div>
-            )}
-        </nav>
+            )
+            }
+        </nav >
     );
 };
 
