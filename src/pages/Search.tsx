@@ -62,7 +62,7 @@ const Search = () => {
 
     if (!user) {
         return (
-            <section className="py-16 pt-0 px-4">
+            <section className="add min-h-screen mt-36 py-16 pt-0 px-4">
                 <div className="max-w-6xl mx-auto">
                     <div className="mx-auto text-center">
                         <h3 className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>

@@ -119,6 +119,26 @@ export default function AddNewTag() {
         // navigate(`tags/ ${newTag.tag_id}`)
     };
 
+    if (!user) {
+        return (
+            <section className="add min-h-screen mt-36 py-16 pt-0 px-4">
+                <div className="max-w-6xl mx-auto">
+                    <div className="mx-auto text-center">
+                        <h3 className="text-3xl md:text-4xl font-bold mt-16" style={{ color: 'var(--color-text)' }}>
+                            Log In now and lunch you Ideas!
+                        </h3>
+                        <button onClick={() => navigate('/login')} className="mx-4 mt-16 button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            Log In
+                        </button>
+                        <button onClick={() => navigate('/signup')} className="mx-4 mt-16 button-gradient cursor-pointer text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            Sing Up
+                        </button>
+                    </div>
+                </div>
+            </section>
+        )
+    }
+
 
 
     return (
