@@ -262,3 +262,13 @@ nav a.active{
 .animation {
   animation: popup-in 0.2s ease-out forwards;
 }
+
+
+@media (min-width: 855px) {
+    .flexing{
+        display: flex;
+    }
+    .hiding{
+        display: none;
+    }
+}
