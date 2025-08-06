@@ -23,7 +23,7 @@ const SingleTag = () => {
     const [doneDeleting, setDoneDeleting] = useState(false)
 
     // console.log("error?",detailesError)
-    
+
     const getTextColor = (bgColor: string) => {
         return tinycolor(bgColor).isLight() ? 'black' : 'white'
     }
@@ -85,7 +85,7 @@ const SingleTag = () => {
                     <div className="">
                         <div className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
                             <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
-                            <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>
+                            {tag[0].description && <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>}
                             <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
                                 {new Date(tag[0].created_at).toLocaleString("en-GB", {
                                     day: "2-digit",
@@ -133,7 +133,7 @@ const SingleTag = () => {
                                     <Link
                                         to={`/notes/${note.note_id}`}
                                         key={note.note_id}
-                                        className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all"
+                                        className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                         style={{ background: `${note.background_color}` }}
                                     >
                                         <p
@@ -208,7 +208,7 @@ export default SingleTag
 //                 <LoadingSpinner />
 //             )
 //                 : (
-//                     <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
+//                     <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
 //                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
 //                             {note.title}
 //                         </h3>

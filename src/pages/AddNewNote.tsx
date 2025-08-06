@@ -35,7 +35,7 @@ export default function AddNewNote() {
     }, [tag])
 
     useEffect(() => {
-        console.log("useEffect fiered")
+        // console.log("useEffect fiered")
         if (!loading) {
             if (successfulSubmit) {
                 setShowPopup(true)
