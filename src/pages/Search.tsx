@@ -205,7 +205,7 @@ const Search = () => {
                                                 <Link
                                                     to={`/tags/${tag.tag_id}`}
                                                     key={tag.tag_id}
-                                                    className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
+                                                    className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                                     style={{ background: `${tag.backgroutd_color}` }}
                                                 >
                                                     <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
@@ -220,7 +220,7 @@ const Search = () => {
                                                 <Link
                                                     to={`/notes/${note.note_id}`}
                                                     key={note.note_id}
-                                                    className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
+                                                    className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                                     style={{ background: `${note.background_color}` }}
                                                 >
                                                     <p
