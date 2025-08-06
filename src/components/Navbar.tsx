@@ -169,7 +169,7 @@ const Navbar = () => {
             {menuOpen && (
                 <div
                     ref={menuRef}
-                    className={`flex flex-col lg:hidden px-4 py-2 space-y-2 ${isDark ? "bg-purple-950" : "bg-gray-200"
+                    className={`*:w-max flex flex-col lg:hidden px-4 py-2 space-y-2 ${isDark ? "bg-purple-950" : "bg-gray-200"
                         } border-t shadow animate-slideDown`}
                 >
                     <NavLink
