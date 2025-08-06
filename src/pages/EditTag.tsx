@@ -50,7 +50,7 @@ export default function EditTAg() {
     const closePupup = () => {
         setShowPopup(false)
         setInputError(false)
-        !inputError && navigate(-1)
+        // !inputError && navigate(-1)
     }
 
 
@@ -104,7 +104,7 @@ export default function EditTAg() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (nameRef.current?.value.trim() == "" || descriptionRef.current?.value.trim() == "") {
+        if (nameRef.current?.value.trim() == "") {
             setInputError(true)
             setShowPopup(true)
             return
@@ -133,6 +133,11 @@ export default function EditTAg() {
 
         if (!error) {
             setSuccessfulSubmit(true)
+            if (!inputError) {
+                setTimeout(() => {
+                    navigate(-1)
+                }, 1500)
+            }
         }
 
         // navigate(`tags/ ${newTag.tag_id}`)
@@ -294,7 +299,7 @@ export default function EditTAg() {
                                 >
                                     {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
                                     <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Tag submited succesfully.")}</p>
-                                    <div className="flex justify-center gap-4">
+                                    {inputError && <div className="flex justify-center gap-4">
                                         <button
                                             onClick={() => {
                                                 closePupup()
@@ -303,7 +308,7 @@ export default function EditTAg() {
                                         >
                                             OK
                                         </button>
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         )

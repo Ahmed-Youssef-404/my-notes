@@ -54,7 +54,6 @@ export default function AddNewTag() {
     const closePupup = () => {
         setShowPopup(false)
         setInputError(false)
-        !inputError && navigate("/tags")
     }
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,6 +112,11 @@ export default function AddNewTag() {
 
         if (!error) {
             setSuccessfulSubmit(true)
+            if (!inputError) {
+                setTimeout(() => {
+                    navigate("/tags")
+                }, 1500)
+            }
         }
 
 
@@ -317,8 +321,8 @@ export default function AddNewTag() {
                             className={`animation bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
                         >
                             {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
-                            <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Tag submited succesfully.")}</p>
-                            <div className="flex justify-center gap-4">
+                            <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Tag added succesfully.")}</p>
+                            {inputError && <div className="flex justify-center gap-4">
                                 <button
                                     onClick={() => {
                                         closePupup()
@@ -327,7 +331,7 @@ export default function AddNewTag() {
                                 >
                                     OK
                                 </button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 )

@@ -97,6 +97,11 @@ export default function AddNewNote() {
         hadleAddNote(newNote)
         if (!error) {
             setSuccessfulSubmit(true)
+            if (!inputError) {
+                setTimeout(() => {
+                    navigate(`/tags/${tagId}`)
+                }, 1500)
+            }
         }
 
     };
@@ -104,7 +109,7 @@ export default function AddNewNote() {
     const closePupup = () => {
         setShowPopup(false)
         setInputError(false)
-        !inputError && navigate(`/tags/${tagId}`)
+        // !inputError && navigate(`/tags/${tagId}`)
     }
 
 
@@ -249,8 +254,8 @@ export default function AddNewNote() {
                             className={`bg-[#ddc9fb] p-6 rounded-lg shadow-lg border-2 ${inputError ? "border-red-500" : "border-green-500"}`}
                         >
                             {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
-                            <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Note submited succesfully.")}</p>
-                            <div className="flex justify-center gap-4">
+                            <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Note added succesfully.")}</p>
+                            {inputError && <div className="flex justify-center gap-4">
                                 <button
                                     onClick={() => {
                                         closePupup()
@@ -259,7 +264,7 @@ export default function AddNewNote() {
                                 >
                                     OK
                                 </button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 )

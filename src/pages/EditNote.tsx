@@ -57,7 +57,7 @@ export default function EditNote() {
     }, [oldNoteTitle])
 
     useEffect(() => {
-        console.log("useEffect fiered")
+        // console.log("useEffect fiered")
         if (!loading) {
             if (successfulSubmit) {
                 setShowPopup(true)
@@ -113,6 +113,11 @@ export default function EditNote() {
 
         if (!error) {
             setSuccessfulSubmit(true)
+            if (!inputError) {
+                setTimeout(() => {
+                    navigate(-1)
+                }, 1500)
+            }
         }
 
     };
@@ -120,8 +125,10 @@ export default function EditNote() {
     const closePupup = () => {
         setShowPopup(false)
         setInputError(false)
-        !inputError && navigate(-1)
+        // !inputError && navigate(-1)
     }
+
+
 
 
     {
@@ -276,7 +283,7 @@ export default function EditNote() {
                                 >
                                     {inputError && <h2 className="text-lg font-bold mb-4">Sumbitting Failed</h2>}
                                     <p className="mb-4">{inputError ? ("Pleas fill all fileds with valid data.") : ("Note submited succesfully.")}</p>
-                                    <div className="flex justify-center gap-4">
+                                    {inputError && <div className="flex justify-center gap-4">
                                         <button
                                             onClick={() => {
                                                 closePupup()
@@ -285,7 +292,7 @@ export default function EditNote() {
                                         >
                                             OK
                                         </button>
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         )
