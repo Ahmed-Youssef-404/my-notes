@@ -12,7 +12,7 @@ export const insertTag = async (tag: Tag) => {
         const { error } = await supabase
             .from("tags")
             .insert([tag]);
-        console.log("Successfully added the tag")
+        // console.log("Successfully added the tag")
         // alert(`Successfully added the tag "${tag.title}"`);
         if (error) {
             console.log("Error adding the tag", error)

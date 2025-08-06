@@ -43,7 +43,7 @@ export default function AddNewTag() {
     // console.log("is loadign?",loading)
 
     useEffect(() => {
-        console.log("useEffect fiered")
+        // console.log("useEffect fiered")
         if (!loading) {
             if (successfulSubmit) {
                 setShowPopup(true)
@@ -88,7 +88,7 @@ export default function AddNewTag() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (nameRef.current?.value.trim() == "" || descriptionRef.current?.value.trim() == "") {
+        if (nameRef.current?.value.trim() == "") {
             setInputError(true)
             setShowPopup(true)
             return

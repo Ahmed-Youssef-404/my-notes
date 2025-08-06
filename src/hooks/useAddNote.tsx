@@ -11,7 +11,7 @@ const useAddNote = () => {
         try {
             setLoading(true)
             await insertNote(note)
-            console.log("Note added:", note)
+            // console.log("Note added:", note)
             // alert("Note added successfully")
         } catch (error) {
             setError(true)

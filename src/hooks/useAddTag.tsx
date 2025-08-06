@@ -12,7 +12,7 @@ const useAddTag = () => {
         try {
             setLoading(true)
             await insertTag(tag)
-            console.log("Tag added:", tag)
+            // console.log("Tag added:", tag)
         } catch (error) {
             setError(true)
             console.log("Error in useAddTag:", error)

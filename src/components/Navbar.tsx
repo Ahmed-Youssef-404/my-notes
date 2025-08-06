@@ -204,7 +204,7 @@ const Navbar = () => {
                     >
                         Search
                     </NavLink>
-                    <button className="cursor-pointer" onClick={() => {
+                    <button className="cursor-pointer w-fit" onClick={() => {
                         toggleTheme()
                         setMenuOpen(false)
                     }}>

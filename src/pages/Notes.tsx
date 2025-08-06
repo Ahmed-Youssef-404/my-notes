@@ -101,7 +101,7 @@ const Notes = () => {
             <hr className=' text-[#ffa6f8] ' />
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
                 {notes && notes.map((note) => (
-                    <Link to={note.note_id + ''} key={note.note_id} className="size-hover p-6 rounded-xl border border-[#00012f] hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
+                    <Link to={note.note_id + ''} key={note.note_id} className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
                             {note.title}
                         </h3>
