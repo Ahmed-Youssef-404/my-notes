@@ -133,7 +133,7 @@ const SingleTag = () => {
                                     <Link
                                         to={`/notes/${note.note_id}`}
                                         key={note.note_id}
-                                        className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
+                                        className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                         style={{ background: `${note.background_color}` }}
                                     >
                                         <p
@@ -208,7 +208,7 @@ export default SingleTag
 //                 <LoadingSpinner />
 //             )
 //                 : (
-//                     <div key={note.note_id} className="size-hover p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
+//                     <div key={note.note_id} className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
 //                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
 //                             {note.title}
 //                         </h3>
