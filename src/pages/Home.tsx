@@ -62,7 +62,7 @@ const Home = () => {
                                         Your recent tags:
                                     </p>
                                     <div className="m-4 mt-0 px-2 md:m-8">
-                                        <div className="text-left grid md:grid-cols-2 lg:grid-cols-3 gap-8 my-8">
+                                        <div className="text-left grid sm:grid-cols-2 lg:grid-cols-3 gap-8 my-8">
                                             {tags.slice(0,6).map((tag) => (
                                                 <Link
                                                     to={`/tags/${tag.tag_id}`}
