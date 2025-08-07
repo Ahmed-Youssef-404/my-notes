@@ -109,7 +109,7 @@ const Tags = () => {
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
                 {tags && tags.sort().map((tag) => (
-                    <Link to={tag.tag_id + ''} key={tag.tag_id} className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all" style={{ background: `${tag.backgroutd_color}` }}>
+                    <Link to={tag.tag_id + ''} key={tag.tag_id} className="NewUserition-all" style={{ background: `${tag.backgroutd_color}` }}>
                         <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
                             {tag.title}
                         </h3>

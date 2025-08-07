@@ -35,6 +35,7 @@ export interface NewUser {
     username: string;
     email: string;
     password: string;
+    image?: File | null;
 }
 export interface userProfile {
     username: string;
@@ -42,7 +43,8 @@ export interface userProfile {
     password: string;
     created_at: string;
     id: string;
-    numOfNotes: number;
-    numOfTags: number;
+    user_profile: string;
+    // numOfNotes: number;
+    // numOfTags: number;
 }
 

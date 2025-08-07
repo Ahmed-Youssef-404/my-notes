@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import profileIcon from "../assets/user.webp";
+import avatarIcon from "../assets/user.webp";
+// import profileIcon2 from "../assets/user2.jpg";
+// import profileIcon3 from "../assets/user3.png";
 import moon from "../assets/moon.webp";
 import sun from "../assets/daylight.webp";
 import { useAuth } from "../hooks/useAuth";
@@ -15,6 +17,8 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const userName = profile?.username;
+    const userAvatar = profile?.user_profile;
+    // console.log(userAvatar)
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -127,8 +131,8 @@ const Navbar = () => {
                         <div className="flex items-center justify-center gap-4">
                             {/* User Avatar */}
                             {user && user.id ? (
-                                <NavLink to={"/user"} className="flex gap-2" title="Your Profile">
-                                    <img src={profileIcon} alt="usre avatar" className="w-6" />
+                                <NavLink to={"/user"} className="flex items-center justify-center gap-2" title="Your Profile">
+                                    <img src={userAvatar ? userAvatar : avatarIcon} alt="usre avatar" className="w-10 rounded-2xl" />
                                     <span style={{ color: ('var(--color-text)') }}>{userName}</span>
                                 </NavLink>
                             ) : (
@@ -292,7 +296,7 @@ const Navbar = () => {
                                     onClick={() => setMenuOpen(false)}
                                     className={`flex items-center gap-3 p-3 rounded-lg ${isDark ? "text-white hover:bg-purple-900" : "text-black hover:bg-[#ededed]"}`}
                                 >
-                                    <img src={profileIcon} alt="user avatar" className="w-5" />
+                                    <img src={userAvatar ? userAvatar : avatarIcon} alt="user avatar" className="w-5" />
                                     <span>{userName}</span>
                                 </NavLink>
                             ) : (

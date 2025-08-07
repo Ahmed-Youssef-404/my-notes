@@ -43,7 +43,7 @@ const User = () => {
                 Failed to load profile
             </p>
         );
-        
+
     else return (
         <div className="add min-h-screen">
             <section className="py-20 px-4">
@@ -61,6 +61,14 @@ const User = () => {
                         className="flex flex-col gap-4 text-2xl md:text-3xl"
                         style={{ color: "var(--logo-my)" }}
                     >
+                        {profile?.user_profile && <div className="font-bold flex items-center content-center gap-8">
+                            User Image:{" "}
+                            <img
+                                src={profile?.user_profile}
+                                className="font-medium w-24"
+                                style={{ color: "var(--color-text)" }}
+                            />
+                        </div>}
                         <p className="font-bold">
                             User Name:{" "}
                             <span
