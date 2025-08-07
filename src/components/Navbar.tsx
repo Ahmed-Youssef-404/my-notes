@@ -132,7 +132,7 @@ const Navbar = () => {
                             {/* User Avatar */}
                             {user && user.id ? (
                                 <NavLink to={"/user"} className="flex items-center justify-center gap-2" title="Your Profile">
-                                    <img src={userAvatar ? userAvatar : avatarIcon} alt="usre avatar" className="w-10 rounded-2xl" />
+                                    <img src={userAvatar ? userAvatar : avatarIcon} alt="usre avatar" className="w-10 rounded-full aspect-square" />
                                     <span style={{ color: ('var(--color-text)') }}>{userName}</span>
                                 </NavLink>
                             ) : (
@@ -296,7 +296,7 @@ const Navbar = () => {
                                     onClick={() => setMenuOpen(false)}
                                     className={`flex items-center gap-3 p-3 rounded-lg ${isDark ? "text-white hover:bg-purple-900" : "text-black hover:bg-[#ededed]"}`}
                                 >
-                                    <img src={userAvatar ? userAvatar : avatarIcon} alt="user avatar" className="w-5" />
+                                    <img src={userAvatar ? userAvatar : avatarIcon} alt="user avatar" className="w-10 rounded-full aspect-square" />
                                     <span>{userName}</span>
                                 </NavLink>
                             ) : (
