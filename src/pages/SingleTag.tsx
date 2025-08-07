@@ -143,10 +143,10 @@ const SingleTag = () => {
                                         >
                                             {note.title}
                                         </p>
-                                        <p style={{ color: getTextColor(note.background_color) }} className='text-sm'>
                                             {/* {note.body.length > 15 ? note.body.slice(0, 15) + "..." : HTMLReactParser(note.body)} */}
-                                            {HTMLReactParser(note.body)}
-                                        </p>
+                                        {/* <p style={{ color: getTextColor(note.background_color) }} className='text-sm'>
+                                            {HTMLReactParser(note.body)+""}
+                                        </p> */}
                                     </Link>
 
                                 ))

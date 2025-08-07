@@ -88,7 +88,7 @@ const SingleNote = () => {
                     <div className="mx-auto mt-4">
                         <h1 className={`${isDark ? "text-white" : "text-black"} text-center font-bold text-4xl mb-4`}>{note[0].title}</h1>
                         <hr className=' text-[#8b8b8b] w-56 mx-auto mb-8' />
-                        <p className={`${isDark ? "text-white" : "text-black"} text-xl whitespace-pre-wrap w-[90%] mx-auto  border-red-400`} >
+                        <p className={`singleNote ${isDark ? "text-white" : "text-black"} text-xl whitespace-pre-wrap w-[90%] mx-auto  border-red-400`} >
                             {/* {note[0].body} */}
                             {HTMLReactParser(note[0].body)}
                         </p>

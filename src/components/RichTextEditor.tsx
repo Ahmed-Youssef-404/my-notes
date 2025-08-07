@@ -1,5 +1,5 @@
 // components/RichTextEditor.tsx
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import JoditEditor from "jodit-react";
 
 type Props = {
@@ -26,4 +26,4 @@ function RichTextEditor({ value, onChange }: Props) {
   );
 }
 
-export default RichTextEditor;
+export default memo(RichTextEditor);

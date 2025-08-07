@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -108,6 +108,10 @@ export default function AddNewNote() {
 
     };
 
+    const handleEditorChange = useCallback((newValue: string) => {
+        setContent(newValue);
+    }, []);
+
     const closePupup = () => {
         setShowPopup(false)
         setInputError(false)
@@ -135,7 +139,7 @@ export default function AddNewNote() {
                 </p>
             </div>
 
-            <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
+            <div className="mt-8 lg:px-8">
                 <div
                     className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'} py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}
                 >
@@ -174,7 +178,7 @@ export default function AddNewNote() {
                                     // required
                                     className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
                                 /> */}
-                                <RichTextEditor value={""} onChange={setContent} />
+                                <RichTextEditor value={""} onChange={handleEditorChange} />
                             </div>
                         </div>
 
