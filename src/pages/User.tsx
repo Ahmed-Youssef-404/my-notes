@@ -65,7 +65,7 @@ const User = () => {
                             User Image:{" "}
                             <img
                                 src={profile?.user_profile}
-                                className="font-medium w-24"
+                                className="font-medium w-64"
                                 style={{ color: "var(--color-text)" }}
                             />
                         </div>}
