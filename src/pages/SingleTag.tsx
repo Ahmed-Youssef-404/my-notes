@@ -8,6 +8,7 @@ import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
 import useTagNotesCount from '../hooks/useTagNotesCount'
 import useDeleteTag from '../hooks/useDeleteTag'
+import HTMLReactParser from 'html-react-parser/lib/index'
 
 const SingleTag = () => {
     const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()
@@ -133,7 +134,7 @@ const SingleTag = () => {
                                     <Link
                                         to={`/notes/${note.note_id}`}
                                         key={note.note_id}
-                                        className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
+                                        className="max-h-16 overflow-hidden size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                         style={{ background: `${note.background_color}` }}
                                     >
                                         <p
@@ -142,8 +143,9 @@ const SingleTag = () => {
                                         >
                                             {note.title}
                                         </p>
-                                        <p style={{ color: getTextColor(note.background_color) }}>
-                                            {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
+                                        <p style={{ color: getTextColor(note.background_color) }} className='text-sm'>
+                                            {/* {note.body.length > 15 ? note.body.slice(0, 15) + "..." : HTMLReactParser(note.body)} */}
+                                            {HTMLReactParser(note.body)}
                                         </p>
                                     </Link>
 

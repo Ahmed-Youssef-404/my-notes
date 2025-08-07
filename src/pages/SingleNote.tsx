@@ -4,6 +4,7 @@ import useTheme from '../hooks/useTheme'
 import { useEffect, useState } from 'react'
 import useNoteDetails from '../hooks/useNoteDetails'
 import useDeleteNote from '../hooks/useDeleteNote'
+import HTMLReactParser from 'html-react-parser/lib/index'
 
 const SingleNote = () => {
     const { note, error: detailesError, loading: loadingDetailes } = useNoteDetails()
@@ -88,7 +89,8 @@ const SingleNote = () => {
                         <h1 className={`${isDark ? "text-white" : "text-black"} text-center font-bold text-4xl mb-4`}>{note[0].title}</h1>
                         <hr className=' text-[#8b8b8b] w-56 mx-auto mb-8' />
                         <p className={`${isDark ? "text-white" : "text-black"} text-xl whitespace-pre-wrap w-[90%] mx-auto  border-red-400`} >
-                            {note[0].body}
+                            {/* {note[0].body} */}
+                            {HTMLReactParser(note[0].body)}
                         </p>
                     </div>
 
