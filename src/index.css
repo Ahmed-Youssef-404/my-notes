@@ -11,6 +11,7 @@
     --color-secondary: #2563eb;
     --color-secondary-light: #3b82f6;
     --color-bg: linear-gradient(to bottom right, #faf5ff, #f0f9ff);
+    --text-editor-bg: rgb(250 245 255);
     --color-card-bg: #ffffffe6;
     --color-text: #1f2937;
     --color-text-light: #6b7280;
@@ -42,6 +43,7 @@
     --color-secondary: #60a5fa;
     --color-secondary-light: #93c5fd;
     --color-bg: linear-gradient(to bottom right, #050511, #070c1c);
+    --text-editor-bg: rgb(230, 229, 235);
     --color-card-bg: rgba(30, 30, 46, 0.9);
     --color-text: #e5e7eb;
     --color-text-light: #9ca3af;
@@ -65,19 +67,22 @@
 /* hide scroll bar */
 /* Scrollbar صغير */
 ::-webkit-scrollbar {
-  width: 6px; /* للـ vertical */
-  height: 6px; /* للـ horizontal */
+    width: 6px;
+    /* للـ vertical */
+    height: 6px;
+    /* للـ horizontal */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2); /* لون خفيف */
-  /* background-color: rgb(255, 0, 0); لون خفيف */
-  border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* لون خفيف */
+    /* background-color: rgb(255, 0, 0); لون خفيف */
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
-  /* background: rgb(220, 222, 242); */
+    background: transparent;
+    /* background: rgb(220, 222, 242); */
 }
 
 
@@ -237,38 +242,51 @@ button {
 /* ------------------------------------------------------------------ */
 
 /* hover effect */
-.size-hover:hover{
+.size-hover:hover {
     /* border: solid red 15px !important; */
     transform: scale(1.05);
 }
 
-nav a.active{
+nav a.active {
     /* color:#5fa4f9; */
-    color:var(--logo-note);
+    color: var(--logo-note);
 }
 
 /* styles.css */
 @keyframes popup-in {
-  0% {
-    opacity: 0;
-    /* transform: scale(0.8); */
-  }
-  100% {
-    opacity: 1;
-    /* transform: scale(1); */
-  }
+    0% {
+        opacity: 0;
+        /* transform: scale(0.8); */
+    }
+
+    100% {
+        opacity: 1;
+        /* transform: scale(1); */
+    }
 }
 
 .animation {
-  animation: popup-in 0.2s ease-out forwards;
+    animation: popup-in 0.2s ease-out forwards;
 }
 
 
 @media (min-width: 855px) {
-    .flexing{
+    .flexing {
         display: flex;
     }
-    .hiding{
+
+    .hiding {
         display: none;
     }
+}
+
+.jodit-react-container,
+.jodit-status-bar,
+.jodit-workplace,
+.jodit-toolbar__box {
+    background-color: var(--text-editor-bg) !important;
+}
+
+.singleNote td {
+    border: solid 1px;
 }
