@@ -26,7 +26,7 @@ export default function EditNote() {
     const [oldNoteBody, setOldNoteBody] = useState("")
     const [titleLength, setTitleLength] = useState<number>(oldNoteBody.length);
     const [title, setTitle] = useState<string>(oldNoteBody);
-    const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
+    // const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
     const [content, setContent] = useState("");
 
     // console.log("Note id", noteId)
@@ -49,7 +49,7 @@ export default function EditNote() {
             setOldNoteTitle(note[0].title);
             setOldNoteBody(note[0].body);
             setTitle(note[0].title);
-            setNoteBody(note[0].body);
+            // setNoteBody(note[0].body);
             setBackgroundColor(note[0].background_color || '#E07B5A');
         }
     }, [note]);
@@ -68,7 +68,7 @@ export default function EditNote() {
     }, [loading, successfulSubmit])
 
     const titleRef = useRef<HTMLInputElement>(null)
-    const BodyRef = useRef<HTMLTextAreaElement>(null)
+    // const BodyRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -84,10 +84,10 @@ export default function EditNote() {
         }
     }
 
-    const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value
-        setNoteBody(value)
-    }
+    // const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    //     const value = e.target.value
+    //     setNoteBody(value)
+    // }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
