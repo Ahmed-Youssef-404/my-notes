@@ -1,4 +1,5 @@
 // import { type ChangeEvent } from 'react';
+import { type ChangeEvent } from 'react'
 import { type FormEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -20,8 +21,8 @@ const SignUp = () => {
     const [showInputPopup, setShowInputPopup] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
 
-    // const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    // const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
     const [shown, setShown] = useState(false)
 
@@ -29,7 +30,8 @@ const SignUp = () => {
         username: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        image: ""
     })
 
     const [isValidInput, setIsValidInput] = useState({
@@ -75,9 +77,14 @@ const SignUp = () => {
             return;
         }
 
-        handleSignUp(authData)
-    };
+        if (!selectedImage) {
+            setShowPopup(true);
+            setShowInputPopup(true);
+            return;
+        }
 
+        handleSignUp({ ...authData, image: selectedImage });
+    }
 
     const handleUsernameChange = (text: string) => {
         try {
@@ -140,14 +147,14 @@ const SignUp = () => {
     }, [inputData.password, inputData.confirmPassword])
 
 
-    // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    //     const file = e.target.files?.[0];
-    //     if (file) {
-    //         setSelectedImage(file);
-    //         const preview = URL.createObjectURL(file);
-    //         setPreviewUrl(preview);
-    //     }
-    // };
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            const preview = URL.createObjectURL(file);
+            setPreviewUrl(preview);
+        }
+    };
 
 
 
@@ -169,7 +176,7 @@ const SignUp = () => {
             <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
                 <div className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'}  py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}>
                     <form className="space-y-6" onSubmit={handleSubmit}>
-                        {/* <div className='flex items-center justify-between flex-col sm:flex-row gap-8 sm:gap-16'>
+                        <div className='flex items-center justify-between flex-col sm:flex-row gap-8 sm:gap-16'>
                             <div className="w-full">
                                 <label htmlFor="userAvatar" className={`mb-1 block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                     User Image
@@ -194,7 +201,7 @@ const SignUp = () => {
                                     />
                                 </div>
                             )}
-                        </div> */}
+                        </div>
                         <div>
                             <label htmlFor="text" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                 User name
