@@ -20,9 +20,10 @@ export default function EditTAg() {
     const [successfulSubmit, setSuccessfulSubmit] = useState(false)
     const [oldTagTitle, setOldTagTitle] = useState("")
     const [oldTagDescription, setOldTagDescription] = useState("")
-    const [titleLength, setTitleLength] = useState<number>(0);
+    const [titleLength, setTitleLength] = useState<number>();
     const [title, setTitle] = useState<string>(oldTagTitle);
     const [tagDescription, setTagDescription] = useState<string>(oldTagDescription);
+    const [deslength, setDeslength] = useState<number>(tagDescription.length);
     const userId = (user?.id + "")
 
     const colorOptions = [
@@ -66,12 +67,11 @@ export default function EditTAg() {
 
     useEffect(() => {
         setTitleLength(oldTagTitle.length)
-    }, [oldTagTitle])
+        setDeslength(oldTagDescription.length)
+    }, [oldTagTitle, oldTagDescription])
 
 
     // console.log(oldTagTitle)
-
-    const [deslength, setDeslength] = useState<number>(0);
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
