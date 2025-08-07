@@ -8,7 +8,7 @@ import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
 import useTagNotesCount from '../hooks/useTagNotesCount'
 import useDeleteTag from '../hooks/useDeleteTag'
-import HTMLReactParser from 'html-react-parser/lib/index'
+// import HTMLReactParser from 'html-react-parser/lib/index'
 
 const SingleTag = () => {
     const { tag, error: detailesError, loading: loadingDetailes } = useTagDetails()

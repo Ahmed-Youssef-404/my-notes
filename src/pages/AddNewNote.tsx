@@ -59,7 +59,7 @@ export default function AddNewNote() {
     };
 
     const titleRef = useRef<HTMLInputElement>(null)
-    const BodyRef = useRef<HTMLTextAreaElement>(null)
+    // const BodyRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
