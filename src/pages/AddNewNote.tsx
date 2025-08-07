@@ -75,14 +75,18 @@ export default function AddNewNote() {
         }
     }
 
+    // console.log("content:",content)
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // if (titleRef.current?.value.trim() == "" || BodyRef.current?.value.trim() == "") {
-        //     setInputError(true)
-        //     setShowPopup(true)
-        //     return
-        // }
+        // console.log("Final content:",content)
+
+        if (titleRef.current?.value.trim() == "" || content == "" || content == "<p><br></p>") {
+            setInputError(true)
+            setShowPopup(true)
+            return
+        }
 
         const title = titleRef.current!.value || '';
         // const body = BodyRef.current!.value || '';

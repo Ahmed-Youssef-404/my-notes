@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 import useEditNote from '../hooks/useEditNote';
 import useNoteDetails from '../hooks/useNoteDetails';
 import type { Note } from '../types/Types';
+import RichTextEditor from '../components/RichTextEditor';
 
 
 
@@ -25,7 +26,8 @@ export default function EditNote() {
     const [oldNoteBody, setOldNoteBody] = useState("")
     const [titleLength, setTitleLength] = useState<number>(oldNoteBody.length);
     const [title, setTitle] = useState<string>(oldNoteBody);
-    const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
+    // const [noteBody, setNoteBody] = useState<string>(oldNoteBody);
+    const [content, setContent] = useState("");
 
     // console.log("Note id", noteId)
     // console.log("Tag id", tagId)
@@ -47,7 +49,7 @@ export default function EditNote() {
             setOldNoteTitle(note[0].title);
             setOldNoteBody(note[0].body);
             setTitle(note[0].title);
-            setNoteBody(note[0].body);
+            // setNoteBody(note[0].body);
             setBackgroundColor(note[0].background_color || '#E07B5A');
         }
     }, [note]);
@@ -66,7 +68,7 @@ export default function EditNote() {
     }, [loading, successfulSubmit])
 
     const titleRef = useRef<HTMLInputElement>(null)
-    const BodyRef = useRef<HTMLTextAreaElement>(null)
+    // const BodyRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -82,29 +84,29 @@ export default function EditNote() {
         }
     }
 
-    const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value
-        setNoteBody(value)
-    }
+    // const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    //     const value = e.target.value
+    //     setNoteBody(value)
+    // }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (titleRef.current?.value.trim() == "" || BodyRef.current?.value.trim() == "") {
+        if (titleRef.current?.value.trim() == "" || content == "" || content == "<p><br></p>") {
             setInputError(true)
             setShowPopup(true)
             return
         }
 
         const title = titleRef.current!.value || '';
-        const body = BodyRef.current!.value || '';
+        // const body = BodyRef.current!.value || '';
 
         const newNote: Note = {
             user_id: userId,
             tag_id: tagId,
             note_id: noteId,
             title: title,
-            body: body,
+            body: content,
             background_color: backgroundColor,
 
         };
@@ -121,6 +123,10 @@ export default function EditNote() {
         }
 
     };
+
+    const handleEditorChange = useCallback((newValue: string) => {
+        setContent(newValue);
+    }, []);
 
     const closePupup = () => {
         setShowPopup(false)
@@ -141,7 +147,7 @@ export default function EditNote() {
                 </div>
             ) : (
                 <div
-                    className={`flex flex-col justify-center py-6 transition-colors duration-300`}
+                    className={`flex flex-col justify-center pt-6 sm:px-6 lg:px-8 transition-colors duration-300`}
                     style={{ background: isDark ? 'var(--color-bg-dark)' : 'var(--color-bg)' }}
                 >
                     <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -158,7 +164,7 @@ export default function EditNote() {
                         </p>
                     </div>
 
-                    <div className="mt-8 px-8 sm:mx-auto sm:w-full sm:max-w-2xl">
+                    <div className="mt-8 lg:px-8">
                         <div
                             className={`${isDark ? 'bg-gray-800/70' : 'bg-[#957cae4b]'} py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 transition-colors duration-300 ${isDark ? 'border border-gray-700' : ''}`}
                         >
@@ -189,16 +195,17 @@ export default function EditNote() {
                                         Body
                                     </label>
                                     <div className="mt-1">
-                                        <textarea
-                                            id="description"
-                                            name="description"
-                                            rows={7}
-                                            ref={BodyRef}
-                                            value={noteBody}
-                                            onChange={handleBody}
-                                            // required
-                                            className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
-                                        />
+                                        {/* <textarea
+                                        id="description"
+                                        name="description"
+                                        rows={7}
+                                        ref={BodyRef}
+                                        value={noteBody}
+                                        onChange={handleBody}
+                                        // required
+                                        className={`resize-none appearance-none block w-full px-3 py-2 border ${isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-purple-50 text-gray-900'} rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-colors duration-300`}
+                                        /> */}
+                                        <RichTextEditor value={oldNoteBody} onChange={handleEditorChange} />
                                     </div>
                                 </div>
 
