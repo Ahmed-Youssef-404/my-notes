@@ -130,7 +130,7 @@ const SingleTag = () => {
                     ) : (
                         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                             {notes && notes.length > 0 ? (
-                                [...notes].reverse().map((note) => (
+                                [...notes].map((note) => (
                                     <Link
                                         to={`/notes/${note.note_id}`}
                                         key={note.note_id}

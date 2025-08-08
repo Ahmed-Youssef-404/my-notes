@@ -83,16 +83,21 @@ export default function EditNote() {
             setTitleLength(15);
         }
     }
-
-    // const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    //     const value = e.target.value
-    //     setNoteBody(value)
-    // }
+    const isContentEmpty = (html: string) => {
+        // 1. شيل كل التاجات
+        let text = html.replace(/<[^>]*>/g, "");
+        // 2. شيل &nbsp; وحولها لمسافة عادية
+        text = text.replace(/&nbsp;/g, " ");
+        // 3. شيل المسافات من الأول والآخر
+        text = text.trim();
+        // 4. لو مفيش نص، يبقى فاضي
+        return text === "";
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (titleRef.current?.value.trim() == "" || content == "" || content == "<p><br></p>") {
+         if (titleRef.current?.value.trim() === "" || isContentEmpty(content)) {
             setInputError(true)
             setShowPopup(true)
             return

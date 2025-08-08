@@ -29,6 +29,7 @@ export const getNotes = async (user_id: string, tag_id: string) => {
             .select("*")
             .eq("user_id", user_id)
             .eq("tag_id", tag_id)
+            .order('created_at', { ascending: false });
         if (error) {
             console.log("failed to get notes", error)
             throw error

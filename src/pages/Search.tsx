@@ -208,9 +208,9 @@ const Search = () => {
                                                     className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                                     style={{ background: `${tag.backgroutd_color}` }}
                                                 >
-                                                    <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                    <p className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
                                                         {tag.title}
-                                                    </h3>
+                                                    </p>
                                                     <p style={{ color: getTextColor(tag.backgroutd_color) }}>
                                                         {tag.description.length > 15 ? tag.description.slice(0, 15) + "..." : tag.description}
                                                     </p>
@@ -229,9 +229,9 @@ const Search = () => {
                                                     >
                                                         {note.title}
                                                     </p>
-                                                    <p style={{ color: getTextColor(note.background_color) }}>
+                                                    {/* <p style={{ color: getTextColor(note.background_color) }}>
                                                         {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
-                                                    </p>
+                                                    </p> */}
                                                 </Link>
                                             ))}
                                     </div>

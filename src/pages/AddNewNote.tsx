@@ -75,6 +75,17 @@ export default function AddNewNote() {
         }
     }
 
+    const isContentEmpty = (html: string) => {
+        // 1. شيل كل التاجات
+        let text = html.replace(/<[^>]*>/g, "");
+        // 2. شيل &nbsp; وحولها لمسافة عادية
+        text = text.replace(/&nbsp;/g, " ");
+        // 3. شيل المسافات من الأول والآخر
+        text = text.trim();
+        // 4. لو مفيش نص، يبقى فاضي
+        return text === "";
+    };
+    
     // console.log("content:",content)
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -82,7 +93,7 @@ export default function AddNewNote() {
 
         // console.log("Final content:",content)
 
-        if (titleRef.current?.value.trim() == "" || content == "" || content == "<p><br></p>") {
+        if (titleRef.current?.value.trim() === "" || isContentEmpty(content)) {
             setInputError(true)
             setShowPopup(true)
             return
