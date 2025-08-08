@@ -16,7 +16,7 @@ export const searchService = async (searchFor: string, text: string) => {
             .select("*")
             .ilike("title", `%${text}%`)
             .eq("user_id", userId)
-
+            .order('created_at', { ascending: false });
         if (error) {
             console.log(`couldn't featch ${searchFor}`, error)
         }

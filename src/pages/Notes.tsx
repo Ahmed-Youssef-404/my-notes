@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2'
 import useTheme from '../hooks/useTheme'
 import { type Note } from '../types/Types'
 import { useGetAllNotes } from '../hooks/useGetNotes'
+import HTMLReactParser from 'html-react-parser/lib/index'
 
 
 const Notes = () => {
@@ -102,13 +103,14 @@ const Notes = () => {
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-8">
                 {notes && notes.map((note) => (
                     <Link to={note.note_id + ''} key={note.note_id} className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all" style={{ background: `${note.background_color}` }}>
-                        <h3 className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
+                        <p className="text-xl font-semibold mb-2" style={{ color: getTextColor(note.background_color) }}>
                             {note.title}
-                        </h3>
-
-                        <p style={{ color: getTextColor(note.background_color) }}>
-                            {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
                         </p>
+
+                        {/* <p style={{ color: getTextColor(note.background_color) }}>
+                            {note.body.length > 15 ? note.body.slice(0, 15) + "..." : note.body}
+                        </p> */}
+                        {/* {HTMLReactParser(note.body)} */}
                     </Link>
                 ))}
             </div>
