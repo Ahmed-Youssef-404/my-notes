@@ -6,7 +6,6 @@ import tinycolor from 'tinycolor2'
 import useTheme from '../hooks/useTheme'
 import { type Note } from '../types/Types'
 import { useGetAllNotes } from '../hooks/useGetNotes'
-import HTMLReactParser from 'html-react-parser/lib/index'
 
 
 const Notes = () => {
