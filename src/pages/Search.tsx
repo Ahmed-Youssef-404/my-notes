@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { Link, useNavigate } from 'react-router-dom'
-import LoadingSpinner from '../components/LoadingSpinner'
 import tinycolor from 'tinycolor2'
 import useTheme from '../hooks/useTheme'
 import { type Note, type Tag } from '../types/Types'
 import { useSearch } from '../hooks/useSearch'
+import NotesSkeletonLoader from '../components/NotesSkeletonLoader'
 
 
 const Search = () => {
@@ -182,8 +182,10 @@ const Search = () => {
 
                         {
                             (loading || localLoading) ? (
-                                <div className="flex justify-center mt-24">
-                                    <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
+                                <div className="flex justify-center items-center flex-wrap mt-8">
+                                    <NotesSkeletonLoader/>
+                                    <NotesSkeletonLoader/>
+                                    <NotesSkeletonLoader/>
                                 </div>
                             ) : (notFound || searchText == "") ? (
                                 <section className="py-16 pt-0 px-4">

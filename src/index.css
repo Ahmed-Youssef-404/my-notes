@@ -30,6 +30,8 @@
     --color-shape-1: #ecdefb;
     --color-shape-2: #e1c4fd;
     --color-shape-3: #ddd6fe;
+    --skeleton-background: #cdd4e1;
+    --skeleton-loader-background: #f5f1fd;
 }
 
 /* Dark Theme */
@@ -62,6 +64,8 @@
     --color-shape-1: #4c1d95;
     --color-shape-2: #5f2fb9;
     --color-shape-3: #5b21b6;
+    --skeleton-background: #2d2d3c;
+    --skeleton-loader-background:rgb(83, 79, 91);
 }
 
 /* hide scroll bar */
@@ -83,6 +87,19 @@
 ::-webkit-scrollbar-track {
     background: transparent;
     /* background: rgb(220, 222, 242); */
+}
+
+* {
+    transition: all 250ms ease-in-out !important;
+}
+
+.skeletonLoader{
+  /* background:#6a7282; */
+  background-color:var(--skeleton-background) !important;
+}
+
+.skeletonLoaderLines{
+    background-color:var(--skeleton-loader-background) !important;
 }
 
 

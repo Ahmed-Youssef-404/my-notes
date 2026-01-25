@@ -1,13 +1,14 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useTagDetails from '../hooks/useTagDetails'
-import useTheme from '../hooks/useTheme'
 import { useEffect, useState } from 'react'
 import { useGetNotes } from '../hooks/useGetNotes'
 import tinycolor from 'tinycolor2'
 import type { Note } from '../types/Types'
 import useTagNotesCount from '../hooks/useTagNotesCount'
 import useDeleteTag from '../hooks/useDeleteTag'
+import PageInfoSkeleteonLoader from '../components/PageInfoSkeleteonLoader'
+import NotesSkeletonLoader from '../components/NotesSkeletonLoader'
 // import HTMLReactParser from 'html-react-parser/lib/index'
 
 const SingleTag = () => {
@@ -16,9 +17,7 @@ const SingleTag = () => {
     const { getAllNotes, error: notesError, loading: loadingNotes } = useGetNotes()
     const { deleteTag, loading: lodingDelete } = useDeleteTag()
     const [notes, setNotes] = useState<Note[] | null>()
-    const { isDark } = useTheme()
     const navigate = useNavigate()
-    // const inAddNote = location.pathname.includes("addnote");
     const { tagNotesCount } = useTagNotesCount(tagId + "")
     const [showPopup, setShowPopup] = useState(false)
     const [doneDeleting, setDoneDeleting] = useState(false)
@@ -63,9 +62,17 @@ const SingleTag = () => {
 
     if (loadingDetailes) {
         return (
-            <div className="flex justify-center mt-28 h-screen">
-                <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
-            </div>
+            <>
+                <div className="">
+                    <PageInfoSkeleteonLoader />
+                </div>
+                <hr className=' text-[#ffa6f8] ' />
+                <div className="flex justify-center items-center flex-wrap mt-8">
+                    <NotesSkeletonLoader />
+                    <NotesSkeletonLoader />
+                    <NotesSkeletonLoader />
+                </div>
+            </>
         )
     }
 
@@ -125,7 +132,7 @@ const SingleTag = () => {
 
                     {loadingNotes ? (
                         <div className="flex justify-center mt-28 h-screen">
-                            <LoadingSpinner height={40} color={`${isDark ? 'white' : 'black'}`} />
+                            ...
                         </div>
                     ) : (
                         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
