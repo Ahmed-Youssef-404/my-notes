@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { Link, useNavigate } from 'react-router-dom'
-import LoadingSpinner from '../components/LoadingSpinner'
 import tinycolor from 'tinycolor2'
 import useGetTags from '../hooks/useGetTags'
-import useTheme from '../hooks/useTheme'
 import { type Tag } from '../types/Types'
+import PageInfoSkeleteonLoader from '../components/PageInfoSkeleteonLoader'
+import NotesSkeletonLoader from '../components/NotesSkeletonLoader'
 
 
 const Tags = () => {
 
     const { user } = useAuth()
-    const { isDark } = useTheme()
     const { error, getAllTags, loading } = useGetTags()
     const navigate = useNavigate()
     const [tags, setTags] = useState<Tag[]>([])
@@ -33,9 +32,17 @@ const Tags = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center mt-28 h-screen">
-                <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
-            </div>
+            <>
+                <div className="">
+                    <PageInfoSkeleteonLoader />
+                </div>
+                <hr className=' text-[#ffa6f8] ' />
+                <div className="flex justify-center items-center flex-wrap mt-8">
+                    <NotesSkeletonLoader />
+                    <NotesSkeletonLoader />
+                    <NotesSkeletonLoader />
+                </div>
+            </>
         )
     }
 

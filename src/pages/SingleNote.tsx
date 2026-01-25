@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import useNoteDetails from '../hooks/useNoteDetails'
 import useDeleteNote from '../hooks/useDeleteNote'
 import HTMLReactParser from 'html-react-parser/lib/index'
+import PageInfoSkeleteonLoader from '../components/PageInfoSkeleteonLoader'
+import ContentSkeletonLoader from '../components/ContentSkeletonLoader'
 
 const SingleNote = () => {
     const { note, error: detailesError, loading: loadingDetailes } = useNoteDetails()
@@ -38,9 +40,16 @@ const SingleNote = () => {
 
     if (loadingDetailes) {
         return (
-            <div className="flex justify-center mt-28 h-screen">
-                <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
-            </div>
+            <>
+                <div className="">
+                    <PageInfoSkeleteonLoader />
+                </div>
+                <hr className=' text-[#ffa6f8] ' />
+
+                <div className="">
+                    <ContentSkeletonLoader/>
+                </div>
+            </>
         )
     }
 

@@ -2,11 +2,12 @@ import { Link, useNavigate } from "react-router";
 import useTheme from "../hooks/useTheme";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
-import LoadingSpinner from "../components/LoadingSpinner";
 import { useEffect, useState } from "react";
 import useGetTags from "../hooks/useGetTags";
 import type { Tag } from "../types/Types";
 import tinycolor from "tinycolor2";
+import NotesSkeletonLoader from "../components/NotesSkeletonLoader";
+import PageInfoSkeleteonLoader from "../components/PageInfoSkeleteonLoader";
 
 const Home = () => {
 
@@ -39,9 +40,17 @@ const Home = () => {
         return (
             user && user.id ? (
                 loading ? (
-                    <div className="flex justify-center mt-48 h-screen">
-                        <LoadingSpinner height={50} color={`${isDark ? 'white' : 'black'}`} />
-                    </div>
+                    <>
+                        <div className="pt-20">
+                            <PageInfoSkeleteonLoader />
+                        </div>
+                        <br />
+                        <div className="flex justify-center items-center flex-wrap mt-8">
+                            <NotesSkeletonLoader />
+                            <NotesSkeletonLoader />
+                            <NotesSkeletonLoader />
+                        </div>
+                    </>
                 ) : (
                     <div className="add text-white min-h-screen" style={{ background: 'var(--color-bg)' }}>
                         <section className="py-20 pb-0 px-4">
