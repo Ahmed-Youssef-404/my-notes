@@ -64,14 +64,14 @@ export default function AddNewNote() {
     const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
 
-        if (value.length <= 15) {
+        if (value.length <= 35) {
             setTitle(value);
             setTitleLength(value.length);
         } else {
             // ممكن كمان تمنع الزيادة حتى لو لزق نص كبير مرة واحدة
-            const trimmed = value.slice(0, 15);
+            const trimmed = value.slice(0, 35);
             setTitle(trimmed);
-            setTitleLength(15);
+            setTitleLength(35);
         }
     }
 
@@ -161,9 +161,9 @@ export default function AddNewNote() {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="name" className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                Note title (max 15 chars)
+                                Note title (max 35 chars)
                                 <span className="ml-1 text-xs text-gray-500">
-                                    {titleLength}/15
+                                    {titleLength}/35
                                 </span>
                             </label>
                             <div className="mt-1">
