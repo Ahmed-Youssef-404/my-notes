@@ -47,7 +47,7 @@ const SingleNote = () => {
                 <hr className=' text-[#ffa6f8] ' />
 
                 <div className="">
-                    <ContentSkeletonLoader/>
+                    <ContentSkeletonLoader />
                 </div>
             </>
         )
@@ -69,7 +69,7 @@ const SingleNote = () => {
 
                     <div className="">
                         <div className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
-                            <span>Note name: <span style={{ color: 'var(--logo-note)' }}>{note[0].title}</span></span>
+                            <span>Note name: <span dir='auto' style={{ color: 'var(--logo-note)' }}>{note[0].title}</span></span>
                             {/* <span>Note description: <span style={{ color: 'var(--logo-note)' }}>{note[0].body}</span></span> */}
                             <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
                                 {new Date(note[0].created_at).toLocaleString("en-GB", {
@@ -95,9 +95,16 @@ const SingleNote = () => {
                     </div>
 
                     <div className="mx-auto mt-4">
-                        <h1 className={`${isDark ? "text-white" : "text-black"} text-center font-bold text-4xl mb-4`}>{note[0].title}</h1>
+                        <h1
+                            className={`${isDark ? "text-white" : "text-black"} text-center font-bold text-4xl mb-4`}
+                            dir='auto'
+                        >
+                            {note[0].title}
+                        </h1>
                         <hr className=' text-[#8b8b8b] w-56 mx-auto mb-8' />
-                        <p className={`singleNote ${isDark ? "text-white" : "text-black"} text-xl whitespace-pre-wrap w-[90%] mx-auto  border-red-400`} >
+                        <p
+                            dir='auto'
+                            className={`singleNote ${isDark ? "text-white" : "text-black"} text-xl whitespace-pre-wrap w-[90%] mx-auto  border-red-400`} >
                             {/* {note[0].body} */}
                             {HTMLReactParser(note[0].body)}
                         </p>

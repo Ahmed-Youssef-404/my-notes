@@ -92,7 +92,7 @@ const SingleTag = () => {
 
                     <div className="">
                         <div className="flex flex-col md:flex-row justify-start sm:justify-around custom-justify-around flex-wrap gap-2 md:gap-8 text-xl mb-6" style={{ color: 'var(--color-text)' }}>
-                            <span>Tag name: <span style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
+                            <span>Tag name: <span dir='auto' style={{ color: 'var(--logo-note)' }}>{tag[0].title}</span></span>
                             {tag[0].description && <span>Tag description: <span style={{ color: 'var(--logo-note)' }}>{tag[0].description}</span></span>}
                             <span>Created at: <span style={{ color: 'var(--logo-note)' }}>
                                 {new Date(tag[0].created_at).toLocaleString("en-GB", {
