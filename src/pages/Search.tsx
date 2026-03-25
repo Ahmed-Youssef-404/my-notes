@@ -48,11 +48,11 @@ const Search = () => {
         };
     }, [searchText, searchType]);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (searchText.length == 0) {
-        setResults([])
-    }
-    },[searchText])
+            setResults([])
+        }
+    }, [searchText])
 
 
 
@@ -79,7 +79,7 @@ const Search = () => {
             </section>
         )
     }
-    
+
     if (error) {
         return (
             <section className="py-16 pt-0 px-4">
@@ -183,9 +183,9 @@ const Search = () => {
                         {
                             (loading || localLoading) ? (
                                 <div className="flex justify-center items-center flex-wrap mt-8">
-                                    <NotesSkeletonLoader/>
-                                    <NotesSkeletonLoader/>
-                                    <NotesSkeletonLoader/>
+                                    <NotesSkeletonLoader />
+                                    <NotesSkeletonLoader />
+                                    <NotesSkeletonLoader />
                                 </div>
                             ) : (notFound || searchText == "") ? (
                                 <section className="py-16 pt-0 px-4">
@@ -207,10 +207,14 @@ const Search = () => {
                                                 <Link
                                                     to={`/tags/${tag.tag_id}`}
                                                     key={tag.tag_id}
+                                                    dir='auto'
                                                     className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                                     style={{ background: `${tag.backgroutd_color}` }}
                                                 >
-                                                    <p className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                    <p
+                                                        className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}
+                                                        dir='rtl'
+                                                    >
                                                         {tag.title}
                                                     </p>
                                                     <p style={{ color: getTextColor(tag.backgroutd_color) }}>
@@ -222,6 +226,7 @@ const Search = () => {
                                                 <Link
                                                     to={`/notes/${note.note_id}`}
                                                     key={note.note_id}
+                                                    dir='auto'
                                                     className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
                                                     style={{ background: `${note.background_color}` }}
                                                 >

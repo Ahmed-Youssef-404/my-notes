@@ -72,14 +72,19 @@ const Home = () => {
                                     </p>
                                     <div className="m-4 mt-0 px-2 md:m-8">
                                         <div className="text-left grid sm:grid-cols-2 lg:grid-cols-3 gap-8 my-8">
-                                            {tags.slice(0,6).map((tag) => (
+                                            {tags.slice(0, 6).map((tag) => (
                                                 <Link
                                                     to={`/tags/${tag.tag_id}`}
                                                     key={tag.tag_id}
+                                                    dir='auto'
                                                     className="size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49] hover:shadow-md transition-all"
                                                     style={{ background: tag.backgroutd_color }}
                                                 >
-                                                    <p className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}>
+                                                    <p
+                                                        dir='auto'
+                                                        className="text-xl font-semibold mb-2" style={{ color: getTextColor(tag.backgroutd_color) }}
+                                                    >
+
                                                         {tag.title}
                                                     </p>
                                                     <p style={{ color: getTextColor(tag.backgroutd_color) }}>

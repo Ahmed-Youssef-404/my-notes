@@ -141,7 +141,8 @@ const SingleTag = () => {
                                     <Link
                                         to={`/notes/${note.note_id}`}
                                         key={note.note_id}
-                                        className="max-h-16 overflow-hidden size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49]  hover:shadow-md transition-all"
+                                        dir='auto'
+                                        className="max-h-16 overflow-hidden size-hover min-h-32 p-6 rounded-xl border border-[#2c2c2c49] hover:shadow-md transition-all"
                                         style={{ background: `${note.background_color}` }}
                                     >
                                         <p
